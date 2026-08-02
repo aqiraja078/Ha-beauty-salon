@@ -6,11 +6,12 @@ import { allMehndiServiceNames } from "@/lib/mehndi-services-data";
 import { allNailsServiceNames } from "@/lib/nails-services-data";
 
 export const site = {
-  name: "Huma Salon & Studio",
-  tagline: "Luxury beauty experience",
+  name: "HA Beauty Salon",
+  tagline: "Home beauty, done right — Jhelum · Dina · Gujrat",
   description:
-    "Huma Salon & Studio — premium home beauty services in Jhelum, Dina, and Gujrat: hair, facial, body treatments, and expert makeup for every occasion.",
-  email: "humaaqi96@gmail.com",
+    "Where beauty meets elegance. We offer personalized makeup, hair styling, skincare, bridal services, body spa, and waxing using premium products and professional techniques for a flawless experience every time.",
+  logo: "/logo.svg",
+  email: "humabeautysalon07@gmail.com",
   phone: "+92 335 5462214",
   phoneDigits: "923355462214",
   address: "Home Service Areas: Jhelum, Dina, Gujrat",
@@ -21,60 +22,72 @@ export const site = {
   },
 } as const;
 
+export function whatsappBookUrl(
+  service?: string,
+  identity?: { name: string; phoneDigits: string }
+) {
+  const name = identity?.name ?? site.name;
+  const digits = identity?.phoneDigits ?? site.phoneDigits;
+  const text = service
+    ? `Assalam o Alaikum ${name}, I would like to book: ${service}.`
+    : `Assalam o Alaikum ${name}, I would like to book an appointment.`;
+  return `https://wa.me/${digits}?text=${encodeURIComponent(text)}`;
+}
+
 export const serviceCategories = [
   {
     slug: "hair",
     title: "Hair",
-    short: "Cuts, color, treatments, styling & bridal hair.",
+    short: "Cuts, colour, keratin & bridal styling at home.",
     href: "/services/hair",
     image:
       "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=900&q=85",
-    price: "Starting at PKR 2,000",
+    price: "From PKR 800",
   },
   {
     slug: "facial",
     title: "Facial",
-    short: "Glow, brightening, advanced & bridal facials.",
+    short: "Cleanup to bridal glow — skin that photographs well.",
     href: "/services/facial",
     image:
       "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=900&q=85",
-    price: "Starting at PKR 3,000",
+    price: "From PKR 2,200",
   },
   {
     slug: "body-spa",
-    title: "Body & spa",
-    short: "Massage, hammam-style rituals & body treatments.",
+    title: "Wax & Body",
+    short: "Face-to-toe waxing, polish & bridal body prep.",
     href: "/services/body-spa",
     image:
       "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=900&q=85",
-    price: "Starting at PKR 4,000",
+    price: "From PKR 400",
   },
   {
     slug: "nails",
     title: "Mani, pedi & nails",
-    short: "Manicure, pedicure, art, extensions & polish.",
+    short: "Gel, art, extensions & bridal hand sets.",
     href: "/services/nails",
     image:
       "https://i.pinimg.com/1200x/02/ea/e1/02eae1fc1f0e7c9f4bfa52ee8347a941.jpg",
-    price: "Starting at PKR 1,200",
+    price: "From PKR 1,200",
   },
   {
     slug: "mehndi",
     title: "Mehndi",
-    short: "Bridal, Arabic, feet art & occasion designs.",
+    short: "Bridal, Arabic & Eid designs for hands and feet.",
     href: "/services/mehndi",
     image:
       "https://i.pinimg.com/736x/ae/84/5f/ae845fba0f519d795710e90bf6a866ec.jpg",
-    price: "Starting at PKR 1,500",
+    price: "From PKR 1,500",
   },
   {
     slug: "makeup",
     title: "Makeup",
-    short: "Bridal, party & camera-ready looks.",
+    short: "Barat, walima, mehndi & party looks that last.",
     href: "/services/makeup",
     image:
       "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=900&q=85",
-    price: "Starting at PKR 5,000",
+    price: "From PKR 3,000",
   },
 ] as const;
 

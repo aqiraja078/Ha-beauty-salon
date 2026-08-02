@@ -4,29 +4,29 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { site } from "@/lib/site";
+import type { SiteContent } from "@/lib/cms-types";
+import { site as siteFallback } from "@/lib/site";
 
 const simpleLinks = [
-  { href: "/about", label: "About" },
-  { href: "/portfolio", label: "Portfolio" },
+  { href: "/offers", label: "Offers" },
   { href: "/contact", label: "Contact" },
 ] as const;
 
 const servicesSub = [
-  { href: "/services", label: "All services" },
   { href: "/services/hair", label: "Hair" },
   { href: "/services/makeup", label: "Makeup" },
   { href: "/services/facial", label: "Facial" },
-  { href: "/services/body-spa", label: "Body & spa" },
+  { href: "/services/body-spa", label: "Wax & Body" },
   { href: "/services/nails", label: "Mani, pedi & nails" },
   { href: "/services/mehndi", label: "Mehndi" },
 ] as const;
 
 function servicesActive(pathname: string) {
-  return pathname === "/services" || pathname.startsWith("/services/");
+  return pathname.startsWith("/services/");
 }
 
-export function SiteHeader() {
+export function SiteHeader({ site: siteProp }: { site?: SiteContent }) {
+  const site = siteProp ?? siteFallback;
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -49,38 +49,43 @@ export function SiteHeader() {
     /* eslint-enable react-hooks/set-state-in-effect */
   }, [pathname]);
 
+  const linkBase =
+    "relative text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-300";
+
   return (
     <header
       className={`fixed left-0 right-0 top-0 z-40 transition-all duration-500 ${
         scrolled
-          ? "border-b border-white/10 bg-black/70 py-3 backdrop-blur-xl"
-          : "bg-gradient-to-b from-black/80 to-transparent py-5"
+          ? "border-b border-line/80 bg-canvas/85 py-2 shadow-soft backdrop-blur-xl sm:py-2.5"
+          : "border-b border-transparent bg-canvas/40 py-3 backdrop-blur-md sm:py-4"
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 pt-[env(safe-area-inset-top)] sm:px-6 md:px-8">
-        <Link href="/" className="group flex min-h-[44px] items-center gap-2">
-          <span className="font-display text-lg tracking-[0.2em] text-white transition-colors group-hover:text-gold xs:text-xl md:text-2xl">
-            {site.name.split(" ")[0]}
-          </span>
-          <span className="hidden text-[10px] font-light uppercase tracking-[0.35em] text-white/50 sm:inline">
-            Salon
-          </span>
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 pt-[env(safe-area-inset-top)] sm:px-6 md:px-8">
+        <Link
+          href="/"
+          aria-label={site.name}
+          className="group flex min-h-[44px] shrink-0 items-center"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element -- brand SVG logo */}
+          <img
+            src={site.logo}
+            alt={site.name}
+            className="h-10 w-auto transition duration-500 group-hover:scale-[1.03] xs:h-11 md:h-12"
+          />
         </Link>
 
-        <nav className="hidden items-center gap-8 lg:flex">
+        <nav className="hidden items-center gap-9 lg:flex">
           <Link
             href="/"
-            className={`relative text-xs uppercase tracking-[0.2em] transition-colors ${
-              pathname === "/"
-                ? "text-gold"
-                : "text-white/70 hover:text-white"
+            className={`${linkBase} ${
+              pathname === "/" ? "text-accent" : "text-ink-soft hover:text-accent"
             }`}
           >
             Home
             {pathname === "/" && (
               <motion.span
                 layoutId="navline"
-                className="absolute -bottom-1 left-0 h-px w-full bg-gold"
+                className="absolute -bottom-1.5 left-0 h-[2px] w-full rounded-full bg-accent"
               />
             )}
           </Link>
@@ -91,21 +96,26 @@ export function SiteHeader() {
             onMouseLeave={() => setDeskServicesOpen(false)}
           >
             <Link
-              href="/services"
-              className={`relative flex items-center gap-1 text-xs uppercase tracking-[0.2em] transition-colors ${
+              href="/services/hair"
+              className={`${linkBase} flex items-center gap-1.5 ${
                 servicesActive(pathname)
-                  ? "text-gold"
-                  : "text-white/70 hover:text-white"
+                  ? "text-accent"
+                  : "text-ink-soft hover:text-accent"
               }`}
             >
               Services
-              <span className="text-[10px] opacity-70" aria-hidden>
+              <motion.span
+                className="text-[9px] opacity-60"
+                animate={{ rotate: deskServicesOpen ? 180 : 0 }}
+                transition={{ duration: 0.25 }}
+                aria-hidden
+              >
                 ▾
-              </span>
+              </motion.span>
               {servicesActive(pathname) && (
                 <motion.span
                   layoutId="navline"
-                  className="absolute -bottom-1 left-0 h-px w-full bg-gold"
+                  className="absolute -bottom-1.5 left-0 h-[2px] w-full rounded-full bg-accent"
                 />
               )}
             </Link>
@@ -113,25 +123,31 @@ export function SiteHeader() {
             <AnimatePresence>
               {deskServicesOpen && (
                 <motion.div
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 4 }}
-                  transition={{ duration: 0.15 }}
-                  className="absolute left-0 top-full z-50 min-w-[200px] pt-2"
+                  initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 6, scale: 0.99 }}
+                  transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute left-1/2 top-full z-50 min-w-[230px] -translate-x-1/2 pt-3"
                 >
-                  <div className="rounded-xl border border-white/10 bg-black/95 py-2 shadow-xl backdrop-blur-xl">
-                    {servicesSub.map((s) => (
-                      <Link
+                  <div className="overflow-hidden rounded-2xl border border-line bg-surface/95 p-1.5 shadow-soft backdrop-blur-xl">
+                    {servicesSub.map((s, i) => (
+                      <motion.div
                         key={s.href}
-                        href={s.href}
-                        className={`block px-4 py-2.5 text-xs uppercase tracking-[0.15em] transition hover:bg-white/5 ${
-                          pathname === s.href
-                            ? "text-gold"
-                            : "text-white/75 hover:text-white"
-                        }`}
+                        initial={{ opacity: 0, x: -6 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.03 * i, duration: 0.25 }}
                       >
-                        {s.label}
-                      </Link>
+                        <Link
+                          href={s.href}
+                          className={`block rounded-xl px-4 py-2.5 text-[11px] font-medium uppercase tracking-[0.14em] transition ${
+                            pathname === s.href
+                              ? "bg-accent-soft text-accent"
+                              : "text-ink-soft hover:bg-canvas-alt hover:text-accent"
+                          }`}
+                        >
+                          {s.label}
+                        </Link>
+                      </motion.div>
                     ))}
                   </div>
                 </motion.div>
@@ -145,57 +161,46 @@ export function SiteHeader() {
               <Link
                 key={l.href}
                 href={l.href}
-                className={`relative text-xs uppercase tracking-[0.2em] transition-colors ${
-                  active ? "text-gold" : "text-white/70 hover:text-white"
+                className={`${linkBase} ${
+                  active ? "text-accent" : "text-ink-soft hover:text-accent"
                 }`}
               >
                 {l.label}
                 {active && (
                   <motion.span
                     layoutId="navline"
-                    className="absolute -bottom-1 left-0 h-px w-full bg-gold"
+                    className="absolute -bottom-1.5 left-0 h-[2px] w-full rounded-full bg-accent"
                   />
                 )}
               </Link>
             );
           })}
-
-          <Link
-            href="/book"
-            className={`relative text-xs uppercase tracking-[0.2em] transition-colors ${
-              pathname === "/book"
-                ? "text-gold"
-                : "text-white/70 hover:text-white"
-            }`}
-          >
-            Book
-            {pathname === "/book" && (
-              <motion.span
-                layoutId="navline"
-                className="absolute -bottom-1 left-0 h-px w-full bg-gold"
-              />
-            )}
-          </Link>
         </nav>
 
         <div className="flex items-center gap-3">
           <Link
             href="/book"
-            className="hidden rounded-full border border-gold/50 bg-gold/10 px-5 py-2 text-xs font-medium uppercase tracking-widest text-gold-light transition hover:border-gold hover:bg-gold/20 md:inline-block lg:hidden"
+            className="hidden min-h-[42px] items-center justify-center rounded-full bg-accent px-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-accent-fg shadow-lift transition duration-300 hover:bg-accent-strong hover:shadow-lift-lg active:scale-[0.98] sm:inline-flex"
           >
-            Book
+            Book now
           </Link>
+
           <button
             type="button"
-            aria-label="Open menu"
-            className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full border border-white/15 lg:hidden"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            className="flex h-11 w-11 flex-col items-center justify-center gap-[5px] rounded-full border border-line bg-surface/80 transition hover:border-accent/40 lg:hidden"
             onClick={() => setOpen((v) => !v)}
           >
-            <span
-              className={`block h-px w-5 bg-white transition ${open ? "translate-y-1 rotate-45" : ""}`}
+            <motion.span
+              className="block h-[1.5px] w-5 rounded-full bg-ink"
+              animate={open ? { rotate: 45, y: 3.25 } : { rotate: 0, y: 0 }}
+              transition={{ duration: 0.25 }}
             />
-            <span
-              className={`block h-px w-5 bg-white transition ${open ? "-translate-y-1 -rotate-45" : ""}`}
+            <motion.span
+              className="block h-[1.5px] w-5 rounded-full bg-ink"
+              animate={open ? { rotate: -45, y: -3.25 } : { rotate: 0, y: 0 }}
+              transition={{ duration: 0.25 }}
             />
           </button>
         </div>
@@ -207,11 +212,11 @@ export function SiteHeader() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="border-b border-white/10 bg-black/95 backdrop-blur-xl lg:hidden"
+            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden border-t border-line bg-canvas/95 backdrop-blur-xl lg:hidden"
           >
             <motion.nav
-              className="flex flex-col gap-0.5 px-4 py-5 sm:px-6"
+              className="flex flex-col gap-1 px-4 pb-6 pt-4 sm:px-6"
               initial="hidden"
               animate="show"
               variants={{
@@ -229,8 +234,10 @@ export function SiteHeader() {
               >
                 <Link
                   href="/"
-                  className={`flex min-h-[48px] items-center py-2 text-sm uppercase tracking-[0.2em] ${
-                    pathname === "/" ? "text-gold" : "text-white/80"
+                  className={`flex min-h-[48px] items-center rounded-xl px-3 text-sm uppercase tracking-[0.18em] transition ${
+                    pathname === "/"
+                      ? "bg-accent-soft text-accent"
+                      : "text-ink-soft hover:bg-canvas-alt"
                   }`}
                 >
                   Home
@@ -238,7 +245,6 @@ export function SiteHeader() {
               </motion.div>
 
               <motion.div
-                className="border-b border-white/5 py-1"
                 variants={{
                   hidden: { opacity: 0, x: -12 },
                   show: { opacity: 1, x: 0 },
@@ -247,12 +253,18 @@ export function SiteHeader() {
                 <button
                   type="button"
                   onClick={() => setMobileServicesOpen((v) => !v)}
-                  className="flex min-h-[48px] w-full items-center justify-between py-2 text-sm uppercase tracking-[0.2em] text-white/80"
+                  aria-expanded={mobileServicesOpen}
+                  className="flex min-h-[48px] w-full items-center justify-between rounded-xl px-3 text-sm uppercase tracking-[0.18em] text-ink-soft transition hover:bg-canvas-alt"
                 >
                   Services
-                  <span className="text-xs" aria-hidden>
-                    {mobileServicesOpen ? "▴" : "▾"}
-                  </span>
+                  <motion.span
+                    className="text-xs"
+                    animate={{ rotate: mobileServicesOpen ? 180 : 0 }}
+                    transition={{ duration: 0.25 }}
+                    aria-hidden
+                  >
+                    ▾
+                  </motion.span>
                 </button>
                 <AnimatePresence initial={false}>
                   {mobileServicesOpen && (
@@ -260,18 +272,18 @@ export function SiteHeader() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.22 }}
+                      transition={{ duration: 0.26 }}
                       className="overflow-hidden"
                     >
-                      <div className="mb-2 ml-2 flex flex-col border-l border-gold/30 pl-3">
+                      <div className="my-1 ml-3 flex flex-col border-l-2 border-accent/25 pl-3">
                         {servicesSub.map((s) => (
                           <Link
                             key={s.href}
                             href={s.href}
-                            className={`min-h-[44px] py-2.5 text-xs uppercase tracking-[0.15em] ${
+                            className={`min-h-[44px] rounded-lg px-3 py-2.5 text-[11px] uppercase tracking-[0.14em] transition ${
                               pathname === s.href
-                                ? "text-gold"
-                                : "text-white/65"
+                                ? "text-accent"
+                                : "text-muted hover:text-accent"
                             }`}
                           >
                             {s.label}
@@ -293,27 +305,26 @@ export function SiteHeader() {
                 >
                   <Link
                     href={l.href}
-                    className={`flex min-h-[48px] items-center py-2 text-sm uppercase tracking-[0.2em] ${
-                      pathname === l.href ? "text-gold" : "text-white/80"
+                    className={`flex min-h-[48px] items-center rounded-xl px-3 text-sm uppercase tracking-[0.18em] transition ${
+                      pathname === l.href
+                        ? "bg-accent-soft text-accent"
+                        : "text-ink-soft hover:bg-canvas-alt"
                     }`}
                   >
                     {l.label}
                   </Link>
                 </motion.div>
               ))}
+
               <motion.div
+                className="mt-3"
                 variants={{
-                  hidden: { opacity: 0, x: -12 },
-                  show: { opacity: 1, x: 0 },
+                  hidden: { opacity: 0, y: 8 },
+                  show: { opacity: 1, y: 0 },
                 }}
               >
-                <Link
-                  href="/book"
-                  className={`flex min-h-[48px] items-center py-2 text-sm uppercase tracking-[0.2em] ${
-                    pathname === "/book" ? "text-gold" : "text-white/80"
-                  }`}
-                >
-                  Book
+                <Link href="/book" className="btn-primary w-full">
+                  Book appointment
                 </Link>
               </motion.div>
             </motion.nav>

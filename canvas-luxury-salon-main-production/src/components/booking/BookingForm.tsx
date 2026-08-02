@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { BOOKING_FIELD_LIMITS } from "@/lib/booking-validation";
-import { bookingServices } from "@/lib/site";
+import { formatFromPrice } from "@/lib/format-price";
+import { bookingServices as bookingServicesFallback } from "@/lib/site";
 
 const times = [
   "10:00",
@@ -16,21 +17,48 @@ const times = [
   "18:00",
 ];
 
-type FormProps = { defaultService?: string };
+type FormProps = {
+  defaultService?: string;
+  /** Explicit price from length-aware service cards. */
+  defaultPrice?: string;
+  services?: string[];
+  /** Service name → menu price (from CMS). */
+  servicePrices?: Record<string, string>;
+};
 
-export function BookingForm({ defaultService }: FormProps) {
+const labelClass =
+  "mb-2 block text-[10px] font-semibold uppercase tracking-[0.18em] text-muted";
+
+export function BookingForm({
+  defaultService,
+  defaultPrice,
+  services,
+  servicePrices = {},
+}: FormProps) {
   const [status, setStatus] = useState<"idle" | "loading" | "ok" | "err">(
     "idle"
   );
   const [msg, setMsg] = useState("");
   const [serviceVal, setServiceVal] = useState("");
 
+  const bookingServices = services?.length
+    ? services
+    : bookingServicesFallback;
+
   const serviceOptions = useMemo(() => {
     if (defaultService && !bookingServices.includes(defaultService)) {
       return [defaultService, ...bookingServices];
     }
     return bookingServices;
-  }, [defaultService]);
+  }, [defaultService, bookingServices]);
+
+  const selectedPrice = serviceVal
+    ? formatFromPrice(
+        serviceVal === defaultService && defaultPrice
+          ? defaultPrice
+          : servicePrices[serviceVal]
+      )
+    : null;
 
   useEffect(() => {
     if (defaultService) {
@@ -52,6 +80,10 @@ export function BookingForm({ defaultService }: FormProps) {
       date: String(fd.get("date") || ""),
       time: String(fd.get("time") || ""),
       message: String(fd.get("message") || ""),
+      price:
+        serviceVal === defaultService && defaultPrice
+          ? defaultPrice
+          : servicePrices[serviceVal] || undefined,
     };
     try {
       const res = await fetch("/api/bookings", {
@@ -62,9 +94,10 @@ export function BookingForm({ defaultService }: FormProps) {
       const data = (await res.json()) as { error?: string };
       if (!res.ok) throw new Error(data.error || "Request failed");
       setStatus("ok");
-      setMsg("Your appointment request has been received. We will confirm shortly.");
+      setMsg(
+        "Your appointment request has been received. We will confirm shortly."
+      );
       form.reset();
-      // Keep deep-linked / preselected service after reset (controlled select).
       setServiceVal(defaultService ?? "");
     } catch (err) {
       setStatus("err");
@@ -77,97 +110,114 @@ export function BookingForm({ defaultService }: FormProps) {
   return (
     <motion.form
       onSubmit={onSubmit}
-      className="glass-panel mx-auto max-w-xl space-y-5 rounded-2xl p-5 sm:space-y-6 sm:rounded-3xl sm:p-8 md:p-10"
+      className="mx-auto max-w-2xl rounded-[1.75rem] border border-line bg-surface p-5 shadow-soft sm:rounded-[2rem] sm:p-9 md:p-11"
       aria-busy={status === "loading"}
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="grid gap-5 sm:grid-cols-2">
+      <p className="eyebrow">Appointment details</p>
+      <h2 className="mt-2 font-display text-2xl text-ink sm:text-3xl">
+        Tell us about your visit
+      </h2>
+      <div
+        className="mt-4 h-[3px] w-14 rounded-full bg-gradient-to-r from-accent to-tint"
+        aria-hidden
+      />
+
+      <div className="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2 sm:gap-5">
         <label className="block sm:col-span-2">
-          <span className="mb-2 block text-xs uppercase tracking-[0.2em] text-white/50">
-            Full name
-          </span>
+          <span className={labelClass}>Full name</span>
           <input
             name="name"
             required
             maxLength={BOOKING_FIELD_LIMITS.name}
             autoComplete="name"
-            className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none transition focus:border-gold/50"
+            className="field"
             placeholder="Your name"
           />
         </label>
+
         <label className="block">
-          <span className="mb-2 block text-xs uppercase tracking-[0.2em] text-white/50">
-            Email
-          </span>
+          <span className={labelClass}>Email</span>
           <input
             name="email"
             type="email"
             required
             maxLength={BOOKING_FIELD_LIMITS.email}
             autoComplete="email"
-            className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none transition focus:border-gold/50"
+            className="field"
             placeholder="you@email.com"
           />
         </label>
+
         <label className="block">
-          <span className="mb-2 block text-xs uppercase tracking-[0.2em] text-white/50">
-            Phone
-          </span>
+          <span className={labelClass}>Phone</span>
           <input
             name="phone"
             type="tel"
             required
             maxLength={BOOKING_FIELD_LIMITS.phone}
             autoComplete="tel"
-            className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none transition focus:border-gold/50"
+            className="field"
             placeholder="+92 ..."
           />
         </label>
-        <label className="block sm:col-span-2">
-          <span className="mb-2 block text-xs uppercase tracking-[0.2em] text-white/50">
-            Service
-          </span>
-          <select
-            name="service"
-            required
-            value={serviceVal}
-            onChange={(e) => setServiceVal(e.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none transition focus:border-gold/50"
-          >
-            <option value="" disabled>
-              Select a service
-            </option>
-            {serviceOptions.map((s) => (
-              <option key={s} value={s}>
-                {s}
+
+        <div className="block sm:col-span-2">
+          <label className="block">
+            <span className={labelClass}>Service</span>
+            <select
+              name="service"
+              required
+              value={serviceVal}
+              onChange={(e) => setServiceVal(e.target.value)}
+              className="field"
+            >
+              <option value="" disabled>
+                Select a service
               </option>
-            ))}
-          </select>
-        </label>
+              {serviceOptions.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <AnimatePresence mode="wait">
+            {selectedPrice ? (
+              <motion.p
+                key={serviceVal}
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                className="mt-3 flex items-center justify-between gap-3 rounded-2xl border border-accent/25 bg-accent-soft px-4 py-3 text-sm"
+              >
+                <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+                  Price from
+                </span>
+                <span className="font-semibold text-accent">{selectedPrice}</span>
+              </motion.p>
+            ) : null}
+          </AnimatePresence>
+        </div>
+
         <label className="block">
-          <span className="mb-2 block text-xs uppercase tracking-[0.2em] text-white/50">
-            Preferred date
-          </span>
+          <span className={labelClass}>Preferred date</span>
           <input
             name="date"
             type="date"
             required
             min={minDate}
-            className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none transition focus:border-gold/50"
+            className="field"
           />
         </label>
+
         <label className="block">
-          <span className="mb-2 block text-xs uppercase tracking-[0.2em] text-white/50">
-            Preferred time
-          </span>
-          <select
-            name="time"
-            required
-            className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none transition focus:border-gold/50"
-            defaultValue=""
-          >
+          <span className={labelClass}>Preferred time</span>
+          <select name="time" required className="field" defaultValue="">
             <option value="" disabled>
               Select time
             </option>
@@ -178,39 +228,50 @@ export function BookingForm({ defaultService }: FormProps) {
             ))}
           </select>
         </label>
+
         <label className="block sm:col-span-2">
-          <span className="mb-2 block text-xs uppercase tracking-[0.2em] text-white/50">
-            Notes (optional)
-          </span>
+          <span className={labelClass}>Notes (optional)</span>
           <textarea
             name="message"
-            rows={3}
+            rows={4}
             maxLength={BOOKING_FIELD_LIMITS.message}
-            className="w-full resize-none rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none transition focus:border-gold/50"
+            className="field resize-none"
             placeholder="Occasion, allergies, inspiration..."
           />
         </label>
       </div>
 
-      {msg && (
-        <p
-          role="status"
-          aria-live="polite"
-          className={`text-sm ${
-            status === "ok" ? "text-gold-light" : "text-red-300"
-          }`}
-        >
-          {msg}
-        </p>
-      )}
+      <AnimatePresence>
+        {msg && (
+          <motion.p
+            role="status"
+            aria-live="polite"
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className={`mt-6 rounded-2xl border px-4 py-3.5 text-sm ${
+              status === "ok"
+                ? "border-accent/25 bg-accent-soft text-accent-strong"
+                : "border-red-200 bg-red-50 text-red-700"
+            }`}
+          >
+            {msg}
+          </motion.p>
+        )}
+      </AnimatePresence>
 
       <button
         type="submit"
         disabled={status === "loading"}
-        className="w-full rounded-full bg-gradient-to-r from-gold-dark via-gold to-gold-light py-4 text-xs font-semibold uppercase tracking-[0.25em] text-black transition hover:opacity-95 disabled:opacity-50"
+        className="btn-primary mt-8 w-full disabled:cursor-not-allowed disabled:opacity-60"
       >
         {status === "loading" ? "Sending…" : "Request appointment"}
       </button>
+
+      <p className="mt-4 text-center text-xs text-muted">
+        No payment required to request a slot. Prices shown are from the menu
+        and may be confirmed after consultation.
+      </p>
     </motion.form>
   );
 }

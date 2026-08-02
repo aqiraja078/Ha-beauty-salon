@@ -2,10 +2,14 @@ import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Poppins } from "next/font/google";
 import "./globals.css";
 import { PageLoader } from "@/components/layout/PageLoader";
+import { PublicChrome } from "@/components/layout/PublicChrome";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { PageTransition } from "@/components/ui/PageTransition";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
+import { getSiteContent } from "@/lib/content-store";
 import { getMetadataBase } from "@/lib/public-site-url";
 import { site } from "@/lib/site";
 
@@ -56,16 +60,18 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
+  themeColor: "#faf9f4",
   width: "device-width",
   initialScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const siteLive = await getSiteContent();
+
   return (
     <html lang="en" className="scroll-smooth" data-scroll-behavior="smooth">
       <head>
@@ -75,22 +81,27 @@ export default function RootLayout({
         <link rel="preconnect" href="https://i.pinimg.com" crossOrigin="" />
       </head>
       <body
-        className={`${poppins.variable} ${playfair.variable} grain min-h-screen overflow-x-clip bg-background antialiased selection:bg-gold/30 selection:text-white`}
+        className={`${poppins.variable} ${playfair.variable} grain min-h-screen overflow-x-clip bg-canvas text-ink antialiased`}
       >
         <a
           href="#main-content"
-          className="absolute left-[-9999px] top-0 z-[110] rounded-md bg-gold px-4 py-2 text-sm font-medium text-black focus:left-4 focus:top-4 focus:outline-none focus:ring-2 focus:ring-gold-light"
+          className="absolute left-[-9999px] top-0 z-[110] rounded-md bg-accent px-4 py-2 text-sm font-medium text-accent-fg focus:left-4 focus:top-4 focus:outline-none focus:ring-2 focus:ring-accent/40"
         >
           Skip to main content
         </a>
         <JsonLd />
         <PageLoader />
-        <SiteHeader />
+        <PublicChrome>
+          <ScrollProgress />
+          <SiteHeader site={siteLive} />
+        </PublicChrome>
         <main id="main-content" className="min-h-screen" tabIndex={-1}>
-          {children}
+          <PageTransition>{children}</PageTransition>
         </main>
-        <SiteFooter />
-        <WhatsAppButton />
+        <PublicChrome>
+          <SiteFooter site={siteLive} />
+          <WhatsAppButton site={siteLive} />
+        </PublicChrome>
       </body>
     </html>
   );

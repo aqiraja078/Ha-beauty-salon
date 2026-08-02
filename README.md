@@ -1,6 +1,8 @@
-# Huma Salon & Studio (archive folder)
+# HA Beauty Salon
 
-The Next.js app for **Huma Salon & Studio** lives in `canvas-luxury-salon-main-production/`.
+Next.js site for **HA Beauty Salon** — home beauty services across Jhelum, Dina, and Gujrat.
+
+The app lives in `canvas-luxury-salon-main-production/`.
 
 ```bash
 cd canvas-luxury-salon-main-production
@@ -8,4 +10,6 @@ npm install
 npm run dev
 ```
 
-Running `npm install` in this parent folder will fail (no `package.json` here).
+Open [http://localhost:3000](http://localhost:3000). Admin: `/admin/login`.
+
+Netlify: set base directory to `canvas-luxury-salon-main-production` (see root `netlify.toml`).

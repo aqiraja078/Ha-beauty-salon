@@ -181,3 +181,65 @@ export async function updateBookingStatus(
     throw error;
   }
 }
+
+export async function deleteBooking(id: string): Promise<Booking | null> {
+  try {
+    const list = await getBookings();
+    const idx = list.findIndex((b) => b.id === id);
+    if (idx === -1) return null;
+
+    const [removed] = list.splice(idx, 1);
+
+    const store = await getBookingsStore();
+    if (store) {
+      try {
+        await store.set(BOOKINGS_STORE_KEY, JSON.stringify(list));
+      } catch (err) {
+        console.error(
+          "Error writing delete to blob store, falling back to local file:",
+          err
+        );
+        await writeLocalBookings(list);
+      }
+
+      try {
+        const existingLog = (await store.get(LOGS_STORE_KEY)) || "";
+        const logEntry = JSON.stringify({
+          _event: "delete",
+          id,
+          at: new Date().toISOString(),
+          booking: removed,
+        });
+        await store.set(LOGS_STORE_KEY, `${existingLog}${logEntry}\n`);
+      } catch (err) {
+        console.error(
+          "Error writing delete log to blob store, falling back to local log:",
+          err
+        );
+        await appendLocalLog(
+          JSON.stringify({
+            _event: "delete",
+            id,
+            at: new Date().toISOString(),
+            booking: removed,
+          })
+        );
+      }
+    } else {
+      await writeLocalBookings(list);
+      await appendLocalLog(
+        JSON.stringify({
+          _event: "delete",
+          id,
+          at: new Date().toISOString(),
+          booking: removed,
+        })
+      );
+    }
+
+    return removed;
+  } catch (error) {
+    console.error("Error deleting booking:", error);
+    throw error;
+  }
+}

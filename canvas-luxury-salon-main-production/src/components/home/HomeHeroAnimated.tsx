@@ -2,17 +2,28 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
-import { useMemo } from "react";
-import { site } from "@/lib/site";
-
-const heroImage =
-  "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1920&q=85";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { useMemo, useRef } from "react";
+import type { HomeContent } from "@/lib/cms-types";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
-export function HomeHeroAnimated() {
+type Props = {
+  siteName: string;
+  hero: HomeContent["hero"];
+};
+
+export function HomeHeroAnimated({ siteName, hero }: Props) {
   const reduce = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "16%"]);
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "28%"]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
 
   const container = useMemo(
     () => ({
@@ -20,8 +31,8 @@ export function HomeHeroAnimated() {
       show: {
         opacity: 1,
         transition: {
-          staggerChildren: reduce ? 0 : 0.12,
-          delayChildren: reduce ? 0 : 0.15,
+          staggerChildren: reduce ? 0 : 0.11,
+          delayChildren: reduce ? 0 : 0.12,
         },
       },
     }),
@@ -30,90 +41,123 @@ export function HomeHeroAnimated() {
 
   const item = useMemo(
     () => ({
-      hidden: { opacity: reduce ? 1 : 0, y: reduce ? 0 : 28 },
+      hidden: { opacity: reduce ? 1 : 0, y: reduce ? 0 : 26 },
       show: {
         opacity: 1,
         y: 0,
-        transition: { duration: reduce ? 0 : 0.65, ease: easeOut },
+        transition: { duration: reduce ? 0 : 0.7, ease: easeOut },
       },
     }),
     [reduce]
   );
 
   return (
-    <section className="relative min-h-[60vh] w-full overflow-hidden sm:min-h-[75vh] md:min-h-screen">
+    <section
+      ref={sectionRef}
+      className="relative min-h-0 w-full overflow-hidden bg-canvas sm:min-h-[95vh]"
+    >
       <motion.div
-        className="absolute inset-0 h-full w-full"
-        initial={false}
-        animate={reduce ? { scale: 1 } : { scale: [1, 1.02, 1] }}
-        transition={
-          reduce
-            ? { duration: 0 }
-            : { duration: 28, repeat: Infinity, ease: "easeInOut" }
-        }
+        className="absolute inset-0 h-[118%] w-full"
+        style={reduce ? undefined : { y: imageY }}
       >
         <Image
-          src={heroImage}
-          alt="Luxury salon atmosphere"
+          src={hero.image}
+          alt={hero.imageAlt}
           fill
           priority
-          className="object-cover object-[center_35%] sm:object-[center_32%] md:object-[center_28%]"
+          className="object-cover object-[center_32%]"
           sizes="100vw"
         />
       </motion.div>
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/35" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/25 to-black/45" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_100%,rgba(201,169,98,0.12),transparent)]" />
 
-      <div className="relative z-10 mx-auto grid h-full max-w-7xl place-content-end px-4 pb-[max(4rem,env(safe-area-inset-bottom))] pt-[max(6.5rem,env(safe-area-inset-top))] xs:px-5 sm:px-6 md:px-8 md:pb-32">
-        <motion.div
-          variants={container}
-          initial="hidden"
-          animate="show"
-          className="max-w-full"
-        >
-          <motion.p
+      <div className="absolute inset-0 bg-gradient-to-r from-canvas via-canvas/80 to-canvas/25" />
+      <div className="absolute inset-0 bg-gradient-to-t from-canvas via-canvas/35 to-transparent" />
+      <div className="pointer-events-none absolute -left-24 top-10 h-80 w-80 rounded-full bg-accent/[0.12] blur-3xl" />
+      <div
+        className="pointer-events-none absolute bottom-0 right-0 h-96 w-96 rounded-full bg-tint/10 blur-3xl"
+        aria-hidden
+      />
+
+      <motion.div
+        style={reduce ? undefined : { y: contentY, opacity: contentOpacity }}
+        className="relative z-10 mx-auto flex min-h-0 max-w-7xl flex-col justify-center px-4 pb-8 pt-[max(5.25rem,calc(env(safe-area-inset-top)+3.5rem))] xs:px-5 sm:min-h-[95vh] sm:px-6 sm:pb-16 sm:pt-[max(7rem,env(safe-area-inset-top))] md:px-8"
+      >
+        <motion.div variants={container} initial="hidden" animate="show">
+          <motion.span
             variants={item}
-            className="text-[10px] uppercase tracking-[0.35em] text-gold-light xs:text-xs xs:tracking-[0.45em]"
+            className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-surface/70 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-accent backdrop-blur-sm"
           >
-            {site.tagline}
-          </motion.p>
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+            {siteName}
+          </motion.span>
+
           <motion.h1
             variants={item}
-            className="mt-3 max-w-4xl font-display text-3xl leading-[1.08] text-white xs:text-5xl sm:mt-4 sm:text-5xl md:text-6xl"
+            className="mt-6 max-w-4xl font-display text-[2.5rem] leading-[1.05] text-ink xs:text-5xl sm:text-6xl md:text-7xl"
           >
-            Discover Your Radiance
+            {hero.headlineBefore}{" "}
+            <span className="accent-gradient-text">{hero.headlineAccent}</span>
           </motion.h1>
+
           <motion.p
             variants={item}
-            className="mt-4 max-w-lg text-sm leading-relaxed text-white/75 sm:mt-6 sm:text-base md:text-lg"
+            className="mt-5 max-w-xl text-sm leading-relaxed text-ink-soft sm:mt-6 sm:text-base md:text-lg"
           >
-            An elevated beauty ritual — precision hair, luminous skin, and artistry
-            that feels unmistakably you.
+            {hero.subcopy}
           </motion.p>
+
           <motion.div
             variants={item}
-            className="mt-7 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:items-center"
+            className="mt-6 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:items-center"
           >
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Link
-                href="/book"
-                className="inline-flex min-h-[48px] w-full items-center justify-center rounded-full bg-gradient-to-r from-gold-dark via-gold to-gold-light px-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-black shadow-sm transition hover:opacity-95 sm:w-auto sm:px-8"
-              >
-                Book appointment
-              </Link>
-            </motion.div>
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Link
-                href="/services"
-                className="inline-flex min-h-[48px] w-full items-center justify-center rounded-full border border-white/25 bg-white/[0.07] px-6 text-[11px] font-medium uppercase tracking-[0.22em] text-white/95 backdrop-blur-md transition hover:border-gold/40 hover:bg-white/12 sm:w-auto sm:px-8"
-              >
-                Explore services
-              </Link>
-            </motion.div>
+            <Link href={hero.primaryCta.href} className="btn-primary w-full sm:w-auto">
+              {hero.primaryCta.label}
+            </Link>
+            <Link
+              href={hero.secondaryCta.href}
+              className="btn-ghost w-full sm:w-auto"
+            >
+              {hero.secondaryCta.label}
+            </Link>
           </motion.div>
+
+          <motion.dl
+            variants={item}
+            className="mt-12 hidden max-w-lg grid-cols-3 gap-4 border-t border-line pt-6 sm:mt-14 sm:grid sm:gap-6"
+          >
+            {hero.highlights.map((h) => (
+              <div key={h.label}>
+                <dt className="font-display text-2xl text-accent sm:text-3xl">
+                  {h.value}
+                </dt>
+                <dd className="mt-1 text-[11px] leading-snug text-muted sm:text-xs">
+                  {h.label}
+                </dd>
+              </div>
+            ))}
+          </motion.dl>
         </motion.div>
-      </div>
+      </motion.div>
+
+      {!reduce && (
+        <motion.div
+          className="absolute bottom-6 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 sm:flex"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.1 }}
+        >
+          <span className="text-[9px] uppercase tracking-[0.3em] text-muted">
+            Scroll
+          </span>
+          <span className="h-10 w-px overflow-hidden bg-line">
+            <motion.span
+              className="block h-4 w-px bg-accent"
+              animate={{ y: [-16, 40] }}
+              transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
+            />
+          </span>
+        </motion.div>
+      )}
     </section>
   );
 }

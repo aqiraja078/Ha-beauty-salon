@@ -29,6 +29,8 @@ export type ValidatedBookingInput = {
   date: string;
   time: string;
   message?: string;
+  /** Optional display price from length-aware menu cards. */
+  price?: string;
 };
 
 export function validateBookingBody(body: unknown):
@@ -49,6 +51,11 @@ export function validateBookingBody(body: unknown):
     messageRaw === undefined || messageRaw === null || messageRaw === ""
       ? undefined
       : clamp(String(messageRaw), BOOKING_FIELD_LIMITS.message);
+  const priceRaw = b.price;
+  const price =
+    priceRaw === undefined || priceRaw === null || priceRaw === ""
+      ? undefined
+      : clamp(String(priceRaw), 40);
 
   if (!name) {
     return { ok: false, error: "Name is required.", status: 400 };
@@ -88,7 +95,7 @@ export function validateBookingBody(body: unknown):
 
   return {
     ok: true,
-    data: { name, email, phone, service, date, time, message },
+    data: { name, email, phone, service, date, time, message, price },
   };
 }
 

@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { addBooking, getBookings } from "@/lib/bookings-store";
 import { validateBookingBody } from "@/lib/booking-validation";
 import { clientIpFromRequest, rateLimitBooking } from "@/lib/rate-limit";
-import { lookupServicePriceLabel } from "@/lib/service-pricing-lookup";
+import { lookupCmsServicePrice } from "@/lib/content-store";
+import { formatFromPrice } from "@/lib/format-price";
 import {
   adminCookieName,
   verifySessionToken,
@@ -34,14 +35,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: checked.error }, { status: checked.status });
   }
 
-  const { name, email, phone, service, date, time, message } = checked.data;
+  const { name, email, phone, service, date, time, message, price } = checked.data;
   try {
     const booking = await addBooking({
       name,
       email,
       phone,
       service,
-      priceLabel: lookupServicePriceLabel(service),
+      priceLabel: formatFromPrice(
+        price || (await lookupCmsServicePrice(service))
+      ),
       date,
       time,
       message,

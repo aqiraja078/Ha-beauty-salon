@@ -22,6 +22,9 @@
 # Local appointment data (do not commit customer PII)
 /data/bookings.json
 /data/appointments-log.jsonl
+/data/cms-site.json
+/data/cms-home.json
+/data/cms-services.json
 
 # production
 /build

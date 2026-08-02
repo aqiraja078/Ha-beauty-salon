@@ -6,17 +6,15 @@ const base = getPublicSiteOrigin().replace(/\/$/, "");
 export default function sitemap(): MetadataRoute.Sitemap {
   const paths = [
     "",
-    "/services",
     "/services/hair",
     "/services/makeup",
     "/services/facial",
     "/services/body-spa",
     "/services/nails",
     "/services/mehndi",
-    "/about",
-    "/portfolio",
     "/contact",
     "/book",
+    "/offers",
   ];
   return paths.map((path) => ({
     url: `${base}${path}`,

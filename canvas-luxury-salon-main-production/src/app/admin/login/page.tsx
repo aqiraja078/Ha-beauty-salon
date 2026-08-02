@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { ConsoleCrest } from "@/components/admin/icons";
+import { ThemeScope } from "@/components/ui/ThemeScope";
 import { site } from "@/lib/site";
 
 export default function AdminLoginPage() {
@@ -36,52 +38,89 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-5 pt-24 pb-16">
+    <ThemeScope
+      scope="admin"
+      className="flex min-h-screen items-center justify-center overflow-hidden px-5 py-16"
+    >
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,rgb(var(--accent)/0.14),transparent)]"
+        aria-hidden
+      />
+
       <motion.form
         onSubmit={onSubmit}
-        className="glass-panel w-full max-w-md rounded-3xl p-8 md:p-10"
-        initial={{ opacity: 0, y: 12 }}
+        className="console-card relative z-10 w-full max-w-md p-8 text-center md:p-10"
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
-        <p className="text-xs uppercase tracking-[0.35em] text-gold">
+        <ConsoleCrest
+          letter={site.name.charAt(0)}
+          className="mx-auto h-20 w-20 text-accent"
+        />
+        <p className="mt-4 font-display text-sm uppercase tracking-[0.16em] text-ink">
           {site.name}
         </p>
-        <h1 className="mt-3 font-display text-3xl text-white">Admin login</h1>
-        <label className="mt-8 block">
-          <span className="mb-2 block text-xs uppercase tracking-[0.2em] text-white/50">
+        <p className="mt-1 text-[9px] font-semibold uppercase tracking-[0.3em] text-muted">
+          Staff console
+        </p>
+
+        <h1 className="mt-7 font-display text-3xl leading-tight text-ink">
+          Sign in
+        </h1>
+        <p className="mt-2 text-sm text-ink-soft">
+          Bookings dashboard tak pohanchne ke liye login karein.
+        </p>
+
+        <label className="mt-8 block text-left">
+          <span className="mb-1.5 block text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
             Username
           </span>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-black/50 px-4 py-3 text-sm text-white outline-none focus:border-gold/50"
+            className="console-field"
             autoComplete="username"
             required
           />
         </label>
-        <label className="mt-4 block">
-          <span className="mb-2 block text-xs uppercase tracking-[0.2em] text-white/50">
+
+        <label className="mt-4 block text-left">
+          <span className="mb-1.5 block text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
             Password
           </span>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-black/50 px-4 py-3 text-sm text-white outline-none focus:border-gold/50"
+            className="console-field"
             autoComplete="current-password"
             required
           />
         </label>
-        {err && <p className="mt-3 text-sm text-red-300">{err}</p>}
+
+        {err && (
+          <p
+            role="alert"
+            className="mt-5 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-left text-sm text-rose-700"
+          >
+            {err}
+          </p>
+        )}
+
         <button
           type="submit"
           disabled={loading}
-          className="mt-8 w-full rounded-full bg-gradient-to-r from-gold-dark via-gold to-gold-light py-3 text-xs font-semibold uppercase tracking-[0.2em] text-black disabled:opacity-50"
+          className="console-btn mt-7 min-h-[46px] w-full text-sm"
         >
           {loading ? "Signing in…" : "Sign in"}
         </button>
+
+        <p className="mt-6 text-[11px] leading-relaxed text-muted">
+          Authorised staff only. This area is not indexed.
+        </p>
       </motion.form>
-    </div>
+    </ThemeScope>
   );
 }

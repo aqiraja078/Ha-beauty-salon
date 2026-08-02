@@ -1,29 +1,18 @@
-import {
-  HomeAbout,
-  HomeCta,
-  HomeGallery,
-  HomeHero,
-  HomeMakeupServices,
-  HomeOffers,
-  HomeServices,
-  HomeSteps,
-  HomeTestimonials,
-  HomeWhy,
-} from "@/components/home/HomeSections";
+import { HomePageSections } from "@/components/home/HomeSections";
+import { ThemeScope } from "@/components/ui/ThemeScope";
+import { getHomeContent, getSiteContent } from "@/lib/content-store";
 
-export default function HomePage() {
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const [home, site] = await Promise.all([
+    getHomeContent(),
+    getSiteContent(),
+  ]);
+
   return (
-    <>
-      <HomeHero />
-      <HomeMakeupServices />
-      <HomeServices />
-      <HomeAbout />
-      <HomeWhy />
-      <HomeSteps />
-      <HomeGallery />
-      <HomeOffers />
-      <HomeTestimonials />
-      <HomeCta />
-    </>
+    <ThemeScope scope="home">
+      <HomePageSections home={home} siteName={site.name} />
+    </ThemeScope>
   );
 }

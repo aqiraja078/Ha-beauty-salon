@@ -12,7 +12,7 @@ export function PageLoader() {
 
   useEffect(() => {
     if (isDev) return;
-    const t = window.setTimeout(() => setDone(true), reduce ? 0 : 650);
+    const t = window.setTimeout(() => setDone(true), reduce ? 0 : 700);
     return () => window.clearTimeout(t);
   }, [reduce]);
 
@@ -22,34 +22,40 @@ export function PageLoader() {
     <AnimatePresence>
       {!done && (
         <motion.div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0a0a0a]"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-canvas"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="flex flex-col items-center gap-6">
+          <div className="flex flex-col items-center gap-7 px-6">
             <motion.div
-              className="h-px w-32 bg-gradient-to-r from-transparent via-gold to-transparent"
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            />
-            <motion.p
-              className="font-display text-2xl tracking-[0.35em] text-white md:text-3xl"
-              initial={{ opacity: 0, letterSpacing: "0.6em" }}
-              animate={{ opacity: 1, letterSpacing: "0.35em" }}
-              transition={{ duration: 0.8 }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="flex h-16 w-16 items-center justify-center rounded-2xl border border-accent/25 bg-accent-soft"
             >
-              {site.name.split(/\s+/)[0]?.toUpperCase() ?? "HUMA"}
+              <span className="font-display text-2xl font-semibold text-accent">
+                HA
+              </span>
+            </motion.div>
+
+            <motion.p
+              className="text-center font-display text-lg tracking-[0.18em] text-ink md:text-xl"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.12, duration: 0.6 }}
+            >
+              {site.name}
             </motion.p>
+
             <motion.div
-              className="h-1 w-24 overflow-hidden rounded-full bg-white/10"
+              className="h-[3px] w-32 overflow-hidden rounded-full bg-line"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
               <motion.div
-                className="h-full w-1/2 rounded-full bg-gold"
+                className="h-full w-1/2 rounded-full bg-gradient-to-r from-accent to-tint"
                 animate={{ x: ["-100%", "200%"] }}
                 transition={{
                   repeat: Infinity,
