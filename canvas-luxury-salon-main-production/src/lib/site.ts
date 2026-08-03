@@ -14,7 +14,7 @@ export const site = {
   email: "humabeautysalon07@gmail.com",
   phone: "+92 335 5462214",
   phoneDigits: "923355462214",
-  address: "Home Service Areas: Jhelum, Dina, Gujrat",
+  address: "Old G T Rd, Machine Mohalla No.2 Machine Mohalla 3, Jhelum, 49600",
   social: {
     instagram: "https://www.instagram.com/huma_beauty.saloon/",
     facebook: "https://facebook.com",

@@ -313,18 +313,18 @@ export function ServicePageHero({ theme, title }: Props) {
           </motion.p>
 
           <motion.div
-            className="mt-6 flex w-full max-w-xs flex-col gap-3 sm:mt-10 sm:max-w-none sm:flex-row sm:justify-center"
+            className="mt-6 flex w-full max-w-sm flex-row items-center justify-center gap-2 sm:mt-10 sm:max-w-none sm:gap-3"
             variants={fadeUp}
           >
             <Link
               href="/book"
-              className="btn-primary w-full caret-transparent sm:w-auto"
+              className="btn-primary min-w-0 flex-1 px-4 text-[10px] tracking-[0.14em] caret-transparent sm:w-auto sm:flex-none sm:px-8 sm:text-[11px] sm:tracking-[0.2em]"
             >
               Book now
             </Link>
             <Link
               href="/contact"
-              className="btn-ghost w-full caret-transparent sm:w-auto"
+              className="btn-ghost min-w-0 flex-1 px-4 text-[10px] tracking-[0.14em] caret-transparent sm:w-auto sm:flex-none sm:px-8 sm:text-[11px] sm:tracking-[0.2em]"
             >
               Contact
             </Link>

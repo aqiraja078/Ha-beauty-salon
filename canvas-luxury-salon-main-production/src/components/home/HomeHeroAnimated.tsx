@@ -108,14 +108,17 @@ export function HomeHeroAnimated({ siteName, hero }: Props) {
 
           <motion.div
             variants={item}
-            className="mt-6 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:items-center"
+            className="mt-6 flex flex-row items-center gap-2 sm:mt-10 sm:gap-3"
           >
-            <Link href={hero.primaryCta.href} className="btn-primary w-full sm:w-auto">
+            <Link
+              href={hero.primaryCta.href}
+              className="btn-primary min-w-0 flex-1 px-3 text-[10px] tracking-[0.12em] xs:px-5 xs:text-[11px] sm:w-auto sm:flex-none sm:px-8 sm:tracking-[0.2em]"
+            >
               {hero.primaryCta.label}
             </Link>
             <Link
               href={hero.secondaryCta.href}
-              className="btn-ghost w-full sm:w-auto"
+              className="btn-ghost min-w-0 flex-1 px-3 text-[10px] tracking-[0.12em] xs:px-5 xs:text-[11px] sm:w-auto sm:flex-none sm:px-8 sm:tracking-[0.2em]"
             >
               {hero.secondaryCta.label}
             </Link>

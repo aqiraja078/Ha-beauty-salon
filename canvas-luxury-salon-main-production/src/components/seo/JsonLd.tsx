@@ -13,7 +13,8 @@ export function JsonLd() {
     address: {
       "@type": "PostalAddress",
       streetAddress: site.address,
-      addressLocality: "Jhelum, Dina, Gujrat",
+      addressLocality: "Jhelum",
+      postalCode: "49600",
       addressRegion: "Punjab",
       addressCountry: "PK",
     },

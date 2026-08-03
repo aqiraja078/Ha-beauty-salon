@@ -42,27 +42,34 @@ function SectionHeading({
   title,
   lead,
   center,
+  titleClassName,
 }: {
   eyebrow: string;
   title: string;
   lead?: string;
   center?: boolean;
+  titleClassName?: string;
 }) {
   return (
     <Reveal blur className={center ? "text-center" : undefined}>
       <p className="eyebrow">{eyebrow}</p>
-      <h2 className="mt-2.5 font-display text-[2rem] leading-[1.12] text-ink sm:mt-3 sm:text-4xl md:text-[2.75rem]">
+      <h2
+        className={`mt-2 font-display leading-[1.12] text-ink sm:mt-3 ${
+          titleClassName ??
+          "text-[2rem] sm:text-4xl md:text-[2.75rem]"
+        }`}
+      >
         {title}
       </h2>
       <div
-        className={`mt-4 h-[3px] w-16 rounded-full bg-gradient-to-r from-accent to-tint sm:mt-5 ${
+        className={`mt-3 h-[3px] w-16 rounded-full bg-gradient-to-r from-accent to-tint sm:mt-4 ${
           center ? "mx-auto" : ""
         }`}
         aria-hidden
       />
       {lead ? (
         <p
-          className={`mt-4 max-w-2xl text-sm leading-relaxed text-ink-soft sm:mt-5 sm:text-base ${
+          className={`mt-3 max-w-2xl text-sm leading-relaxed text-ink-soft sm:mt-4 sm:text-base ${
             center ? "mx-auto" : ""
           }`}
         >
@@ -132,15 +139,17 @@ export function HomePageSections({
         </div>
       </section>
 
-      <section className={`bg-canvas ${sectionPad}`}>
+      <section className="bg-canvas px-4 py-6 sm:px-6 sm:py-14 md:px-8 md:py-20">
         <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="flex flex-col items-center gap-3 text-center">
             <SectionHeading
+              center
               eyebrow={home.offers.eyebrow}
               title={home.offers.title}
               lead={home.offers.lead}
+              titleClassName="whitespace-nowrap text-[1.35rem] xs:text-[1.55rem] sm:text-4xl md:text-[2.75rem]"
             />
-            <Reveal delay={0.1} from="right">
+            <Reveal delay={0.05}>
               <Link
                 href="/offers"
                 className="group inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-accent"
@@ -153,7 +162,7 @@ export function HomePageSections({
             </Reveal>
           </div>
 
-          <div className="mt-8 sm:mt-12">
+          <div className="mt-5 sm:mt-8">
             <OffersSlider items={home.offers.items} />
           </div>
         </div>
@@ -166,6 +175,7 @@ export function HomePageSections({
               eyebrow={home.servicesSection.eyebrow}
               title={home.servicesSection.title}
               lead={home.servicesSection.lead}
+              titleClassName="whitespace-nowrap text-[1.15rem] xs:text-[1.4rem] sm:text-4xl md:text-[2.75rem]"
             />
             <Reveal delay={0.1} from="right">
               <Link
@@ -243,7 +253,7 @@ export function HomePageSections({
 
           <Reveal from="right" delay={0.08}>
             <p className="eyebrow">{home.about.eyebrow}</p>
-            <h2 className="mt-3 font-display text-[2rem] leading-[1.12] text-ink sm:text-4xl md:text-[2.75rem]">
+            <h2 className="mt-3 whitespace-nowrap font-display text-[1.35rem] leading-[1.12] text-ink xs:text-[1.55rem] sm:text-4xl md:text-[2.75rem]">
               {home.about.title}
             </h2>
             <div
@@ -267,10 +277,6 @@ export function HomePageSections({
                 </li>
               ))}
             </ul>
-
-            <Link href={home.about.ctaHref} className="btn-ghost mt-9">
-              {home.about.ctaLabel}
-            </Link>
           </Reveal>
         </div>
       </section>
@@ -312,6 +318,7 @@ export function HomePageSections({
             eyebrow={home.steps.eyebrow}
             title={home.steps.title}
             lead={home.steps.lead}
+            titleClassName="whitespace-nowrap text-[1.35rem] xs:text-[1.55rem] sm:text-4xl md:text-[2.75rem]"
           />
 
           <RevealGroup className="mt-8 sm:mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -338,6 +345,7 @@ export function HomePageSections({
             <SectionHeading
               eyebrow={home.gallery.eyebrow}
               title={home.gallery.title}
+              titleClassName="whitespace-nowrap text-[1.25rem] xs:text-[1.5rem] sm:text-4xl md:text-[2.75rem]"
             />
             <Reveal delay={0.1} from="right">
               <Link
@@ -393,10 +401,10 @@ export function HomePageSections({
       </section>
 
       <section className={`bg-canvas-alt ${sectionPad}`}>
-        <RevealGroup className="mx-auto mb-6 grid max-w-5xl gap-3 sm:mb-10 sm:grid-cols-2 lg:grid-cols-4">
+        <RevealGroup className="mx-auto mb-6 grid max-w-5xl grid-cols-2 gap-2 sm:mb-10 sm:gap-3 lg:grid-cols-4">
           {home.cta.trustPoints.map((point) => (
             <RevealItem key={point}>
-              <div className="flex min-h-[48px] items-center justify-center rounded-full border border-line bg-surface px-4 py-2.5 text-center text-[11px] font-medium uppercase tracking-[0.16em] text-ink-soft">
+              <div className="flex min-h-[44px] items-center justify-center rounded-full border border-line bg-surface px-2 py-2 text-center text-[9px] font-medium uppercase tracking-[0.12em] text-ink-soft xs:px-3 xs:text-[10px] sm:min-h-[48px] sm:px-4 sm:py-2.5 sm:text-[11px] sm:tracking-[0.16em]">
                 {point}
               </div>
             </RevealItem>
@@ -427,16 +435,16 @@ export function HomePageSections({
               <p className="mt-4 max-w-md text-sm text-ink-soft sm:mt-5 sm:text-base">
                 {home.cta.subcopy}
               </p>
-              <div className="mt-6 flex w-full flex-col gap-3 sm:mt-9 sm:w-auto sm:flex-row">
+              <div className="mt-6 flex w-full flex-row items-center gap-2 sm:mt-9 sm:w-auto sm:gap-3">
                 <Link
                   href={home.cta.primaryCta.href}
-                  className="btn-primary w-full sm:w-auto"
+                  className="btn-primary min-w-0 flex-1 px-3 text-[10px] tracking-[0.12em] xs:px-4 xs:text-[11px] sm:w-auto sm:flex-none sm:px-8 sm:tracking-[0.2em]"
                 >
                   {home.cta.primaryCta.label}
                 </Link>
                 <Link
                   href={home.cta.secondaryCta.href}
-                  className="btn-ghost w-full sm:w-auto"
+                  className="btn-ghost min-w-0 flex-1 px-3 text-[10px] tracking-[0.12em] xs:px-4 xs:text-[11px] sm:w-auto sm:flex-none sm:px-8 sm:tracking-[0.2em]"
                 >
                   {home.cta.secondaryCta.label}
                 </Link>

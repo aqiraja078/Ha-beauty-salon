@@ -1,26 +1,11 @@
 import type { Metadata } from "next";
-import nextDynamic from "next/dynamic";
 import Link from "next/link";
-import { Reveal } from "@/components/ui/Reveal";
+import { OfferCard } from "@/components/offers/OfferCard";
+import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { ThemeScope } from "@/components/ui/ThemeScope";
 import { getHomeContent, getSiteContent } from "@/lib/content-store";
 
 export const dynamic = "force-dynamic";
-
-const OffersSlider = nextDynamic(
-  () =>
-    import("@/components/offers/OffersSlider").then((m) => ({
-      default: m.OffersSlider,
-    })),
-  {
-    loading: () => (
-      <div
-        className="mx-auto h-80 max-w-7xl animate-pulse rounded-3xl bg-canvas-alt"
-        aria-hidden
-      />
-    ),
-  }
-);
 
 export async function generateMetadata(): Promise<Metadata> {
   const [home, site] = await Promise.all([getHomeContent(), getSiteContent()]);
@@ -33,6 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function OffersPage() {
   const [home, site] = await Promise.all([getHomeContent(), getSiteContent()]);
   const { offers } = home;
+  const contactLabel = `Ask ${site.name.split(" ")[0]}`;
 
   return (
     <ThemeScope scope="book">
@@ -52,12 +38,28 @@ export default async function OffersPage() {
 
       <section className="border-t border-line bg-canvas px-4 py-6 sm:px-6 sm:py-16 md:px-8 md:py-20">
         <div className="mx-auto max-w-7xl">
-          <OffersSlider
-            items={offers.items}
-            featured
-            contactHref="/contact"
-            contactLabel={`Ask ${site.name.split(" ")[0]}`}
-          />
+          {offers.items.length > 0 ? (
+            <RevealGroup className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:gap-6">
+              {offers.items.map((offer) => (
+                <RevealItem key={offer.id} className="h-full min-w-0">
+                  <OfferCard
+                    offer={offer}
+                    featured
+                    contactHref="/contact"
+                    contactLabel={contactLabel}
+                  />
+                </RevealItem>
+              ))}
+            </RevealGroup>
+          ) : (
+            <p className="text-center text-sm text-ink-soft">
+              No offers right now — check back soon or{" "}
+              <Link href="/contact" className="font-medium text-accent hover:underline">
+                contact us
+              </Link>
+              .
+            </p>
+          )}
         </div>
       </section>
 
@@ -69,13 +71,19 @@ export default async function OffersPage() {
             </h2>
             <p className="mt-3 text-sm text-ink-soft sm:text-base">
               Tell us which package fits — we confirm within 48 hours for{" "}
-              {site.address.replace("Home Service Areas: ", "")}.
+              {site.address}.
             </p>
-            <div className="mt-6 flex flex-col items-center gap-3 sm:mt-8 sm:flex-row sm:justify-center">
-              <Link href="/book" className="btn-primary w-full max-w-sm sm:w-auto">
+            <div className="mt-6 flex w-full max-w-md flex-row items-center justify-center gap-2 sm:mt-8 sm:max-w-none sm:gap-3">
+              <Link
+                href="/book"
+                className="btn-primary min-w-0 flex-1 px-3 text-[10px] tracking-[0.12em] xs:px-4 xs:text-[11px] sm:w-auto sm:flex-none sm:px-8 sm:tracking-[0.2em]"
+              >
                 Book appointment
               </Link>
-              <Link href="/contact" className="btn-ghost w-full max-w-sm sm:w-auto">
+              <Link
+                href="/contact"
+                className="btn-ghost min-w-0 flex-1 px-3 text-[10px] tracking-[0.12em] xs:px-4 xs:text-[11px] sm:w-auto sm:flex-none sm:px-8 sm:tracking-[0.2em]"
+              >
                 Contact
               </Link>
             </div>

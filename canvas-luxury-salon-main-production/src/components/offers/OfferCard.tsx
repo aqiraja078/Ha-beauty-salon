@@ -29,19 +29,19 @@ export function OfferCard({
   return (
     <article
       className={`card-surface aurora relative flex h-full flex-col overflow-hidden ${
-        featured ? "p-5 sm:p-9" : "p-5 sm:p-6"
+        featured ? "p-4 sm:p-7" : "p-4 sm:p-5"
       }`}
     >
       <div className="relative z-10 flex h-full flex-col">
-        <span className="inline-flex w-fit items-center rounded-full border border-accent/25 bg-accent-soft px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-accent">
+        <span className="inline-flex w-fit items-center rounded-full border border-accent/25 bg-accent-soft px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-accent">
           {offer.badge}
         </span>
 
         <h3
-          className={`mt-4 font-display leading-tight text-ink sm:mt-5 ${
+          className={`mt-3 font-display leading-tight text-ink sm:mt-3.5 ${
             featured
-              ? "text-[1.75rem] xs:text-3xl sm:text-4xl md:text-5xl"
-              : "text-2xl sm:text-[1.65rem]"
+              ? "text-[1.6rem] xs:text-3xl sm:text-4xl md:text-[2.75rem]"
+              : "text-[1.35rem] sm:text-[1.55rem]"
           }`}
         >
           {offer.title}{" "}
@@ -49,16 +49,16 @@ export function OfferCard({
         </h3>
 
         <p
-          className={`mt-3 text-sm leading-relaxed text-ink-soft ${
-            featured ? "sm:text-base" : ""
+          className={`mt-2 text-sm leading-snug text-ink-soft ${
+            featured ? "sm:mt-2.5 sm:leading-relaxed sm:text-base" : ""
           }`}
         >
           {offer.body}
         </p>
 
         {offer.includes.length > 0 ? (
-          <ul className="mt-5 space-y-2 border-t border-line pt-4">
-            <li className="mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted">
+          <ul className="mt-3 space-y-1.5 border-t border-line pt-3 sm:mt-3.5">
+            <li className="mb-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted">
               Package includes
             </li>
             {offer.includes.map((line) => (
@@ -66,37 +66,47 @@ export function OfferCard({
                 key={line}
                 className="flex gap-2 text-sm leading-snug text-ink-soft"
               >
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden />
+                <span
+                  className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
+                  aria-hidden
+                />
                 <span>{line}</span>
               </li>
             ))}
           </ul>
         ) : null}
 
-        <div className="mt-5 flex flex-wrap items-end justify-between gap-3 border-t border-line pt-4">
+        <div className="mt-3 flex flex-wrap items-end justify-between gap-2 border-t border-line pt-3 sm:mt-3.5">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted">
               Package price
             </p>
-            <p className="mt-1 font-display text-2xl text-accent sm:text-[1.75rem]">
+            <p className="mt-0.5 font-display text-xl text-accent sm:text-2xl">
               {offer.price}
             </p>
           </div>
         </div>
 
         <div
-          className={`mt-6 flex flex-col gap-3 ${
-            featured ? "sm:flex-row" : ""
+          className={`mt-3.5 flex gap-2 sm:mt-4 sm:gap-2.5 ${
+            featured ? "flex-row items-center" : "flex-col"
           }`}
         >
           <Link
             href={offer.ctaHref}
-            className={`btn-primary w-full ${featured ? "sm:w-auto" : ""}`}
+            className={`btn-primary w-full ${
+              featured
+                ? "min-w-0 flex-1 px-3 text-[10px] tracking-[0.12em] xs:px-4 xs:text-[11px] sm:w-auto sm:flex-none sm:px-8 sm:tracking-[0.2em]"
+                : ""
+            }`}
           >
             {offer.ctaLabel}
           </Link>
           {featured ? (
-            <Link href={contactHref} className="btn-ghost w-full sm:w-auto">
+            <Link
+              href={contactHref}
+              className="btn-ghost min-w-0 flex-1 px-3 text-[10px] tracking-[0.12em] xs:px-4 xs:text-[11px] sm:w-auto sm:flex-none sm:px-8 sm:tracking-[0.2em]"
+            >
               {contactLabel}
             </Link>
           ) : null}
