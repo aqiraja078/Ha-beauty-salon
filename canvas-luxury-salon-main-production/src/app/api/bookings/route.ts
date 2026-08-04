@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
-import { addBooking, getBookings } from "@/lib/bookings-store";
+import {
+  addBooking,
+  getBookings,
+  SlotConflictError,
+} from "@/lib/bookings-store";
 import { validateBookingBody } from "@/lib/booking-validation";
 import { clientIpFromRequest, rateLimitBooking } from "@/lib/rate-limit";
 import { lookupCmsServicePrice } from "@/lib/content-store";
@@ -35,22 +39,50 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: checked.error }, { status: checked.status });
   }
 
-  const { name, email, phone, service, date, time, message, price } = checked.data;
+  const {
+    name,
+    email,
+    phone,
+    service,
+    date,
+    time,
+    message,
+    price,
+    area,
+    bookingMode,
+    services,
+    durationMinutes,
+    travelMinutes,
+  } = checked.data;
+
   try {
+    let priceLabel: string | undefined;
+    if (price) {
+      priceLabel = formatFromPrice(price);
+    } else if (bookingMode === "single" && services[0]) {
+      priceLabel = formatFromPrice(await lookupCmsServicePrice(services[0]));
+    }
+
     const booking = await addBooking({
       name,
       email,
       phone,
       service,
-      priceLabel: formatFromPrice(
-        price || (await lookupCmsServicePrice(service))
-      ),
+      priceLabel,
       date,
       time,
       message,
+      area,
+      bookingMode,
+      services,
+      durationMinutes,
+      travelMinutes,
     });
     return NextResponse.json({ ok: true, id: booking.id });
   } catch (err) {
+    if (err instanceof SlotConflictError) {
+      return NextResponse.json({ error: err.message }, { status: 409 });
+    }
     console.error("Booking save failed:", err instanceof Error ? err.message : String(err));
     return NextResponse.json(
       { error: "Could not save booking." },

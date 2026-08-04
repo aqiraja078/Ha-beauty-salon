@@ -22,7 +22,8 @@ const nextConfig: NextConfig = {
           },
           {
             key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=()",
+            // microphone=(self) required for booking voice search
+            value: "camera=(), microphone=(self), geolocation=()",
           },
         ],
       },

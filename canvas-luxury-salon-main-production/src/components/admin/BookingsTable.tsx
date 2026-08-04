@@ -12,11 +12,13 @@ import {
 } from "@/components/admin/icons";
 import { bookingRef, formatDay, formatTime } from "@/lib/admin-console";
 import type { Booking } from "@/lib/bookings-types";
+import { bookingAreaLabel } from "@/lib/bookings-types";
 import { formatFromPrice } from "@/lib/format-price";
 
 const HEADS = [
   "Ref",
   "Service",
+  "Area",
   "Price",
   "Client",
   "Date",
@@ -55,7 +57,7 @@ export function BookingsTable({
     <>
       {/* Desktop ledger */}
       <div className="hidden overflow-x-auto md:block">
-        <table className="w-full min-w-[860px] border-separate border-spacing-0 text-sm">
+        <table className="w-full min-w-[960px] border-separate border-spacing-0 text-sm">
           <thead>
             <tr>
               {HEADS.map((h) => (
@@ -86,6 +88,9 @@ export function BookingsTable({
                     <IconScissors className="h-3.5 w-3.5 shrink-0 text-accent" />
                     <span className="truncate">{b.service}</span>
                   </span>
+                </td>
+                <td className="whitespace-nowrap border-b border-line px-4 py-4 text-[13px] text-ink-soft group-last:border-0">
+                  {bookingAreaLabel(b.area)}
                 </td>
                 <td className="whitespace-nowrap border-b border-line px-4 py-4 text-[13px] font-semibold text-accent group-last:border-0">
                   {formatFromPrice(b.priceLabel)}
@@ -165,6 +170,11 @@ export function BookingsTable({
               <IconScissors className="h-3.5 w-3.5 shrink-0 text-accent" />
               <span className="truncate">{b.service}</span>
             </p>
+            {b.area ? (
+              <p className="mt-1.5 text-xs text-muted">
+                Area: {bookingAreaLabel(b.area)}
+              </p>
+            ) : null}
             <p className="mt-2 text-sm font-semibold text-accent">
               {formatFromPrice(b.priceLabel)}
             </p>

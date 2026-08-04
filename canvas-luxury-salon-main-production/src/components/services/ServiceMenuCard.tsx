@@ -7,6 +7,7 @@ import {
   type HairLength,
   type HairLengthPrices,
 } from "@/lib/hair-length-pricing";
+import { bookingUrl } from "@/lib/booking-prefill";
 
 type Props = {
   name: string;
@@ -30,7 +31,7 @@ export function ServiceMenuCard({
   const bookService = lengthPrices
     ? `${name} (${HAIR_LENGTH_LABELS[length]})`
     : name;
-  const bookHref = `/book?service=${encodeURIComponent(bookService)}&price=${encodeURIComponent(displayPrice)}`;
+  const bookHref = bookingUrl(bookService, displayPrice);
 
   return (
     <article className="flex h-full flex-col rounded-3xl border border-line bg-surface p-5 shadow-soft transition duration-500 hover:-translate-y-1.5 hover:border-accent/30 hover:shadow-lift-lg sm:p-6">

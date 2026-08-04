@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { bookingUrl } from "@/lib/booking-prefill";
 
 export type OfferCardData = {
   id: string;
@@ -20,12 +21,36 @@ type Props = {
   contactLabel?: string;
 };
 
+function offerBookHref(offer: OfferCardData): string {
+  const href = offer.ctaHref || "/book";
+  if (!href.startsWith("/book")) return href;
+  try {
+    const url = new URL(href, "https://ha.local");
+    const existing = url.searchParams.get("service");
+    if (!existing) {
+      const label = `${offer.title} ${offer.titleAccent}`.replace(/\s+/g, " ").trim();
+      if (label) url.searchParams.set("service", label);
+    }
+    if (!url.searchParams.get("price") && offer.price) {
+      url.searchParams.set("price", offer.price);
+    }
+    const q = url.searchParams.toString();
+    return q ? `/book?${q}` : "/book";
+  } catch {
+    return bookingUrl(
+      `${offer.title} ${offer.titleAccent}`.trim(),
+      offer.price
+    );
+  }
+}
+
 export function OfferCard({
   offer,
   featured = false,
   contactHref = "/contact",
   contactLabel = "Ask HA",
 }: Props) {
+  const bookHref = offerBookHref(offer);
   return (
     <article
       className={`card-surface aurora relative flex h-full flex-col overflow-hidden ${
@@ -93,7 +118,7 @@ export function OfferCard({
           }`}
         >
           <Link
-            href={offer.ctaHref}
+            href={bookHref}
             className={`btn-primary w-full ${
               featured
                 ? "min-w-0 flex-1 px-3 text-[10px] tracking-[0.12em] xs:px-4 xs:text-[11px] sm:w-auto sm:flex-none sm:px-8 sm:tracking-[0.2em]"

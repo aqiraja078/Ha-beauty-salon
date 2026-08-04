@@ -6,6 +6,7 @@ import { PublicChrome } from "@/components/layout/PublicChrome";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
+import { MobileBookingBar } from "@/components/layout/MobileBookingBar";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { PageTransition } from "@/components/ui/PageTransition";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
@@ -101,6 +102,7 @@ export default async function RootLayout({
         <PublicChrome>
           <SiteFooter site={siteLive} />
           <WhatsAppButton site={siteLive} />
+          <MobileBookingBar site={siteLive} />
         </PublicChrome>
       </body>
     </html>

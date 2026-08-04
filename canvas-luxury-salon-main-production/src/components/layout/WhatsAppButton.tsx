@@ -1,10 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 import type { SiteContent } from "@/lib/cms-types";
 import { whatsappBookUrl } from "@/lib/site";
 
+/** Desktop/tablet FAB only — mobile uses MobileBookingBar. */
 export function WhatsAppButton({ site }: { site?: SiteContent }) {
+  const pathname = usePathname();
+  if (pathname?.startsWith("/admin") || pathname?.startsWith("/book")) {
+    return null;
+  }
+
   const href = whatsappBookUrl(
     undefined,
     site ? { name: site.name, phoneDigits: site.phoneDigits } : undefined
@@ -15,7 +22,7 @@ export function WhatsAppButton({ site }: { site?: SiteContent }) {
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="group fixed z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lift-lg md:h-[3.75rem] md:w-[3.75rem]"
+      className="group fixed z-40 hidden h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lift-lg md:flex md:h-[3.75rem] md:w-[3.75rem]"
       style={{
         bottom: "max(1.25rem, env(safe-area-inset-bottom))",
         right: "max(1.25rem, env(safe-area-inset-right))",

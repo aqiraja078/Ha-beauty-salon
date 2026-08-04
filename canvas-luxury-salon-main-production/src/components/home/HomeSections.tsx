@@ -126,7 +126,11 @@ export function HomePageSections({
                       {card.price}
                     </p>
                     <Link
-                      href={`/book?service=${encodeURIComponent(card.name)}`}
+                      href={`/book?service=${encodeURIComponent(card.name)}${
+                        card.price
+                          ? `&price=${encodeURIComponent(card.price)}`
+                          : ""
+                      }`}
                       className="mt-5 inline-flex min-h-[42px] w-full items-center justify-center rounded-full border border-accent/25 bg-accent-soft text-[10px] font-semibold uppercase tracking-[0.18em] text-accent transition duration-300 hover:bg-accent hover:text-accent-fg"
                     >
                       Book now

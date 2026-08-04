@@ -20,6 +20,8 @@ import {
   STATUS_TONES,
 } from "@/lib/admin-console";
 import type { Booking, BookingStatus } from "@/lib/bookings-types";
+import { bookingAreaLabel } from "@/lib/bookings-types";
+import { formatDurationTravelLabel } from "@/lib/booking-estimates";
 import { formatFromPrice } from "@/lib/format-price";
 
 const ACTIONS: {
@@ -146,12 +148,38 @@ export function BookingDrawer({
                 <p className="mt-2.5 text-sm font-medium leading-snug text-ink">
                   {booking.service}
                 </p>
+                {booking.bookingMode === "bridal" &&
+                booking.services &&
+                booking.services.length > 1 ? (
+                  <ul className="mt-2 list-inside list-disc text-xs text-ink-soft">
+                    {booking.services.map((s) => (
+                      <li key={s}>{s}</li>
+                    ))}
+                  </ul>
+                ) : null}
                 <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
                   Price from
                 </p>
                 <p className="mt-1 text-sm font-semibold text-accent">
                   {formatFromPrice(booking.priceLabel)}
                 </p>
+
+                {booking.area ? (
+                  <p className="mt-3 text-xs text-ink-soft">
+                    <span className="font-semibold text-ink">Area:</span>{" "}
+                    {bookingAreaLabel(booking.area)}
+                  </p>
+                ) : null}
+                {booking.durationMinutes != null ||
+                booking.travelMinutes != null ? (
+                  <p className="mt-1 text-xs text-ink-soft">
+                    <span className="font-semibold text-ink">Estimate:</span>{" "}
+                    {formatDurationTravelLabel(
+                      booking.durationMinutes ?? 0,
+                      booking.travelMinutes ?? 0
+                    )}
+                  </p>
+                ) : null}
 
                 <div className="mt-4 flex flex-wrap gap-2 border-t border-line pt-4">
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1.5 text-xs text-ink-soft">

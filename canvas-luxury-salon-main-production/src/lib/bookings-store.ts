@@ -73,11 +73,47 @@ export async function getBookings(): Promise<Booking[]> {
   }
 }
 
+export class SlotConflictError extends Error {
+  constructor(message = "That date and time is already booked.") {
+    super(message);
+    this.name = "SlotConflictError";
+  }
+}
+
+/** Times already held by pending or confirmed bookings for a date. */
+export function takenTimesForDate(
+  bookings: Booking[],
+  date: string
+): string[] {
+  const taken = new Set<string>();
+  for (const b of bookings) {
+    if (b.date !== date) continue;
+    if (b.status === "cancelled") continue;
+    if (b.time) taken.add(b.time);
+  }
+  return Array.from(taken).sort();
+}
+
+export async function getTakenTimesForDate(date: string): Promise<string[]> {
+  const list = await getBookings();
+  return takenTimesForDate(list, date);
+}
+
 export async function addBooking(
   input: Omit<Booking, "id" | "status" | "createdAt">
 ): Promise<Booking> {
   try {
     const list = await getBookings();
+    const conflict = list.some(
+      (b) =>
+        b.date === input.date &&
+        b.time === input.time &&
+        b.status !== "cancelled"
+    );
+    if (conflict) {
+      throw new SlotConflictError();
+    }
+
     const booking: Booking = {
       ...input,
       id: randomUUID(),
