@@ -88,7 +88,7 @@ export const defaultHomeContent: HomeContent = {
     subcopy:
       "Bridal makeup, hair, facials, waxing, nails, and mehndi — booked for Jhelum, Dina, and Gujrat, with prices you can see before you confirm.",
     primaryCta: { label: "Book your slot", href: "/book" },
-    secondaryCta: { label: "See hair menu", href: "/services/hair" },
+    secondaryCta: { label: "WhatsApp", href: "https://wa.me/923355462214" },
     highlights: [
       { value: "10+", label: "Years with brides" },
       { value: "3", label: "Cities we visit" },

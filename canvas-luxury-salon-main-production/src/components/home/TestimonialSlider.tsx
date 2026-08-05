@@ -28,41 +28,41 @@ export function TestimonialSlider({ items }: { items: TestimonialItem[] }) {
 
   return (
     <div className="relative mx-auto max-w-3xl">
-      <div className="card-surface relative overflow-hidden p-1">
+      <div className="card-surface relative overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.div
             key={i}
-            initial={{ opacity: 0, y: 18 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -14 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="px-5 py-7 text-center sm:px-10 sm:py-12 md:px-14"
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="px-5 py-5 text-center sm:px-8 sm:py-6"
           >
             <span
-              className="mx-auto block font-display text-5xl leading-none text-accent/25"
+              className="mx-auto block font-display text-3xl leading-none text-accent/25"
               aria-hidden
             >
               “
             </span>
-            <p className="mt-4 font-display text-lg leading-relaxed text-ink sm:text-xl md:text-2xl">
+            <p className="mt-1.5 font-display text-base leading-snug text-ink sm:text-lg md:text-xl">
               {current.quote}
             </p>
-            <p className="mt-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-accent">
+            <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-accent">
               {current.name}
             </p>
-            <p className="mt-1.5 text-xs text-muted">{current.role}</p>
+            <p className="mt-1 text-xs text-muted">{current.role}</p>
           </motion.div>
         </AnimatePresence>
       </div>
 
-      <div className="mt-5 flex justify-center gap-1">
+      <div className="mt-3 flex justify-center gap-1">
         {list.map((_, idx) => (
           <button
             key={idx}
             type="button"
             aria-label={`Show testimonial ${idx + 1}`}
             onClick={() => setI(idx)}
-            className="flex min-h-[44px] min-w-[36px] items-center justify-center"
+            className="flex min-h-[40px] min-w-[32px] items-center justify-center"
           >
             <span
               className={`block h-1.5 rounded-full transition-all duration-300 ${

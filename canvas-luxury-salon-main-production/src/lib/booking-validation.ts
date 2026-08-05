@@ -15,8 +15,9 @@ export const BOOKING_FIELD_LIMITS = {
 const EMAIL_RE =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
-/** Pakistan mobile: 03XXXXXXXXX (11 digits). */
-const PK_MOBILE_LOCAL_RE = /^03[0-9]{9}$/;
+/** International phone: 11–17 digits (any country). */
+export const PHONE_DIGIT_MIN = 11;
+export const PHONE_DIGIT_MAX = 17;
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -36,26 +37,25 @@ export function isValidBookingEmail(email: string): boolean {
   return Boolean(e) && e.length <= BOOKING_FIELD_LIMITS.email && EMAIL_RE.test(e);
 }
 
-/** Digits only, normalized toward local 03XXXXXXXXX. */
-export function normalizePkMobileDigits(raw: string): string {
-  let digits = raw.replace(/\D/g, "");
-  if (digits.startsWith("0092")) digits = digits.slice(4);
-  else if (digits.startsWith("92") && digits.length >= 12) {
-    digits = digits.slice(2);
-  }
-  if (digits.length === 10 && digits.startsWith("3")) digits = `0${digits}`;
-  return digits;
+/** Digits only from any country number. */
+export function phoneDigitsOnly(raw: string): string {
+  return raw.replace(/\D/g, "");
 }
 
-export function isValidPkMobile(raw: string): boolean {
-  return PK_MOBILE_LOCAL_RE.test(normalizePkMobileDigits(raw));
+export function isValidPhone(raw: string): boolean {
+  const len = phoneDigitsOnly(raw).length;
+  return len >= PHONE_DIGIT_MIN && len <= PHONE_DIGIT_MAX;
 }
 
-/** Display as 03XX XXXXXXX */
-export function formatPkMobileDisplay(raw: string): string {
-  const d = normalizePkMobileDigits(raw).slice(0, 11);
-  if (d.length <= 4) return d;
-  return `${d.slice(0, 4)} ${d.slice(4)}`;
+/**
+ * Keep optional leading +, digits only, max 17 digits.
+ * Spaces/dashes are stripped so length stays predictable.
+ */
+export function formatPhoneDisplay(raw: string): string {
+  const trimmed = raw.trimStart();
+  const hasPlus = trimmed.startsWith("+");
+  const digits = phoneDigitsOnly(raw).slice(0, PHONE_DIGIT_MAX);
+  return hasPlus ? `+${digits}` : digits;
 }
 
 export function emailValidationMessage(email: string): string | null {
@@ -70,8 +70,15 @@ export function emailValidationMessage(email: string): string | null {
 export function phoneValidationMessage(phone: string): string | null {
   const p = phone.trim();
   if (!p) return "Phone number is required.";
-  if (!isValidPkMobile(p)) {
-    return "Enter a valid Pakistani mobile (e.g. 0300 1234567).";
+  const len = phoneDigitsOnly(p).length;
+  if (len < PHONE_DIGIT_MIN) {
+    return `Enter at least ${PHONE_DIGIT_MIN} digits (any country).`;
+  }
+  if (len > PHONE_DIGIT_MAX) {
+    return `Phone can be at most ${PHONE_DIGIT_MAX} digits.`;
+  }
+  if (!isValidPhone(p)) {
+    return `Enter a valid phone number (${PHONE_DIGIT_MIN}–${PHONE_DIGIT_MAX} digits).`;
   }
   return null;
 }
@@ -160,7 +167,7 @@ export function validateBookingBody(body: unknown):
   if (phoneErr) {
     return { ok: false, error: phoneErr, status: 400 };
   }
-  const phone = formatPkMobileDisplay(phoneRaw);
+  const phone = formatPhoneDisplay(phoneRaw);
 
   if (!AREAS.has(areaRaw)) {
     return {

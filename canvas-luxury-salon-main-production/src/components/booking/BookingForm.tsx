@@ -6,10 +6,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   BOOKING_FIELD_LIMITS,
   emailValidationMessage,
-  formatPkMobileDisplay,
+  formatPhoneDisplay,
   isValidBookingEmail,
-  isValidPkMobile,
+  isValidPhone,
   phoneValidationMessage,
+  PHONE_DIGIT_MAX,
 } from "@/lib/booking-validation";
 import {
   estimateDurationMinutes,
@@ -417,7 +418,7 @@ export function BookingForm({
   function isValid(): boolean {
     if (!name.trim()) return false;
     if (!isValidBookingEmail(email)) return false;
-    if (!isValidPkMobile(phone)) return false;
+    if (!isValidPhone(phone)) return false;
     if (!area || !date || !time) return false;
     if (mode === "single") return Boolean(serviceVal);
     return bridalPicks.length >= 2;
@@ -446,7 +447,7 @@ export function BookingForm({
       return;
     }
 
-    const formattedPhone = formatPkMobileDisplay(phone);
+    const formattedPhone = formatPhoneDisplay(phone);
     const normalizedEmail = email.trim().toLowerCase();
     setPhone(formattedPhone);
     setEmail(normalizedEmail);
@@ -843,18 +844,18 @@ export function BookingForm({
               type="tel"
               required
               inputMode="tel"
-              maxLength={15}
+              maxLength={PHONE_DIGIT_MAX + 1}
               autoComplete="tel"
               className={`field ${phoneError ? "border-red-300 focus:border-red-400" : ""}`}
-              placeholder="0300 1234567"
+              placeholder="+923001234567"
               value={phone}
               onChange={(e) => {
-                const next = formatPkMobileDisplay(e.target.value);
+                const next = formatPhoneDisplay(e.target.value);
                 setPhone(next);
                 if (phoneError) setPhoneError(phoneValidationMessage(next));
               }}
               onBlur={() => {
-                const next = formatPkMobileDisplay(phone);
+                const next = formatPhoneDisplay(phone);
                 setPhone(next);
                 setPhoneError(phoneValidationMessage(next));
               }}
@@ -862,11 +863,7 @@ export function BookingForm({
             />
             {phoneError ? (
               <p className="mt-1.5 text-xs text-red-600">{phoneError}</p>
-            ) : (
-              <p className="mt-1.5 text-[11px] text-muted">
-                Format: 03XX XXXXXXX (+92 also ok)
-              </p>
-            )}
+            ) : null}
           </label>
         </div>
 

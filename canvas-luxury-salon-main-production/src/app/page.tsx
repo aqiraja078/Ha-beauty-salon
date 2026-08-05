@@ -12,7 +12,11 @@ export default async function HomePage() {
 
   return (
     <ThemeScope scope="home">
-      <HomePageSections home={home} siteName={site.name} />
+      <HomePageSections
+        home={home}
+        siteName={site.name}
+        phoneDigits={site.phoneDigits}
+      />
     </ThemeScope>
   );
 }

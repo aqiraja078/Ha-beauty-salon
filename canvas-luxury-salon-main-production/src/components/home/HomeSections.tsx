@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { HomeHeroAnimated } from "@/components/home/HomeHeroAnimated";
 import type { HomeContent } from "@/lib/cms-types";
+import { whatsappBookUrl } from "@/lib/site";
 
 const TestimonialSlider = dynamic(
   () =>
@@ -83,15 +84,25 @@ function SectionHeading({
 export function HomePageSections({
   home,
   siteName,
+  phoneDigits,
 }: {
   home: HomeContent;
   siteName: string;
+  phoneDigits: string;
 }) {
   const aboutBody = home.about.body.replaceAll("{name}", siteName);
+  const whatsappHref = whatsappBookUrl(undefined, {
+    name: siteName,
+    phoneDigits,
+  });
 
   return (
     <>
-      <HomeHeroAnimated siteName={siteName} hero={home.hero} />
+      <HomeHeroAnimated
+        siteName={siteName}
+        hero={home.hero}
+        whatsappHref={whatsappHref}
+      />
 
       <section className={`bg-canvas-alt ${sectionPad}`}>
         <div className="mx-auto max-w-7xl">
@@ -195,36 +206,44 @@ export function HomePageSections({
           </div>
 
           <RevealGroup className="mt-8 sm:mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {home.servicesSection.categories.map((s) => (
+            {home.servicesSection.categories.map((s, index) => (
               <RevealItem key={s.slug} className="h-full">
                 <Link
                   href={s.href}
-                  className="card-interactive group relative flex h-full flex-col overflow-hidden"
+                  className="group flex h-full flex-col rounded-[1.5rem] bg-surface p-2.5 shadow-[0_1px_0_rgb(var(--gilt)/0.35),0_18px_40px_-28px_rgb(var(--ink)/0.45)] transition duration-500 hover:-translate-y-1.5 hover:shadow-[0_1px_0_rgb(var(--gilt)/0.7),0_28px_50px_-24px_rgb(var(--accent)/0.35)]"
                 >
-                  <div className="relative aspect-[4/3] overflow-hidden">
+                  <div className="relative aspect-[5/4] overflow-hidden rounded-[1.1rem]">
                     <Image
                       src={s.image}
                       alt={s.title}
                       fill
-                      className="object-cover transition duration-[900ms] group-hover:scale-105"
+                      className="object-cover transition duration-700 ease-out group-hover:scale-[1.06]"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-ink/40 to-transparent" />
+                    <span className="absolute left-3 top-3 inline-flex h-8 min-w-8 items-center justify-center rounded-full bg-surface/90 px-2 text-[10px] font-semibold tracking-[0.18em] text-accent backdrop-blur-sm">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="absolute bottom-3 right-3 flex h-9 w-9 translate-y-1 items-center justify-center rounded-full bg-accent text-sm text-accent-fg opacity-0 shadow-lift transition duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                      →
+                    </span>
                   </div>
 
-                  <div className="card-body">
-                    <h3 className="font-display text-xl text-ink">{s.title}</h3>
-                    <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-soft">
+                  <div className="flex flex-1 flex-col px-2.5 pb-3 pt-4 sm:px-3">
+                    <div className="flex items-start justify-between gap-3">
+                      <h3 className="font-display text-[1.45rem] leading-none text-ink sm:text-[1.6rem]">
+                        {s.title}
+                      </h3>
+                      <span
+                        className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gilt transition group-hover:scale-125"
+                        aria-hidden
+                      />
+                    </div>
+                    <p className="mt-2 flex-1 text-[13px] leading-snug text-ink-soft">
                       {s.short}
                     </p>
-                    <div className="mt-5 flex items-center justify-between border-t border-line pt-4">
-                      <span className="text-sm font-semibold text-accent">
-                        {s.price || "On request"}
-                      </span>
-                      <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted transition-colors duration-300 group-hover:text-accent">
-                        View menu →
-                      </span>
-                    </div>
+                    <p className="mt-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-accent">
+                      {s.price || "On request"}
+                    </p>
                   </div>
                 </Link>
               </RevealItem>
@@ -293,17 +312,14 @@ export function HomePageSections({
             title={home.why.title}
           />
 
-          <RevealGroup className="mt-8 sm:mt-12 grid gap-5 md:grid-cols-3" stagger={0.1}>
+          <RevealGroup className="mt-10 sm:mt-14 grid gap-6 md:grid-cols-3 md:gap-5" stagger={0.1}>
             {home.why.reasons.map((r, idx) => (
               <RevealItem key={r.title} className="h-full">
-                <div className="card-interactive group relative h-full overflow-hidden p-6">
-                  <span className="absolute right-6 top-5 font-display text-6xl text-accent/[0.08] transition duration-500 group-hover:text-accent/[0.14]">
-                    {idx + 1}
+                <div className="card-interactive relative h-full px-6 pb-6 pt-10">
+                  <span className="absolute left-6 top-0 -translate-y-1/2 rounded-full bg-accent px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-accent-fg shadow-lift">
+                    {String(idx + 1).padStart(2, "0")}
                   </span>
-                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-soft font-display text-xl text-accent">
-                    {idx + 1}
-                  </span>
-                  <h3 className="mt-6 font-display text-2xl text-ink">
+                  <h3 className="font-display text-xl text-ink sm:text-2xl">
                     {r.title}
                   </h3>
                   <p className="mt-3 text-sm leading-relaxed text-ink-soft">
@@ -325,15 +341,15 @@ export function HomePageSections({
             titleClassName="whitespace-nowrap text-[1.35rem] xs:text-[1.55rem] sm:text-4xl md:text-[2.75rem]"
           />
 
-          <RevealGroup className="mt-8 sm:mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <RevealGroup className="mt-10 sm:mt-14 grid gap-6 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
             {home.steps.items.map((s) => (
               <RevealItem key={s.n} className="h-full">
-                <div className="card-interactive relative h-full p-6 pt-10">
+                <div className="card-interactive relative h-full px-6 pb-6 pt-10">
                   <span className="absolute left-6 top-0 -translate-y-1/2 rounded-full bg-accent px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-accent-fg shadow-lift">
-                    Step {s.n}
+                    Step {String(s.n).padStart(2, "0")}
                   </span>
                   <h3 className="font-display text-xl text-ink">{s.title}</h3>
-                  <p className="mt-2.5 text-sm leading-relaxed text-ink-soft">
+                  <p className="mt-3 text-sm leading-relaxed text-ink-soft">
                     {s.desc}
                   </p>
                 </div>
@@ -398,7 +414,7 @@ export function HomePageSections({
             eyebrow={home.testimonials.eyebrow}
             title={home.testimonials.title}
           />
-          <div className="mt-8 sm:mt-12">
+          <div className="mt-6 sm:mt-8">
             <TestimonialSlider items={home.testimonials.items} />
           </div>
         </div>

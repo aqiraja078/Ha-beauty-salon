@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import type { SiteContent } from "@/lib/cms-types";
 import { whatsappBookUrl } from "@/lib/site";
 
-/** Desktop/tablet FAB only — mobile uses MobileBookingBar. */
+/** Floating WhatsApp button (hidden on admin + book pages). */
 export function WhatsAppButton({ site }: { site?: SiteContent }) {
   const pathname = usePathname();
   if (pathname?.startsWith("/admin") || pathname?.startsWith("/book")) {
@@ -22,11 +22,7 @@ export function WhatsAppButton({ site }: { site?: SiteContent }) {
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="group fixed z-40 hidden h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lift-lg md:flex md:h-[3.75rem] md:w-[3.75rem]"
-      style={{
-        bottom: "max(1.25rem, env(safe-area-inset-bottom))",
-        right: "max(1.25rem, env(safe-area-inset-right))",
-      }}
+      className="group fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] right-[max(1.25rem,env(safe-area-inset-right))] z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lift-lg md:bottom-[max(1.25rem,env(safe-area-inset-bottom))] md:h-[3.75rem] md:w-[3.75rem]"
       aria-label="Chat on WhatsApp"
       initial={{ opacity: 0, scale: 0.6 }}
       animate={{ opacity: 1, scale: 1 }}
