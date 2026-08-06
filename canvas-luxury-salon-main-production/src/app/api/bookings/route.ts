@@ -4,6 +4,7 @@ import {
   getBookings,
   SlotConflictError,
 } from "@/lib/bookings-store";
+import { isDateBlocked } from "@/lib/blocked-dates-store";
 import { validateBookingBody } from "@/lib/booking-validation";
 import { clientIpFromRequest, rateLimitBooking } from "@/lib/rate-limit";
 import { lookupCmsServicePrice } from "@/lib/content-store";
@@ -12,6 +13,7 @@ import {
   adminCookieName,
   verifySessionToken,
 } from "@/lib/admin-session";
+import { notifyAdminOfNewBooking } from "@/lib/booking-status-notifications";
 import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
@@ -55,6 +57,13 @@ export async function POST(request: Request) {
     travelMinutes,
   } = checked.data;
 
+  if (await isDateBlocked(date)) {
+    return NextResponse.json(
+      { error: "That date is not available for booking. Please choose another day." },
+      { status: 400 }
+    );
+  }
+
   try {
     let priceLabel: string | undefined;
     if (price) {
@@ -77,6 +86,12 @@ export async function POST(request: Request) {
       services,
       durationMinutes,
       travelMinutes,
+    });
+    void notifyAdminOfNewBooking(booking).catch((err) => {
+      console.error(
+        "[notify] admin email failed:",
+        err instanceof Error ? err.message : String(err)
+      );
     });
     return NextResponse.json({ ok: true, id: booking.id });
   } catch (err) {

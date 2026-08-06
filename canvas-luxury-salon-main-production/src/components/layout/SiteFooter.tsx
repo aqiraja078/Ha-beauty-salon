@@ -83,6 +83,12 @@ export function SiteFooter({ site: siteProp }: { site?: SiteContent }) {
             <p className="eyebrow">Company</p>
             <ul className="mt-2.5 space-y-0.5 text-ink-soft">
               <li>
+                <Link href="/how-to-book" className={linkClass}>
+                  <span className="h-px w-0 bg-accent transition-all duration-300 group-hover:w-3" />
+                  How to book
+                </Link>
+              </li>
+              <li>
                 <Link href="/book" className={linkClass}>
                   <span className="h-px w-0 bg-accent transition-all duration-300 group-hover:w-3" />
                   Book appointment
@@ -138,9 +144,6 @@ export function SiteFooter({ site: siteProp }: { site?: SiteContent }) {
                   </svg>
                 </a>
               </div>
-              <p className="mt-3 max-w-[280px] text-sm leading-snug text-ink-soft">
-                Jhelum, Dina and Gujrat
-              </p>
             </div>
           </div>
         </div>

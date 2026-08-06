@@ -334,12 +334,25 @@ export function HomePageSections({
 
       <section className={`bg-canvas-alt ${sectionPad}`}>
         <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            eyebrow={home.steps.eyebrow}
-            title={home.steps.title}
-            lead={home.steps.lead}
-            titleClassName="whitespace-nowrap text-[1.35rem] xs:text-[1.55rem] sm:text-4xl md:text-[2.75rem]"
-          />
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <SectionHeading
+              eyebrow={home.steps.eyebrow}
+              title={home.steps.title}
+              lead={home.steps.lead}
+              titleClassName="whitespace-nowrap text-[1.35rem] xs:text-[1.55rem] sm:text-4xl md:text-[2.75rem]"
+            />
+            <Reveal delay={0.1} from="right">
+              <Link
+                href="/how-to-book"
+                className="group inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-accent"
+              >
+                Full booking guide
+                <span className="transition-transform duration-300 group-hover:translate-x-1">
+                  →
+                </span>
+              </Link>
+            </Reveal>
+          </div>
 
           <RevealGroup className="mt-10 sm:mt-14 grid gap-6 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
             {home.steps.items.map((s) => (

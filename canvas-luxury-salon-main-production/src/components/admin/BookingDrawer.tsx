@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ClientAvatar, StatusPill } from "@/components/admin/console-ui";
 import {
+  IconBan,
   IconCalendar,
   IconCheckCircle,
   IconClock,
@@ -11,14 +12,22 @@ import {
   IconMail,
   IconPhone,
   IconScissors,
+  IconWhatsApp,
   IconXCircle,
 } from "@/components/admin/icons";
 import {
   bookingRef,
   formatDay,
+  formatSalesPkr,
   formatTime,
   STATUS_TONES,
 } from "@/lib/admin-console";
+import {
+  balanceDue,
+  clientHistory,
+  guestWhatsAppUrl,
+  statusLabel,
+} from "@/lib/admin-booking-utils";
 import type { Booking, BookingStatus } from "@/lib/bookings-types";
 import { bookingAreaLabel } from "@/lib/bookings-types";
 import { formatDurationTravelLabel } from "@/lib/booking-estimates";
@@ -31,22 +40,49 @@ const ACTIONS: {
 }[] = [
   { status: "pending", label: "Pending", Icon: IconClock },
   { status: "confirmed", label: "Confirm", Icon: IconCheckCircle },
+  { status: "completed", label: "Done", Icon: IconCheckCircle },
+  { status: "no_show", label: "No-show", Icon: IconBan },
   { status: "cancelled", label: "Cancel", Icon: IconXCircle },
 ];
 
+export type BookingPatch = {
+  status?: BookingStatus;
+  depositPaid?: number;
+  depositNote?: string;
+};
+
 export function BookingDrawer({
   booking,
+  allBookings,
   busy,
+  salonName,
   onClose,
-  onStatus,
+  onPatch,
   onDelete,
+  onOpenBooking,
 }: {
   booking: Booking | null;
+  allBookings: Booking[];
   busy: boolean;
+  salonName?: string;
   onClose: () => void;
-  onStatus: (id: string, status: BookingStatus) => void;
+  onPatch: (id: string, patch: BookingPatch) => Promise<void> | void;
   onDelete: (id: string) => void;
+  onOpenBooking?: (id: string) => void;
 }) {
+  const [depositPaid, setDepositPaid] = useState("");
+  const [depositNote, setDepositNote] = useState("");
+
+  useEffect(() => {
+    if (!booking) return;
+    setDepositPaid(
+      booking.depositPaid != null && booking.depositPaid > 0
+        ? String(booking.depositPaid)
+        : ""
+    );
+    setDepositNote(booking.depositNote ?? "");
+  }, [booking]);
+
   useEffect(() => {
     if (!booking) return;
     function onKey(e: KeyboardEvent) {
@@ -55,6 +91,32 @@ export function BookingDrawer({
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [booking, onClose]);
+
+  const history = useMemo(
+    () => (booking ? clientHistory(allBookings, booking) : []),
+    [allBookings, booking]
+  );
+
+  const due = booking ? balanceDue(booking) : null;
+  const waUrl = booking ? guestWhatsAppUrl(booking, salonName) : "";
+
+  async function handleStatus(status: BookingStatus) {
+    if (!booking) return;
+    await onPatch(booking.id, { status });
+    if (status === "confirmed" && waUrl) {
+      window.open(waUrl, "_blank", "noopener,noreferrer");
+    }
+  }
+
+  async function saveDeposit() {
+    if (!booking) return;
+    const paid = depositPaid.trim() === "" ? null : Number(depositPaid);
+    if (paid != null && (Number.isNaN(paid) || paid < 0)) return;
+    await onPatch(booking.id, {
+      depositPaid: paid ?? 0,
+      depositNote: depositNote.trim() || "",
+    });
+  }
 
   return (
     <AnimatePresence>
@@ -137,6 +199,17 @@ export function BookingDrawer({
                 <IconPhone className="h-4 w-4 shrink-0 text-accent" />
                 {booking.phone}
               </a>
+              {waUrl ? (
+                <a
+                  href={waUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2.5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800 transition hover:bg-emerald-100"
+                >
+                  <IconWhatsApp className="h-4 w-4 shrink-0" />
+                  WhatsApp confirm message
+                </a>
+              ) : null}
             </div>
 
             <div className="mt-4 px-6">
@@ -194,6 +267,58 @@ export function BookingDrawer({
               </div>
             </div>
 
+            <div className="mt-4 px-6">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted">
+                Deposit / advance
+              </p>
+              <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                <label className="block">
+                  <span className="mb-1 block text-[10px] text-muted">
+                    Amount (Rs)
+                  </span>
+                  <input
+                    type="number"
+                    min={0}
+                    step={100}
+                    value={depositPaid}
+                    onChange={(e) => setDepositPaid(e.target.value)}
+                    className="console-field"
+                    placeholder="0"
+                    disabled={busy}
+                  />
+                </label>
+                <label className="block">
+                  <span className="mb-1 block text-[10px] text-muted">
+                    Note
+                  </span>
+                  <input
+                    type="text"
+                    value={depositNote}
+                    onChange={(e) => setDepositNote(e.target.value)}
+                    className="console-field"
+                    placeholder="Cash / JazzCash…"
+                    disabled={busy}
+                  />
+                </label>
+              </div>
+              <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
+                <p className="text-xs text-ink-soft">
+                  Balance due:{" "}
+                  <span className="font-semibold text-ink">
+                    {due != null ? formatSalesPkr(due) : "—"}
+                  </span>
+                </p>
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={() => void saveDeposit()}
+                  className="console-btn-soft min-h-[36px]"
+                >
+                  Save deposit
+                </button>
+              </div>
+            </div>
+
             {booking.message ? (
               <div className="mt-4 px-6">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted">
@@ -205,11 +330,37 @@ export function BookingDrawer({
               </div>
             ) : null}
 
+            {history.length > 0 ? (
+              <div className="mt-4 px-6">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted">
+                  Client history ({history.length})
+                </p>
+                <ul className="mt-2 max-h-40 space-y-1.5 overflow-y-auto">
+                  {history.slice(0, 8).map((h) => (
+                    <li key={h.id}>
+                      <button
+                        type="button"
+                        onClick={() => onOpenBooking?.(h.id)}
+                        className="flex w-full items-center justify-between gap-2 rounded-lg border border-line bg-canvas/50 px-3 py-2 text-left text-xs transition hover:border-accent/40"
+                      >
+                        <span className="min-w-0 truncate text-ink-soft">
+                          {formatDay(h.date)} · {h.service}
+                        </span>
+                        <span className="shrink-0 text-muted">
+                          {statusLabel(h.status)}
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+
             <div className="mt-auto border-t border-line bg-canvas-alt px-6 py-5">
               <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted">
                 Update status
               </p>
-              <div className="mt-3 grid grid-cols-3 gap-2">
+              <div className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-5">
                 {ACTIONS.map(({ status, label, Icon }) => {
                   const active = booking.status === status;
                   return (
@@ -217,7 +368,7 @@ export function BookingDrawer({
                       key={status}
                       type="button"
                       disabled={busy || active}
-                      onClick={() => onStatus(booking.id, status)}
+                      onClick={() => void handleStatus(status)}
                       className={`flex min-h-[44px] flex-col items-center justify-center gap-1 rounded-xl border text-[11px] font-semibold transition duration-300 disabled:cursor-not-allowed ${
                         active
                           ? `${STATUS_TONES[status].pill} opacity-100`
@@ -230,6 +381,9 @@ export function BookingDrawer({
                   );
                 })}
               </div>
+              <p className="mt-2 text-[10px] text-muted">
+                Confirm opens a ready WhatsApp message for the client.
+              </p>
               <button
                 type="button"
                 disabled={busy}

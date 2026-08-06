@@ -15,8 +15,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const hours = [
-  { day: "Monday – Friday", time: "10:00 — 19:00" },
-  { day: "Saturday", time: "10:00 — 20:00" },
+  { day: "Monday – Friday", time: "09:00 — 20:00" },
+  { day: "Saturday", time: "09:00 — 20:00" },
   { day: "Sunday", time: "By appointment" },
 ];
 

@@ -142,6 +142,75 @@ export function StatCard({
   );
 }
 
+/** Revenue tile — confirmed bookings only, amount from priceLabel. */
+export function SalesStatCard({
+  icon,
+  iconWrap,
+  label,
+  amountLabel,
+  sub,
+  series,
+  tone,
+  onClick,
+}: {
+  icon: ReactNode;
+  iconWrap: string;
+  label: string;
+  amountLabel: string;
+  sub: string;
+  series: number[];
+  tone: string;
+  onClick?: () => void;
+}) {
+  const body = (
+    <>
+      <div className="flex items-center gap-3">
+        <span
+          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${iconWrap}`}
+        >
+          {icon}
+        </span>
+        <div className="min-w-0">
+          <p className="truncate text-[10px] font-semibold uppercase tracking-[0.18em] text-muted">
+            {label}
+          </p>
+          <p className="mt-0.5 font-display text-2xl leading-none tabular-nums text-ink sm:text-3xl">
+            {amountLabel}
+          </p>
+        </div>
+      </div>
+      <p className="mt-3 text-xs text-ink-soft">{sub}</p>
+      <div className="mt-4 flex justify-end">
+        <Sparkline data={series} className={`h-6 w-[78px] ${tone}`} />
+      </div>
+    </>
+  );
+
+  const className = `console-card flex flex-col p-5 text-left transition duration-300 ${
+    onClick ? "hover:border-accent/35" : ""
+  }`;
+
+  if (onClick) {
+    return (
+      <motion.button
+        type="button"
+        onClick={onClick}
+        whileHover={{ y: -3 }}
+        transition={{ duration: 0.25 }}
+        className={className}
+      >
+        {body}
+      </motion.button>
+    );
+  }
+
+  return (
+    <motion.div className={className} transition={{ duration: 0.25 }}>
+      {body}
+    </motion.div>
+  );
+}
+
 export function StatusPill({ status }: { status: BookingStatus }) {
   const tone = STATUS_TONES[status];
   return (

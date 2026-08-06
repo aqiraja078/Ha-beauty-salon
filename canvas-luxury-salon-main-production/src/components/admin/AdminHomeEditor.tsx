@@ -912,7 +912,7 @@ export function AdminHomeEditor({
                         body: "",
                         includes: ["Item one", "Item two"],
                         price: "From Rs. 0",
-                        ctaLabel: "Book now",
+                        ctaLabel: "Book this package",
                         ctaHref: "/book",
                       },
                     ],

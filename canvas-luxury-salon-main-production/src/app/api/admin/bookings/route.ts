@@ -6,8 +6,8 @@ import {
 } from "@/lib/admin-session";
 import { isBookingId } from "@/lib/booking-validation";
 import { notifyGuestOfBookingStatus } from "@/lib/booking-status-notifications";
-import { deleteBooking, updateBookingStatus } from "@/lib/bookings-store";
-import type { BookingStatus } from "@/lib/bookings-types";
+import { deleteBooking, patchBooking } from "@/lib/bookings-store";
+import { isBookingStatus } from "@/lib/bookings-types";
 
 export async function DELETE(request: Request) {
   const jar = await cookies();
@@ -43,31 +43,53 @@ export async function PATCH(request: Request) {
   if (!verifySessionToken(token)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  let body: { id?: string; status?: BookingStatus };
+  let body: {
+    id?: string;
+    status?: string;
+    depositPaid?: number;
+    depositNote?: string;
+  };
   try {
-    body = (await request.json()) as { id?: string; status?: BookingStatus };
+    body = (await request.json()) as typeof body;
   } catch {
     return NextResponse.json({ error: "Invalid JSON body." }, { status: 400 });
   }
   try {
-    if (!body.id || !body.status) {
-      return NextResponse.json({ error: "Missing id or status" }, { status: 400 });
-    }
-    if (!isBookingId(body.id)) {
+    if (!body.id || !isBookingId(body.id)) {
       return NextResponse.json({ error: "Invalid booking id" }, { status: 400 });
     }
-    if (!["pending", "confirmed", "cancelled"].includes(body.status)) {
+
+    const hasStatus = body.status !== undefined;
+    const hasDeposit =
+      body.depositPaid !== undefined || body.depositNote !== undefined;
+    if (!hasStatus && !hasDeposit) {
+      return NextResponse.json(
+        { error: "Nothing to update." },
+        { status: 400 }
+      );
+    }
+    if (hasStatus && (!body.status || !isBookingStatus(body.status))) {
       return NextResponse.json({ error: "Invalid status" }, { status: 400 });
     }
-    const result = await updateBookingStatus(body.id, body.status);
+
+    const result = await patchBooking(body.id, {
+      status: hasStatus && body.status && isBookingStatus(body.status)
+        ? body.status
+        : undefined,
+      depositPaid:
+        body.depositPaid !== undefined ? Number(body.depositPaid) : undefined,
+      depositNote: body.depositNote,
+    });
     if (!result) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
     const { booking, previousStatus } = result;
 
-    void notifyGuestOfBookingStatus(booking, previousStatus).catch((err) =>
-      console.error("[admin/bookings] Guest notify error:", err)
-    );
+    if (hasStatus) {
+      void notifyGuestOfBookingStatus(booking, previousStatus).catch((err) =>
+        console.error("[admin/bookings] Guest notify error:", err)
+      );
+    }
 
     return NextResponse.json(booking);
   } catch {

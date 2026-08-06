@@ -2,28 +2,53 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { AdminDayCalendar } from "@/components/admin/AdminDayCalendar";
+import { AdminClientsPanel } from "@/components/admin/AdminClientsPanel";
 import { AdminHomeEditor } from "@/components/admin/AdminHomeEditor";
 import { AdminServicesEditor } from "@/components/admin/AdminServicesEditor";
 import { AdminSidebar, type ConsoleView } from "@/components/admin/AdminSidebar";
 import { AdminSiteEditor } from "@/components/admin/AdminSiteEditor";
 import { AdminTopbar } from "@/components/admin/AdminTopbar";
-import { BookingDrawer } from "@/components/admin/BookingDrawer";
+import { BlockedDatesPanel } from "@/components/admin/BlockedDatesPanel";
+import {
+  BookingDrawer,
+  type BookingPatch,
+} from "@/components/admin/BookingDrawer";
 import { BookingsTable } from "@/components/admin/BookingsTable";
-import { StatCard } from "@/components/admin/console-ui";
+import { SalesStatCard, StatCard } from "@/components/admin/console-ui";
 import {
   IconArrowRight,
+  IconBell,
   IconCheckCircle,
   IconClock,
+  IconDownload,
   IconInbox,
   IconLogout,
+  IconSales,
   IconSearch,
   IconXCircle,
 } from "@/components/admin/icons";
 import { ThemeScope } from "@/components/ui/ThemeScope";
-import { countToday, dailySeries } from "@/lib/admin-console";
-import type { Booking, BookingStatus } from "@/lib/bookings-types";
+import {
+  bookingsToCsv,
+  downloadCsv,
+  salesByService,
+} from "@/lib/admin-booking-utils";
+import {
+  confirmedSales,
+  countToday,
+  dailySeries,
+  formatSalesPkr,
+  monthlySalesSeries,
+} from "@/lib/admin-console";
+import type {
+  Booking,
+  BookingArea,
+  BookingStatus,
+} from "@/lib/bookings-types";
+import { BOOKING_AREAS } from "@/lib/bookings-types";
 import type { HomeContent, ServiceMenus, SiteContent } from "@/lib/cms-types";
 
 type Props = {
@@ -35,8 +60,10 @@ type Props = {
 };
 
 type StatusFilter = "all" | BookingStatus;
+type AreaFilter = "all" | BookingArea;
 
 const UNPRICED = "__unpriced__";
+const NOTIFY_KEY = "ha-admin-notify";
 
 const VIEW_COPY: Record<ConsoleView, { title?: string; subtitle: string }> = {
   dashboard: { subtitle: "Welcome back to your dashboard" },
@@ -53,15 +80,46 @@ const VIEW_COPY: Record<ConsoleView, { title?: string; subtitle: string }> = {
     title: "All Bookings",
     subtitle: "Search, filter and update every request",
   },
+  calendar: {
+    title: "Day calendar",
+    subtitle: "Time slots and areas for one day",
+  },
+  clients: {
+    title: "Clients",
+    subtitle: "Manual client book — save names, phone, notes",
+  },
   services: {
     title: "Service menus",
     subtitle: "Add, edit or remove prices — live on service pages & booking form",
   },
   settings: {
     title: "Settings",
-    subtitle: "Site identity, account and quick links",
+    subtitle: "Site identity, blocked dates, alerts and account",
   },
 };
+
+function playNotifyBeep() {
+  try {
+    const Ctx =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext: typeof AudioContext })
+        .webkitAudioContext;
+    const ctx = new Ctx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.value = 880;
+    gain.gain.value = 0.08;
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+    osc.stop(ctx.currentTime + 0.4);
+    void ctx.resume();
+  } catch {
+    /* ignore */
+  }
+}
 
 export function AdminBookingsClient({
   initial,
@@ -78,20 +136,102 @@ export function AdminBookingsClient({
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
+  const [areaFilter, setAreaFilter] = useState<AreaFilter>("all");
   const [query, setQuery] = useState("");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
   const [priceFilter, setPriceFilter] = useState("all");
+  const [calendarDay, setCalendarDay] = useState(
+    () => new Date().toISOString().slice(0, 10)
+  );
+  const [notifyOn, setNotifyOn] = useState(false);
+  const knownIdsRef = useRef<Set<string>>(new Set(initial.map((b) => b.id)));
+  const notifyReadyRef = useRef(false);
+
+  useEffect(() => {
+    try {
+      setNotifyOn(localStorage.getItem(NOTIFY_KEY) === "1");
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  useEffect(() => {
+    const t = window.setTimeout(() => {
+      notifyReadyRef.current = true;
+    }, 2500);
+    return () => window.clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function poll() {
+      try {
+        const res = await fetch("/api/bookings", { cache: "no-store" });
+        if (!res.ok || cancelled) return;
+        const next = (await res.json()) as Booking[];
+        if (!Array.isArray(next) || cancelled) return;
+
+        const prev = knownIdsRef.current;
+        const fresh = next.filter((b) => !prev.has(b.id));
+        knownIdsRef.current = new Set(next.map((b) => b.id));
+        setRows(next);
+
+        if (notifyReadyRef.current && notifyOn && fresh.length > 0) {
+          playNotifyBeep();
+          const newest = fresh[0];
+          if (
+            typeof Notification !== "undefined" &&
+            Notification.permission === "granted"
+          ) {
+            try {
+              new Notification(`New booking — ${newest.name}`, {
+                body: `${newest.service} · ${newest.date} ${newest.time}`,
+              });
+            } catch {
+              /* ignore */
+            }
+          }
+        }
+      } catch {
+        /* ignore */
+      }
+    }
+    void poll();
+    const id = window.setInterval(poll, 20000);
+    return () => {
+      cancelled = true;
+      window.clearInterval(id);
+    };
+  }, [notifyOn]);
 
   const stats = useMemo(
     () => ({
       all: rows.length,
       pending: rows.filter((b) => b.status === "pending").length,
       confirmed: rows.filter((b) => b.status === "confirmed").length,
+      completed: rows.filter((b) => b.status === "completed").length,
+      no_show: rows.filter((b) => b.status === "no_show").length,
       cancelled: rows.filter((b) => b.status === "cancelled").length,
     }),
     [rows]
   );
+
+  const sales = useMemo(() => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1;
+    const monthName = now.toLocaleString("en", { month: "long" });
+    return {
+      month: confirmedSales(rows, { year, month }),
+      year: confirmedSales(rows, { year }),
+      monthName,
+      yearLabel: String(year),
+      series: monthlySalesSeries(rows, 6),
+      byServiceMonth: salesByService(rows, { year, month }),
+      byServiceYear: salesByService(rows, { year }),
+    };
+  }, [rows]);
 
   const priceOptions = useMemo(() => {
     const set = new Set<string>();
@@ -120,6 +260,7 @@ export function AdminBookingsClient({
     const q = query.trim().toLowerCase();
     return newestFirst.filter((b) => {
       if (statusFilter !== "all" && b.status !== statusFilter) return false;
+      if (areaFilter !== "all" && b.area !== areaFilter) return false;
       if (dateFrom && b.date < dateFrom) return false;
       if (dateTo && b.date > dateTo) return false;
       if (priceFilter !== "all") {
@@ -129,17 +270,26 @@ export function AdminBookingsClient({
       }
       if (
         q &&
-        ![b.name, b.email, b.phone, b.service, b.id].some((v) =>
+        ![b.name, b.email, b.phone, b.service, b.id, b.area ?? ""].some((v) =>
           v.toLowerCase().includes(q)
         )
       )
         return false;
       return true;
     });
-  }, [newestFirst, statusFilter, query, dateFrom, dateTo, priceFilter]);
+  }, [
+    newestFirst,
+    statusFilter,
+    areaFilter,
+    query,
+    dateFrom,
+    dateTo,
+    priceFilter,
+  ]);
 
   const filtersActive =
     statusFilter !== "all" ||
+    areaFilter !== "all" ||
     Boolean(query.trim()) ||
     Boolean(dateFrom) ||
     Boolean(dateTo) ||
@@ -151,6 +301,7 @@ export function AdminBookingsClient({
 
   function clearFilters() {
     setStatusFilter("all");
+    setAreaFilter("all");
     setQuery("");
     setDateFrom("");
     setDateTo("");
@@ -162,10 +313,52 @@ export function AdminBookingsClient({
     setNavOpen(false);
   }
 
-  /** Stat tiles double as shortcuts into the filtered ledger. */
   function drillDown(status: StatusFilter) {
     setStatusFilter(status);
     setView("bookings");
+  }
+
+  function exportFiltered() {
+    const stamp = new Date().toISOString().slice(0, 10);
+    downloadCsv(`ha-bookings-${stamp}.csv`, bookingsToCsv(filtered));
+  }
+
+  function exportSalesMonth() {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, "0");
+    const monthRows = rows.filter(
+      (b) => b.status === "completed" && b.date.startsWith(`${y}-${m}`)
+    );
+    downloadCsv(`ha-sales-${y}-${m}.csv`, bookingsToCsv(monthRows));
+  }
+
+  async function enableNotifications() {
+    try {
+      if (typeof Notification !== "undefined") {
+        const perm = await Notification.requestPermission();
+        if (perm !== "granted") {
+          setNotifyOn(false);
+          localStorage.setItem(NOTIFY_KEY, "0");
+          return;
+        }
+      }
+      setNotifyOn(true);
+      localStorage.setItem(NOTIFY_KEY, "1");
+      playNotifyBeep();
+    } catch {
+      setNotifyOn(true);
+      localStorage.setItem(NOTIFY_KEY, "1");
+    }
+  }
+
+  function disableNotifications() {
+    setNotifyOn(false);
+    try {
+      localStorage.setItem(NOTIFY_KEY, "0");
+    } catch {
+      /* ignore */
+    }
   }
 
   const logout = useCallback(async () => {
@@ -174,13 +367,13 @@ export function AdminBookingsClient({
     router.refresh();
   }, [router]);
 
-  async function setStatus(id: string, status: BookingStatus) {
+  async function patchBookingRow(id: string, patch: BookingPatch) {
     setBusy(id);
     try {
       const res = await fetch("/api/admin/bookings", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, status }),
+        body: JSON.stringify({ id, ...patch }),
       });
       if (!res.ok) throw new Error("Update failed");
       const updated = (await res.json()) as Booking;
@@ -253,6 +446,15 @@ export function AdminBookingsClient({
     },
   ];
 
+  const statusChips = [
+    ["all", "All", stats.all],
+    ["pending", "Pending", stats.pending],
+    ["confirmed", "Confirmed", stats.confirmed],
+    ["completed", "Done", stats.completed],
+    ["no_show", "No-show", stats.no_show],
+    ["cancelled", "Cancelled", stats.cancelled],
+  ] as const;
+
   return (
     <ThemeScope scope="admin" className="min-h-screen">
       <div className="flex min-h-screen">
@@ -309,7 +511,30 @@ export function AdminBookingsClient({
 
           {view === "dashboard" ? (
             <>
-              <div className="mt-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              <div className="mt-7 grid gap-4 sm:grid-cols-2">
+                <SalesStatCard
+                  icon={<IconSales className="h-5 w-5" />}
+                  iconWrap="bg-accent-soft text-accent"
+                  label="This month sales"
+                  amountLabel={sales.month.labeled}
+                  sub={`${sales.month.count} done · ${sales.monthName}`}
+                  series={sales.series}
+                  tone="text-accent"
+                  onClick={() => drillDown("completed")}
+                />
+                <SalesStatCard
+                  icon={<IconSales className="h-5 w-5" />}
+                  iconWrap="bg-gilt/15 text-gilt"
+                  label="This year sales"
+                  amountLabel={sales.year.labeled}
+                  sub={`${sales.year.count} done · ${sales.yearLabel}`}
+                  series={sales.series}
+                  tone="text-gilt"
+                  onClick={() => drillDown("completed")}
+                />
+              </div>
+
+              <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                 {tiles.map((t) => (
                   <StatCard
                     key={t.key}
@@ -326,6 +551,51 @@ export function AdminBookingsClient({
                   />
                 ))}
               </div>
+
+              <section className="console-card mt-6 p-5 sm:p-6">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <h2 className="font-display text-lg text-ink">
+                      Sales by service
+                    </h2>
+                    <p className="mt-1 text-xs text-muted">
+                      {sales.monthName} — Done bookings only
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={exportSalesMonth}
+                    className="console-btn-soft"
+                  >
+                    <IconDownload className="h-4 w-4" />
+                    Export month CSV
+                  </button>
+                </div>
+                {sales.byServiceMonth.length === 0 ? (
+                  <p className="mt-4 text-sm text-muted">
+                    Is mahine ki Done sales abhi nahi.
+                  </p>
+                ) : (
+                  <ul className="mt-4 divide-y divide-line">
+                    {sales.byServiceMonth.slice(0, 8).map((row) => (
+                      <li
+                        key={row.service}
+                        className="flex items-center justify-between gap-3 py-2.5 text-sm"
+                      >
+                        <span className="min-w-0 truncate text-ink">
+                          {row.service}
+                          <span className="ml-2 text-xs text-muted">
+                            ×{row.count}
+                          </span>
+                        </span>
+                        <span className="shrink-0 font-semibold tabular-nums text-accent">
+                          {formatSalesPkr(row.amount)}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </section>
 
               <section className="console-card mt-6 p-5 sm:p-6">
                 <div className="flex flex-wrap items-center justify-between gap-3">
@@ -366,18 +636,54 @@ export function AdminBookingsClient({
             <AdminServicesEditor initial={initialServices} />
           ) : null}
 
+          {view === "clients" ? <AdminClientsPanel /> : null}
+
+          {view === "calendar" ? (
+            <section className="console-card mt-7 p-5 sm:p-6">
+              <div className="mb-5 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => setAreaFilter("all")}
+                  aria-pressed={areaFilter === "all"}
+                  className={`min-h-[36px] rounded-full px-4 text-xs font-medium transition ${
+                    areaFilter === "all"
+                      ? "bg-gradient-to-r from-accent to-accent-strong text-accent-fg shadow-lift"
+                      : "border border-line bg-surface text-ink-soft hover:border-accent/45"
+                  }`}
+                >
+                  All areas
+                </button>
+                {BOOKING_AREAS.map((a) => (
+                  <button
+                    key={a.id}
+                    type="button"
+                    onClick={() => setAreaFilter(a.id)}
+                    aria-pressed={areaFilter === a.id}
+                    className={`min-h-[36px] rounded-full px-4 text-xs font-medium transition ${
+                      areaFilter === a.id
+                        ? "bg-gradient-to-r from-accent to-accent-strong text-accent-fg shadow-lift"
+                        : "border border-line bg-surface text-ink-soft hover:border-accent/45"
+                    }`}
+                  >
+                    {a.label}
+                  </button>
+                ))}
+              </div>
+              <AdminDayCalendar
+                rows={rows}
+                day={calendarDay}
+                onDayChange={setCalendarDay}
+                areaFilter={areaFilter}
+                onView={(b) => setSelectedId(b.id)}
+              />
+            </section>
+          ) : null}
+
           {view === "bookings" ? (
             <section className="console-card mt-7 p-5 sm:p-6">
               <div className="flex flex-col gap-4 border-b border-line pb-5 lg:flex-row lg:items-center lg:justify-between">
                 <div className="flex flex-wrap gap-2">
-                  {(
-                    [
-                      ["all", "All", stats.all],
-                      ["pending", "Pending", stats.pending],
-                      ["confirmed", "Confirmed", stats.confirmed],
-                      ["cancelled", "Cancelled", stats.cancelled],
-                    ] as const
-                  ).map(([value, label, count]) => {
+                  {statusChips.map(([value, label, count]) => {
                     const active = statusFilter === value;
                     return (
                       <button
@@ -400,17 +706,60 @@ export function AdminBookingsClient({
                   })}
                 </div>
 
-                <label className="relative w-full lg:w-64">
-                  <IconSearch className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
-                  <input
-                    type="search"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Name, email, phone, service…"
-                    aria-label="Search bookings"
-                    className="console-field pl-9"
-                  />
-                </label>
+                <div className="flex w-full flex-wrap items-center gap-2 lg:w-auto">
+                  <label className="relative min-w-[180px] flex-1 lg:w-56">
+                    <IconSearch className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
+                    <input
+                      type="search"
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+                      placeholder="Name, email, phone, service…"
+                      aria-label="Search bookings"
+                      className="console-field pl-9"
+                    />
+                  </label>
+                  <button
+                    type="button"
+                    onClick={exportFiltered}
+                    className="console-btn-soft shrink-0"
+                  >
+                    <IconDownload className="h-4 w-4" />
+                    Export CSV
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-2 border-b border-line py-4">
+                <span className="self-center text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+                  Area
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setAreaFilter("all")}
+                  aria-pressed={areaFilter === "all"}
+                  className={`min-h-[32px] rounded-full px-3 text-xs font-medium transition ${
+                    areaFilter === "all"
+                      ? "border border-accent/35 bg-accent-soft text-accent"
+                      : "border border-line bg-surface text-ink-soft"
+                  }`}
+                >
+                  All
+                </button>
+                {BOOKING_AREAS.map((a) => (
+                  <button
+                    key={a.id}
+                    type="button"
+                    onClick={() => setAreaFilter(a.id)}
+                    aria-pressed={areaFilter === a.id}
+                    className={`min-h-[32px] rounded-full px-3 text-xs font-medium transition ${
+                      areaFilter === a.id
+                        ? "border border-accent/35 bg-accent-soft text-accent"
+                        : "border border-line bg-surface text-ink-soft"
+                    }`}
+                  >
+                    {a.label}
+                  </button>
+                ))}
               </div>
 
               <div className="grid gap-4 py-5 sm:grid-cols-2 xl:grid-cols-4">
@@ -488,7 +837,9 @@ export function AdminBookingsClient({
                     : "In filters se koi match nahi."
                 }
                 emptyHint={
-                  rows.length > 0 ? "Filters clear kar ke dobara try karo." : undefined
+                  rows.length > 0
+                    ? "Filters clear kar ke dobara try karo."
+                    : undefined
                 }
               />
             </section>
@@ -497,7 +848,48 @@ export function AdminBookingsClient({
           {view === "settings" ? (
             <>
               <AdminSiteEditor initial={initialSite} />
+              <div className="mt-4">
+                <BlockedDatesPanel />
+              </div>
               <div className="mt-4 grid gap-4 lg:grid-cols-2">
+                <section className="console-card p-6">
+                  <div className="flex items-start gap-3">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent">
+                      <IconBell className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <h2 className="font-display text-lg text-ink">
+                        New booking alerts
+                      </h2>
+                      <p className="mt-1 text-sm text-ink-soft">
+                        Sound + browser notification jab naya booking aaye
+                        (console open hone par). Email: Resend +{" "}
+                        <code className="text-xs">ADMIN_NOTIFY_EMAIL</code>{" "}
+                        (default salon email).
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {notifyOn ? (
+                      <button
+                        type="button"
+                        onClick={disableNotifications}
+                        className="console-btn-soft"
+                      >
+                        Alerts on — turn off
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => void enableNotifications()}
+                        className="console-btn"
+                      >
+                        Enable sound &amp; browser alerts
+                      </button>
+                    )}
+                  </div>
+                </section>
+
                 <section className="console-card p-6">
                   <h2 className="font-display text-lg text-ink">Account</h2>
                   <dl className="mt-4 space-y-3 text-sm">
@@ -511,7 +903,9 @@ export function AdminBookingsClient({
                     </div>
                     <div className="flex items-center justify-between gap-4">
                       <dt className="text-muted">Salon</dt>
-                      <dd className="font-medium text-ink">{initialSite.name}</dd>
+                      <dd className="font-medium text-ink">
+                        {initialSite.name}
+                      </dd>
                     </div>
                   </dl>
                   <button
@@ -524,7 +918,7 @@ export function AdminBookingsClient({
                   </button>
                 </section>
 
-                <section className="console-card p-6">
+                <section className="console-card p-6 lg:col-span-2">
                   <h2 className="font-display text-lg text-ink">Quick links</h2>
                   <p className="mt-2 text-sm text-ink-soft">
                     Home, Offers aur Services sidebar se edit karein — live site
@@ -553,10 +947,13 @@ export function AdminBookingsClient({
 
       <BookingDrawer
         booking={selected}
+        allBookings={rows}
         busy={busy === selected?.id}
+        salonName={initialSite.name}
         onClose={() => setSelectedId(null)}
-        onStatus={setStatus}
+        onPatch={patchBookingRow}
         onDelete={removeBooking}
+        onOpenBooking={(id) => setSelectedId(id)}
       />
     </ThemeScope>
   );

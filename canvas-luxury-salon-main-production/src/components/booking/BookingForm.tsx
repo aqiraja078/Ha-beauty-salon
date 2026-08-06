@@ -101,6 +101,7 @@ export function BookingForm({
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [taken, setTaken] = useState<string[]>([]);
+  const [dateBlocked, setDateBlocked] = useState(false);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -236,22 +237,31 @@ export function BookingForm({
   useEffect(() => {
     if (!date) {
       setTaken([]);
+      setDateBlocked(false);
       return;
     }
     let cancelled = false;
     setLoadingSlots(true);
     fetch(`/api/bookings/availability?date=${encodeURIComponent(date)}`)
       .then(async (res) => {
-        const data = (await res.json()) as { taken?: string[]; error?: string };
+        const data = (await res.json()) as {
+          taken?: string[];
+          blocked?: boolean;
+          error?: string;
+        };
         if (!res.ok) throw new Error(data.error || "Could not load slots");
         if (!cancelled) {
           const nextTaken = data.taken ?? [];
           setTaken(nextTaken);
+          setDateBlocked(Boolean(data.blocked));
           setTime((prev) => (prev && nextTaken.includes(prev) ? "" : prev));
         }
       })
       .catch(() => {
-        if (!cancelled) setTaken([]);
+        if (!cancelled) {
+          setTaken([]);
+          setDateBlocked(false);
+        }
       })
       .finally(() => {
         if (!cancelled) setLoadingSlots(false);
@@ -419,7 +429,7 @@ export function BookingForm({
     if (!name.trim()) return false;
     if (!isValidBookingEmail(email)) return false;
     if (!isValidPhone(phone)) return false;
-    if (!area || !date || !time) return false;
+    if (!area || !date || !time || dateBlocked) return false;
     if (mode === "single") return Boolean(serviceVal);
     return bridalPicks.length >= 2;
   }
@@ -434,6 +444,12 @@ export function BookingForm({
     if (nextEmailErr || nextPhoneErr) {
       setStatus("err");
       setMsg(nextEmailErr || nextPhoneErr || "Please fix email and phone.");
+      return;
+    }
+
+    if (dateBlocked) {
+      setStatus("err");
+      setMsg("That date is not available. Please choose another day.");
       return;
     }
 
@@ -517,7 +533,10 @@ export function BookingForm({
         if (date) {
           fetch(`/api/bookings/availability?date=${encodeURIComponent(date)}`)
             .then((r) => r.json())
-            .then((d: { taken?: string[] }) => setTaken(d.taken ?? []))
+            .then((d: { taken?: string[]; blocked?: boolean }) => {
+              setTaken(d.taken ?? []);
+              setDateBlocked(Boolean(d.blocked));
+            })
             .catch(() => {});
         }
       }
@@ -906,18 +925,20 @@ export function BookingForm({
           <label className="block">
             <span className={labelClass}>Preferred time</span>
             <select
-              required
+              required={!dateBlocked}
               value={time}
               onChange={(e) => setTime(e.target.value)}
               className="field"
-              disabled={!date || loadingSlots}
+              disabled={!date || loadingSlots || dateBlocked}
             >
               <option value="" disabled>
                 {loadingSlots
                   ? "Loading slots…"
-                  : date
-                    ? "Select time"
-                    : "Choose a date first"}
+                  : dateBlocked
+                    ? "Date unavailable"
+                    : date
+                      ? "Select time"
+                      : "Choose a date first"}
               </option>
               {BOOKING_TIME_SLOTS.map((t) => {
                 const busy = taken.includes(t);
@@ -931,6 +952,14 @@ export function BookingForm({
             </select>
           </label>
         </div>
+        {dateBlocked ? (
+          <p
+            role="status"
+            className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900"
+          >
+            This date is fully booked / off — please choose another day.
+          </p>
+        ) : null}
 
         <label className="block">
           <span className={labelClass}>Notes (optional)</span>

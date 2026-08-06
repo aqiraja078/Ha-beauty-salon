@@ -1,5 +1,4 @@
 import { bookingAreaLabel, type BookingArea, type BookingMode } from "@/lib/bookings-types";
-import { formatDurationTravelLabel } from "@/lib/booking-estimates";
 import { whatsappBookUrl } from "@/lib/site";
 
 export type BookingWhatsAppPayload = {
@@ -23,10 +22,6 @@ export function buildBookingWhatsAppMessage(
   salonName: string
 ): string {
   const area = bookingAreaLabel(payload.area);
-  const timing = formatDurationTravelLabel(
-    payload.durationMinutes,
-    payload.travelMinutes
-  );
   const lines = [
     `Assalam o Alaikum ${salonName},`,
     ``,
@@ -43,7 +38,6 @@ export function buildBookingWhatsAppMessage(
       : null,
     `Date: ${payload.date}`,
     `Time: ${payload.time}`,
-    `Estimate: ${timing}`,
     payload.priceLabel ? `Price from: ${payload.priceLabel}` : null,
     payload.message ? `Notes: ${payload.message}` : null,
     ``,

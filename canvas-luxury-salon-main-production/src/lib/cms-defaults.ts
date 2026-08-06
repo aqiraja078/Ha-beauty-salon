@@ -206,7 +206,7 @@ export const defaultHomeContent: HomeContent = {
           "Priority date confirmation within 48h",
         ],
         price: "From Rs. 30,000",
-        ctaLabel: "Plan bridal week",
+        ctaLabel: "Book this package",
         ctaHref: "/book?service=Bridal%20Makeup%20Barat",
       },
       {
@@ -222,7 +222,7 @@ export const defaultHomeContent: HomeContent = {
           "Aftercare tips for the next wash",
         ],
         price: "From Rs. 7,500",
-        ctaLabel: "Book hair combo",
+        ctaLabel: "Book this package",
         ctaHref: "/book?service=Full%20Hair%20Color",
       },
       {
@@ -238,7 +238,7 @@ export const defaultHomeContent: HomeContent = {
           "Aftercare lotion guidance",
         ],
         price: "From Rs. 6,500",
-        ctaLabel: "Book prep package",
+        ctaLabel: "Book this package",
         ctaHref: "/book?service=Full%20Legs%20Wax",
       },
       {
@@ -254,7 +254,7 @@ export const defaultHomeContent: HomeContent = {
           "Extra guests at menu rate",
         ],
         price: "From Rs. 12,000",
-        ctaLabel: "Book party makeup",
+        ctaLabel: "Book this package",
         ctaHref: "/book?service=Party%20Makeup",
       },
     ],

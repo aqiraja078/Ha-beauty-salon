@@ -95,3 +95,30 @@ export async function notifyGuestOfBookingStatus(
 
   await sendWithResend(booking.email.trim(), subject, html, text);
 }
+
+/** Email salon admin when a new booking arrives (RESEND + ADMIN_NOTIFY_EMAIL or site.email). */
+export async function notifyAdminOfNewBooking(booking: Booking): Promise<void> {
+  const to =
+    process.env.ADMIN_NOTIFY_EMAIL?.trim() || site.email?.trim() || "";
+  if (!to) return;
+
+  const subject = `New booking — ${booking.name} · ${booking.date}`;
+  const html = `
+<!DOCTYPE html>
+<html>
+<body style="font-family: Georgia, serif; line-height: 1.6; color: #111; max-width: 560px;">
+  <p>A new booking request arrived.</p>
+  <table style="border-collapse: collapse; margin: 16px 0;">
+    <tr><td style="padding: 4px 12px 4px 0; color: #666;">Name</td><td>${escapeHtml(booking.name)}</td></tr>
+    <tr><td style="padding: 4px 12px 4px 0; color: #666;">Phone</td><td>${escapeHtml(booking.phone)}</td></tr>
+    <tr><td style="padding: 4px 12px 4px 0; color: #666;">Email</td><td>${escapeHtml(booking.email)}</td></tr>
+    <tr><td style="padding: 4px 12px 4px 0; color: #666;">Service</td><td>${escapeHtml(booking.service)}</td></tr>
+    <tr><td style="padding: 4px 12px 4px 0; color: #666;">Date</td><td>${escapeHtml(booking.date)}</td></tr>
+    <tr><td style="padding: 4px 12px 4px 0; color: #666;">Time</td><td>${escapeHtml(booking.time)}</td></tr>
+  </table>
+  <p style="font-size: 14px; color: #555;">Open the staff console to confirm.</p>
+</body>
+</html>`;
+  const text = `NEW BOOKING\n${booking.name}\n${booking.phone}\n${booking.service}\n${booking.date} ${booking.time}`;
+  await sendWithResend(to, subject, html, text);
+}

@@ -166,6 +166,102 @@ export const IconTag = (p: IconProps) => (
   </Base>
 );
 
+export const IconSales = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M4 19h16" />
+    <path d="M6 16V10" />
+    <path d="M10 16V7" />
+    <path d="M14 16v-5" />
+    <path d="M18 16V5" />
+  </Base>
+);
+
+export const IconDownload = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M12 4v10.5M8 11l4 4 4-4" />
+    <path d="M5 19.5h14" />
+  </Base>
+);
+
+export const IconWhatsApp = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M12 3.8a8.2 8.2 0 0 0-7 12.5L4 20.2l3.9-.9A8.2 8.2 0 1 0 12 3.8Z" />
+    <path d="M9.2 9.4c.2-.4.4-.4.6-.4h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2 0 .4-.1.5l-.4.5c-.1.1-.1.3 0 .4.3.5.9 1.1 1.5 1.4.2.1.4.1.5 0l.5-.4c.2-.1.4-.1.5 0l1.6.9c.2.1.4.3.3.6v.4c0 .2-.1.4-.3.5-.4.3-1 .5-1.5.5-1.3 0-3.3-.8-4.7-2.2-1.3-1.3-2-3-2-4.3 0-.5.2-1.1.5-1.5Z" />
+  </Base>
+);
+
+export const IconBell = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M6.5 16.5h11" />
+    <path d="M9 19.2a3 3 0 0 0 6 0" />
+    <path d="M18 16.5V11a6 6 0 1 0-12 0v5.5l-1.5 1.5h15Z" />
+  </Base>
+);
+
+export const IconUsers = (p: IconProps) => (
+  <Base {...p}>
+    <circle cx="9" cy="8" r="3.2" />
+    <path d="M3.5 18.5c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5" />
+    <circle cx="16.5" cy="8.5" r="2.4" />
+    <path d="M14.2 13.6c1.9.4 3.4 1.7 4 3.9" />
+  </Base>
+);
+
+export const IconBan = (p: IconProps) => (
+  <Base {...p}>
+    <circle cx="12" cy="12" r="8.8" />
+    <path d="m7.2 7.2 9.6 9.6" />
+  </Base>
+);
+
+export const IconPlus = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M12 5v14M5 12h14" />
+  </Base>
+);
+
+export const IconIdCard = (p: IconProps) => (
+  <Base {...p}>
+    <rect x="4" y="6" width="16" height="12" rx="2.2" />
+    <circle cx="9" cy="11.5" r="1.8" />
+    <path d="M13 10h5M13 13.5h5" />
+  </Base>
+);
+
+export const IconMapPin = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M12 21s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10Z" />
+    <circle cx="12" cy="11" r="2.2" />
+  </Base>
+);
+
+export const IconNote = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M7 4.5h10a2 2 0 0 1 2 2v11.5L14.5 18H7a2 2 0 0 1-2-2V6.5a2 2 0 0 1 2-2Z" />
+    <path d="M14.5 18v3.5L18 18" />
+  </Base>
+);
+
+export const IconMoreVertical = (p: IconProps) => (
+  <Base {...p}>
+    <circle cx="12" cy="6.5" r="1.1" fill="currentColor" stroke="none" />
+    <circle cx="12" cy="12" r="1.1" fill="currentColor" stroke="none" />
+    <circle cx="12" cy="17.5" r="1.1" fill="currentColor" stroke="none" />
+  </Base>
+);
+
+export const IconChevronLeft = (p: IconProps) => (
+  <Base {...p}>
+    <path d="m14.5 6.5-6 6 6 6" />
+  </Base>
+);
+
+export const IconChevronRight = (p: IconProps) => (
+  <Base {...p}>
+    <path d="m9.5 6.5 6 6-6 6" />
+  </Base>
+);
+
 /** Salon monogram crest used as the console mark. */
 export function ConsoleCrest({ letter, ...p }: IconProps & { letter: string }) {
   return (

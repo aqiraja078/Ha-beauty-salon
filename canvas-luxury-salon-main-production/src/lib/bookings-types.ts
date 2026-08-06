@@ -1,4 +1,9 @@
-export type BookingStatus = "pending" | "confirmed" | "cancelled";
+export type BookingStatus =
+  | "pending"
+  | "confirmed"
+  | "completed"
+  | "no_show"
+  | "cancelled";
 
 export type BookingArea = "jhelum" | "dina" | "gujrat";
 
@@ -26,7 +31,33 @@ export type Booking = {
   durationMinutes?: number;
   /** Estimated travel time in minutes for the selected area. */
   travelMinutes?: number;
+  /** Advance / deposit paid (PKR). */
+  depositPaid?: number;
+  /** Optional note about deposit (cash, JazzCash, etc.). */
+  depositNote?: string;
 };
+
+export const BOOKING_STATUSES: BookingStatus[] = [
+  "pending",
+  "confirmed",
+  "completed",
+  "no_show",
+  "cancelled",
+];
+
+export function isBookingStatus(v: string): v is BookingStatus {
+  return (BOOKING_STATUSES as string[]).includes(v);
+}
+
+/** Statuses that still hold a calendar slot. */
+export function holdsBookingSlot(status: BookingStatus): boolean {
+  return status === "pending" || status === "confirmed";
+}
+
+/** Statuses that count toward sales totals (admin marked Done). */
+export function countsTowardSales(status: BookingStatus): boolean {
+  return status === "completed";
+}
 
 export const BOOKING_AREAS: {
   id: BookingArea;

@@ -3,6 +3,7 @@ import { randomUUID } from "crypto";
 import { promises as fs } from "fs";
 import path from "path";
 import type { Booking, BookingStatus } from "@/lib/bookings-types";
+import { holdsBookingSlot } from "@/lib/bookings-types";
 
 export type { Booking, BookingStatus } from "@/lib/bookings-types";
 
@@ -88,7 +89,7 @@ export function takenTimesForDate(
   const taken = new Set<string>();
   for (const b of bookings) {
     if (b.date !== date) continue;
-    if (b.status === "cancelled") continue;
+    if (!holdsBookingSlot(b.status)) continue;
     if (b.time) taken.add(b.time);
   }
   return Array.from(taken).sort();
@@ -108,7 +109,7 @@ export async function addBooking(
       (b) =>
         b.date === input.date &&
         b.time === input.time &&
-        b.status !== "cancelled"
+        holdsBookingSlot(b.status)
     );
     if (conflict) {
       throw new SlotConflictError();
@@ -214,6 +215,55 @@ export async function updateBookingStatus(
     return { booking: list[idx], previousStatus };
   } catch (error) {
     console.error("Error updating booking status:", error);
+    throw error;
+  }
+}
+
+export type BookingPatch = {
+  status?: BookingStatus;
+  depositPaid?: number;
+  depositNote?: string;
+};
+
+export async function patchBooking(
+  id: string,
+  patch: BookingPatch
+): Promise<{ booking: Booking; previousStatus: BookingStatus } | null> {
+  try {
+    const list = await getBookings();
+    const idx = list.findIndex((b) => b.id === id);
+    if (idx === -1) return null;
+
+    const previousStatus = list[idx].status;
+    const next: Booking = { ...list[idx] };
+    if (patch.status) next.status = patch.status;
+    if (patch.depositPaid !== undefined) {
+      const amount = Math.max(0, Math.round(Number(patch.depositPaid) || 0));
+      if (amount > 0) next.depositPaid = amount;
+      else delete next.depositPaid;
+    }
+    if (patch.depositNote !== undefined) {
+      const note = String(patch.depositNote ?? "").trim().slice(0, 200);
+      if (note) next.depositNote = note;
+      else delete next.depositNote;
+    }
+    list[idx] = next;
+
+    const store = await getBookingsStore();
+    if (store) {
+      try {
+        await store.set(BOOKINGS_STORE_KEY, JSON.stringify(list));
+      } catch (err) {
+        console.error("Error writing patch to blob store, falling back:", err);
+        await writeLocalBookings(list);
+      }
+    } else {
+      await writeLocalBookings(list);
+    }
+
+    return { booking: list[idx], previousStatus };
+  } catch (error) {
+    console.error("Error patching booking:", error);
     throw error;
   }
 }

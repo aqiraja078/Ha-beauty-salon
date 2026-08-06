@@ -158,12 +158,12 @@ const ITEMS: NavItem[] = [
   },
 ];
 
-function GoldDots() {
+function ActiveDots() {
   return (
     <span className="mt-0.5 flex items-center gap-1" aria-hidden>
-      <span className="h-[3px] w-[3px] rounded-full bg-gilt" />
-      <span className="h-[3px] w-[3px] rounded-full bg-gilt" />
-      <span className="h-[3px] w-[3px] rounded-full bg-gilt" />
+      <span className="h-[3px] w-[3px] rounded-full bg-accent-soft" />
+      <span className="h-[3px] w-[3px] rounded-full bg-accent-soft" />
+      <span className="h-[3px] w-[3px] rounded-full bg-accent-soft" />
     </span>
   );
 }
@@ -215,16 +215,16 @@ export function MobileBottomNav() {
               exit={{ opacity: 0, y: 14 }}
               transition={{ type: "spring", stiffness: 380, damping: 32 }}
             >
-              <div className="overflow-hidden rounded-t-2xl rounded-b-xl border border-accent/25 bg-ink px-3.5 pb-3.5 pt-3 shadow-lift-lg">
+              <div className="overflow-hidden rounded-t-2xl rounded-b-xl border border-accent/30 bg-accent-strong px-3.5 pb-3.5 pt-3 shadow-lift-lg">
                 <div className="mb-3 flex items-center justify-between gap-3 px-0.5">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gilt">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent-soft">
                     Select service
                   </p>
                   <button
                     type="button"
                     onClick={() => setServicesOpen(false)}
                     aria-label="Close"
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-gilt/35 bg-accent/20 text-gilt transition hover:bg-accent/35 hover:text-accent-fg"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-accent-soft/40 bg-accent/40 text-accent-soft transition hover:bg-accent hover:text-accent-fg"
                   >
                     <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" aria-hidden>
                       <path
@@ -247,8 +247,8 @@ export function MobileBottomNav() {
                           onClick={() => setServicesOpen(false)}
                           className={`flex min-h-[48px] items-center rounded-xl border px-4 py-3 text-left text-[15px] font-semibold tracking-wide transition active:scale-[0.99] ${
                             current
-                              ? "border-gilt bg-gradient-to-r from-tint via-accent to-accent-strong text-accent-fg"
-                              : "border-gilt/40 bg-accent/15 text-accent-fg hover:border-gilt/70 hover:bg-accent/25"
+                              ? "border-accent-soft/50 bg-accent text-accent-fg"
+                              : "border-accent/40 bg-ink/30 text-accent-soft hover:border-accent-soft/50 hover:bg-accent/35 hover:text-accent-fg"
                           }`}
                         >
                           {s.label}
@@ -264,7 +264,7 @@ export function MobileBottomNav() {
       </AnimatePresence>
 
       <nav
-        className="fixed inset-x-0 bottom-0 z-50 border-y border-gilt/55 bg-ink md:hidden"
+        className="fixed inset-x-0 bottom-0 z-50 border-t border-accent/35 bg-gradient-to-t from-accent-strong via-accent-strong to-ink md:hidden"
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
         aria-label="Mobile navigation"
       >
@@ -277,17 +277,17 @@ export function MobileBottomNav() {
             const showDivider = index === 1 || index === 4;
 
             const inner = active ? (
-              <span className="relative -mt-2 flex h-[64px] w-full flex-col items-center justify-center gap-0.5 rounded-t-lg border border-b-0 border-gilt bg-gradient-to-b from-accent via-accent to-accent-strong px-0.5 shadow-[0_-4px_12px_rgba(13,106,84,0.35)]">
-                <span className="flex h-7 w-7 items-center justify-center rounded-full border border-gilt bg-white text-accent shadow-sm">
+              <span className="relative -mt-2 flex h-[64px] w-full flex-col items-center justify-center gap-0.5 rounded-t-lg border border-b-0 border-accent-soft/50 bg-gradient-to-b from-tint via-accent to-accent-strong px-0.5 shadow-[0_-4px_14px_rgba(13,106,84,0.4)]">
+                <span className="flex h-7 w-7 items-center justify-center rounded-full border border-accent/20 bg-surface text-accent shadow-sm">
                   <Icon className="h-3.5 w-3.5" strokeWidth={1.7} />
                 </span>
-                <span className="text-[8px] font-semibold uppercase tracking-[0.14em] text-white">
+                <span className="text-[8px] font-semibold uppercase tracking-[0.14em] text-accent-fg">
                   {label}
                 </span>
-                <GoldDots />
+                <ActiveDots />
               </span>
             ) : (
-              <span className="flex h-full w-full flex-col items-center justify-center gap-1 text-gilt">
+              <span className="flex h-full w-full flex-col items-center justify-center gap-1 text-accent-soft/85 transition hover:text-accent-fg">
                 <Icon className="h-[18px] w-[18px]" strokeWidth={1.65} />
                 <span className="text-[8px] font-semibold uppercase tracking-[0.14em]">
                   {label}
@@ -300,7 +300,7 @@ export function MobileBottomNav() {
                 key={label}
                 className={`relative h-full min-w-0 ${
                   showDivider
-                    ? "before:absolute before:left-0 before:top-2 before:z-[1] before:h-[calc(100%-16px)] before:w-px before:bg-gilt/40 before:content-['']"
+                    ? "before:absolute before:left-0 before:top-2 before:z-[1] before:h-[calc(100%-16px)] before:w-px before:bg-accent-soft/30 before:content-['']"
                     : ""
                 }`}
               >

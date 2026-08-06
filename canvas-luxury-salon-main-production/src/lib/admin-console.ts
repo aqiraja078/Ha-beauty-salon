@@ -1,4 +1,6 @@
 import type { Booking, BookingStatus } from "@/lib/bookings-types";
+import { countsTowardSales } from "@/lib/bookings-types";
+import { parsePriceAmount } from "@/lib/format-price";
 
 /** Short, human-quotable reference derived from the booking id. */
 export function bookingRef(id: string) {
@@ -34,6 +36,20 @@ export const STATUS_TONES: Record<BookingStatus, StatusTone> = {
     dot: "bg-accent",
     iconWrap: "bg-accent-soft text-accent",
     bar: "from-tint to-accent-strong",
+  },
+  completed: {
+    label: "Completed",
+    pill: "border-emerald-200 bg-emerald-50 text-emerald-800",
+    dot: "bg-emerald-600",
+    iconWrap: "bg-emerald-50 text-emerald-700",
+    bar: "from-emerald-400 to-emerald-700",
+  },
+  no_show: {
+    label: "No-show",
+    pill: "border-orange-200 bg-orange-50 text-orange-800",
+    dot: "bg-orange-500",
+    iconWrap: "bg-orange-50 text-orange-600",
+    bar: "from-orange-300 to-orange-500",
   },
   cancelled: {
     label: "Cancelled",
@@ -107,4 +123,55 @@ export function formatTime(hhmm: string) {
   const suffix = h >= 12 ? "PM" : "AM";
   const hour = h % 12 === 0 ? 12 : h % 12;
   return `${hour}:${String(m).padStart(2, "0")} ${suffix}`;
+}
+
+/** Format PKR for dashboard sales tiles. */
+export function formatSalesPkr(amount: number) {
+  return `Rs. ${Math.round(amount).toLocaleString("en-PK")}`;
+}
+
+export type SalesPeriodSummary = {
+  amount: number;
+  count: number;
+  labeled: string;
+};
+
+/**
+ * Sum menu “from” prices for completed (Done) bookings in a calendar period
+ * (by appointment date YYYY-MM-DD).
+ */
+export function confirmedSales(
+  bookings: Booking[],
+  opts: { year: number; month?: number }
+): SalesPeriodSummary {
+  let amount = 0;
+  let count = 0;
+  for (const b of bookings) {
+    if (!countsTowardSales(b.status)) continue;
+    const y = Number(b.date?.slice(0, 4));
+    const m = Number(b.date?.slice(5, 7));
+    if (y !== opts.year) continue;
+    if (opts.month != null && m !== opts.month) continue;
+    const n = parsePriceAmount(b.priceLabel);
+    if (n == null) continue;
+    amount += n;
+    count += 1;
+  }
+  return { amount, count, labeled: formatSalesPkr(amount) };
+}
+
+/** Sparkline of confirmed sales totals for the last `months` calendar months. */
+export function monthlySalesSeries(bookings: Booking[], months = 6): number[] {
+  const now = new Date();
+  const series: number[] = [];
+  for (let i = months - 1; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    series.push(
+      confirmedSales(bookings, {
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+      }).amount
+    );
+  }
+  return series;
 }

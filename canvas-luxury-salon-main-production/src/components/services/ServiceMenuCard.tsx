@@ -13,7 +13,6 @@ type Props = {
   name: string;
   blurb: string;
   price: string;
-  meta?: string;
   lengthPrices?: HairLengthPrices;
 };
 
@@ -23,7 +22,6 @@ export function ServiceMenuCard({
   name,
   blurb,
   price,
-  meta,
   lengthPrices,
 }: Props) {
   const [length, setLength] = useState<HairLength>("medium");
@@ -82,11 +80,6 @@ export function ServiceMenuCard({
           <span className="rounded-full bg-accent-soft px-3.5 py-1.5 text-xs font-semibold text-accent">
             {price}
           </span>
-          {meta ? (
-            <span className="rounded-full border border-line px-3 py-1.5 text-[11px] text-muted">
-              {meta}
-            </span>
-          ) : null}
         </div>
       )}
 

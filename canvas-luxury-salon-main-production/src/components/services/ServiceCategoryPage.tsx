@@ -72,7 +72,6 @@ export function ServiceCategoryPage({
                     name={item.name}
                     blurb={item.blurb}
                     price={item.price}
-                    meta={item.meta}
                     lengthPrices={item.lengthPrices}
                   />
                 </RevealItem>

@@ -125,7 +125,7 @@ export function OfferCard({
                 : ""
             }`}
           >
-            {offer.ctaLabel}
+            Book this package
           </Link>
           {featured ? (
             <Link

@@ -8,6 +8,7 @@ import type { SiteContent } from "@/lib/cms-types";
 import { site as siteFallback } from "@/lib/site";
 
 const simpleLinks = [
+  { href: "/how-to-book", label: "How to book" },
   { href: "/offers", label: "Offers" },
   { href: "/contact", label: "Contact" },
 ] as const;

@@ -10,12 +10,15 @@ import {
   IconScissors,
   IconSettings,
   IconTag,
+  IconUsers,
 } from "@/components/admin/icons";
 export type ConsoleView =
   | "dashboard"
   | "home"
   | "offers"
   | "bookings"
+  | "calendar"
+  | "clients"
   | "services"
   | "settings";
 
@@ -30,6 +33,8 @@ const NAV: NavItem[] = [
   { view: "home", label: "Home", Icon: IconHome },
   { view: "offers", label: "Offers", Icon: IconTag },
   { view: "bookings", label: "Bookings", Icon: IconCalendar },
+  { view: "calendar", label: "Calendar", Icon: IconCalendar },
+  { view: "clients", label: "Clients", Icon: IconUsers },
   { view: "services", label: "Services", Icon: IconScissors },
   { view: "settings", label: "Setting", Icon: IconSettings },
 ];

@@ -70,7 +70,13 @@ export default async function BookPage({
             </h1>
             <p className="mx-auto mt-2.5 max-w-xl text-sm leading-relaxed text-ink-soft sm:mt-3 sm:text-base">
               Choose your service, area, and preferred time — then tap Send now
-              to confirm your booking.
+              to confirm your booking.{" "}
+              <Link
+                href="/how-to-book"
+                className="font-medium text-accent hover:underline"
+              >
+                How to book?
+              </Link>
             </p>
           </Reveal>
         </div>
