@@ -34,8 +34,8 @@ export function PageLoader() {
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               className="flex h-16 w-16 items-center justify-center rounded-2xl border border-accent/25 bg-accent-soft"
             >
-              <span className="font-display text-2xl font-semibold text-accent">
-                HA
+              <span className="font-display text-lg font-semibold text-accent">
+                Huma
               </span>
             </motion.div>
 

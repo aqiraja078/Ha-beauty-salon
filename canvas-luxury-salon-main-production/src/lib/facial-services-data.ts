@@ -15,254 +15,141 @@ export type FacialServiceSection = {
 export const facialServiceSections: FacialServiceSection[] = [
   {
     id: "basic-facial",
-    emoji: "🌿",
-    title: "Basic facials at home",
+    emoji: "✦",
+    title: "Basic Facial",
     services: [
       {
-        name: "Clean Up Facial",
-        description: "Steam and gentle extract — clears pores before Eid or a guest night.",
-        price: "Rs. 2,200",
-        duration: "35 min",
+        name: "Basic Facial",
+        description:
+          "Restore everyday glow with a classic facial of cleanse, exfoliation, mask, and moisture for healthy, balanced skin.",
+        price: "Rs. 1,800",
+        duration: "",
       },
       {
-        name: "Basic Facial",
-        description: "Cleanse, scrub, mask, and moisture for everyday Pakistani skin.",
-        price: "Rs. 3,000",
-        duration: "45 min",
+        name: "Clean Up Facial",
+        description:
+          "Refresh your skin with a quick clean-up facial featuring gentle cleanse, steam, and extraction for clearer, smoother pores.",
+        price: "Rs. 2,000",
+        duration: "",
       },
       {
         name: "Express Facial",
-        description: "Quick home refresh when you have a last-minute function.",
-        price: "Rs. 2,500",
-        duration: "30 min",
-      },
-      {
-        name: "Mini Facial",
-        description: "Short cleanse and hydration before light makeup or visits.",
-        price: "Rs. 2,800",
-        duration: "35 min",
+        description:
+          "Get a fast skin refresh when time is short — bright, fresh, and radiant in just half an hour.",
+        price: "Rs. 2,200",
+        duration: "",
       },
     ],
   },
   {
     id: "whitening-brightening",
-    emoji: "✨",
-    title: "Brightening facials",
+    emoji: "✦",
+    title: "Whitening / Brightening",
     services: [
       {
-        name: "Whitening Facial",
-        description: "Helps even dull tone before bridal trials or walima week.",
-        price: "Rs. 4,200",
-        duration: "55 min",
+        name: "Gold Facial",
+        description:
+          "Indulge in a luxury gold-infused facial that firms, brightens, and leaves skin feeling sumptuously smooth.",
+        price: "Rs. 3,200",
+        duration: "",
       },
       {
-        name: "Brightening Facial",
-        description: "Lifts tired, dusty skin after summer heat in Jhelum & Gujrat.",
-        price: "Rs. 4,000",
-        duration: "50 min",
+        name: "Whitening Facial",
+        description:
+          "Reveal a brighter, more even complexion with a gentle whitening facial designed for visible radiance and clarity.",
+        price: "Rs. 3,800",
+        duration: "",
       },
       {
         name: "Glow Facial",
-        description: "Fresh face for mehndi night without heavy product buildup.",
-        price: "Rs. 4,500",
-        duration: "55 min",
-      },
-      {
-        name: "Gold Facial",
-        description: "Gold-infused facial popular for bridal prep and stage looks.",
-        price: "Rs. 5,500",
-        duration: "60 min",
-      },
-      {
-        name: "Pearl Facial",
-        description: "Pearl-based care for softer texture under bridal foundation.",
-        price: "Rs. 5,200",
-        duration: "60 min",
-      },
-      {
-        name: "Diamond Facial",
-        description: "Deep polish for barat week when makeup needs a smooth base.",
-        price: "Rs. 6,500",
-        duration: "65 min",
+        description:
+          "Achieve a lit-from-within glow with a facial perfect before weddings, parties, and special occasions.",
+        price: "Rs. 4,200",
+        duration: "",
       },
     ],
   },
   {
     id: "advanced-facial",
-    emoji: "💎",
-    title: "Advanced facials",
+    emoji: "✦",
+    title: "Advanced",
     services: [
       {
-        name: "Hydra Facial",
-        description: "Deep cleanse and hydrate — calming before heavy bridal makeup.",
-        price: "Rs. 4,500",
-        duration: "60 min",
+        name: "Skin Polish Facial",
+        description:
+          "Smooth texture and even tone with a skin polish facial for silky, refined skin that reflects light beautifully.",
+        price: "Rs. 3,000",
+        duration: "",
       },
       {
-        name: "Oxygen Facial",
-        description: "Oxygen boost for tired skin after travel or late wedding nights.",
-        price: "Rs. 5,000",
-        duration: "55 min",
-      },
-      {
-        name: "Anti-Aging Facial",
-        description: "Firming massage and care for fine lines before family photos.",
-        price: "Rs. 5,800",
-        duration: "70 min",
-      },
-      {
-        name: "Collagen Facial",
-        description: "Supports bounce so skin feels plump under HD bridal makeup.",
-        price: "Rs. 5,500",
-        duration: "65 min",
+        name: "Josn",
+        description:
+          "Advanced skin renewal treatment for smoother, refreshed complexion.",
+        price: "Rs. 4,000",
+        duration: "",
       },
       {
         name: "Vitamin C Facial",
-        description: "Brightens sun-stressed skin after outdoor baraat or summer days.",
-        price: "Rs. 4,800",
-        duration: "55 min",
-      },
-      {
-        name: "Skin Polish Facial",
-        description: "Smooths texture so foundation sits evenly for walima.",
-        price: "Rs. 4,200",
-        duration: "50 min",
-      },
-    ],
-  },
-  {
-    id: "skin-problem",
-    emoji: "🌸",
-    title: "Problem-skin facials",
-    services: [
-      {
-        name: "Acne Treatment Facial",
-        description: "Calms breakouts gently — plan a few sessions before wedding week.",
+        description:
+          "Brighten sun-stressed skin with an antioxidant-rich vitamin C facial for clarity and environmental protection.",
         price: "Rs. 4,500",
-        duration: "60 min",
+        duration: "",
       },
       {
-        name: "Anti-Pimple Facial",
-        description: "Targets oil and congestion without stripping for humid weather.",
-        price: "Rs. 4,200",
-        duration: "55 min",
-      },
-      {
-        name: "Dark Spots Removal Facial",
-        description: "Works on uneven patches; a short series gives clearer results.",
-        price: "Rs. 5,000",
-        duration: "60 min",
-      },
-      {
-        name: "Pigmentation Facial",
-        description: "Focused care for sun marks and melasma-prone areas.",
-        price: "Rs. 5,200",
-        duration: "65 min",
-      },
-      {
-        name: "Sensitive Skin Facial",
-        description: "Mild, soothing steps for reactive skin before makeup days.",
-        price: "Rs. 4,000",
-        duration: "50 min",
+        name: "Hydra Facial",
+        description:
+          "Deeply hydrate and glow with a hydra facial that cleanses, extracts, and infuses skin with nourishing serums.",
+        price: "Rs. 5,500",
+        duration: "",
       },
     ],
   },
   {
     id: "herbal-organic",
-    emoji: "🧴",
-    title: "Herbal & organic facials",
+    emoji: "✦",
+    title: "Herbal / Organic",
     services: [
       {
-        name: "Herbal Facial",
-        description: "Plant-based calm for skin that reacts to heavy salon chemicals.",
-        price: "Rs. 3,800",
-        duration: "50 min",
-      },
-      {
-        name: "Organic Facial",
-        description: "Organic oils and masks — gentle enough for weekly home care.",
-        price: "Rs. 4,200",
-        duration: "55 min",
-      },
-      {
         name: "Fruit Facial",
-        description: "Fruit enzymes for light peel and freshness before Eid.",
-        price: "Rs. 3,600",
-        duration: "45 min",
+        description:
+          "Exfoliate naturally with enzyme-rich fruit actives for a fresh, glowing complexion and silky softness.",
+        price: "Rs. 3,200",
+        duration: "",
       },
       {
-        name: "Aloe Vera Facial",
-        description: "Cooling aloe for heat rash and summer redness.",
-        price: "Rs. 3,500",
-        duration: "45 min",
-      },
-      {
-        name: "Chocolate Facial",
-        description: "Cocoa mask treat — soft skin for mehndi or girls’ night.",
-        price: "Rs. 4,000",
-        duration: "50 min",
+        name: "Herbal Facial",
+        description:
+          "Nourish your skin with plant-based herbal extracts for a calm, balanced, and naturally refreshed complexion.",
+        price: "Rs. 3,800",
+        duration: "",
       },
     ],
   },
   {
     id: "bridal-facial",
-    emoji: "👰",
-    title: "Bridal facials",
+    emoji: "✦",
+    title: "Bridal",
     services: [
       {
-        name: "Bridal Glow Facial",
-        description: "Multi-step prep so skin looks clear under barat makeup.",
-        price: "Rs. 7,500",
-        duration: "75 min",
+        name: "Instant Glow Facial",
+        description:
+          "Get same-day luminosity with an instant glow facial perfect before photos, parties, or last-minute occasions.",
+        price: "Rs. 5,200",
+        duration: "",
       },
       {
-        name: "Pre-Bridal Facial Packages",
-        description: "Home-service series timed to your nikkah–barat–walima calendar.",
-        price: "From Rs. 18,000",
-        duration: "Series",
+        name: "Bridal Glow Facial",
+        description:
+          "Prepare radiant wedding-day skin with a multi-step bridal glow facial designed to perfect your complexion before events.",
+        price: "Rs. 7,200",
+        duration: "",
       },
       {
         name: "Luxury Facial",
-        description: "Longer massage and richer masks for the week of the wedding.",
+        description:
+          "Experience top-tier masks and massage in a luxury facial for red-carpet skin that feels as good as it looks.",
         price: "Rs. 8,500",
-        duration: "80 min",
-      },
-      {
-        name: "Instant Glow Facial",
-        description: "Same-day lift before engagement photos or mehndi.",
-        price: "Rs. 5,500",
-        duration: "55 min",
-      },
-    ],
-  },
-  {
-    id: "premium-special",
-    emoji: "🧪",
-    title: "Salon-special facials",
-    services: [
-      {
-        name: "Dermaplaning Facial",
-        description: "Removes peach fuzz so bridal makeup blends without catching.",
-        price: "Rs. 6,000",
-        duration: "50 min",
-      },
-      {
-        name: "Chemical Peel Facial",
-        description: "Strength matched to your skin — consult before wedding week.",
-        price: "From Rs. 5,500",
-        duration: "45–60 min",
-      },
-      {
-        name: "Microdermabrasion Facial",
-        description: "Polishes texture for clearer close-ups on barat day.",
-        price: "Rs. 6,500",
-        duration: "55 min",
-      },
-      {
-        name: "LED Light Therapy Facial",
-        description: "Light therapy to calm redness or support clearer skin.",
-        price: "Rs. 5,000",
-        duration: "40 min",
+        duration: "",
       },
     ],
   },
@@ -271,9 +158,7 @@ export const facialServiceSections: FacialServiceSection[] = [
 export function allFacialServiceNames(): string[] {
   const names: string[] = [];
   for (const sec of facialServiceSections) {
-    for (const s of sec.services) {
-      names.push(s.name);
-    }
+    for (const s of sec.services) names.push(s.name);
   }
   return names;
 }

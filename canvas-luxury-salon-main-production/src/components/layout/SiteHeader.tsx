@@ -10,6 +10,9 @@ import { site as siteFallback } from "@/lib/site";
 const simpleLinks = [
   { href: "/how-to-book", label: "How to book" },
   { href: "/offers", label: "Offers" },
+  { href: "/blog", label: "Blog" },
+  { href: "/courses", label: "Courses" },
+  { href: "/jobs", label: "Jobs" },
   { href: "/contact", label: "Contact" },
 ] as const;
 

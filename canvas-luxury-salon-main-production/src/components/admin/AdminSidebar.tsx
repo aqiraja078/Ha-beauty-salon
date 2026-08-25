@@ -3,8 +3,11 @@
 import { motion } from "framer-motion";
 import {
   ConsoleCrest,
+  IconBlog,
+  IconBriefcase,
   IconCalendar,
   IconClose,
+  IconCourse,
   IconDashboard,
   IconHome,
   IconScissors,
@@ -19,6 +22,9 @@ export type ConsoleView =
   | "bookings"
   | "calendar"
   | "clients"
+  | "blog"
+  | "courses"
+  | "jobs"
   | "services"
   | "settings";
 
@@ -35,6 +41,9 @@ const NAV: NavItem[] = [
   { view: "bookings", label: "Bookings", Icon: IconCalendar },
   { view: "calendar", label: "Calendar", Icon: IconCalendar },
   { view: "clients", label: "Clients", Icon: IconUsers },
+  { view: "blog", label: "Blog", Icon: IconBlog },
+  { view: "courses", label: "Courses", Icon: IconCourse },
+  { view: "jobs", label: "Jobs", Icon: IconBriefcase },
   { view: "services", label: "Services", Icon: IconScissors },
   { view: "settings", label: "Setting", Icon: IconSettings },
 ];

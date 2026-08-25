@@ -262,6 +262,28 @@ export const IconChevronRight = (p: IconProps) => (
   </Base>
 );
 
+export const IconBlog = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M5 5h14v14H5z" />
+    <path d="M8 9h8M8 12h8M8 15h5" />
+  </Base>
+);
+
+export const IconCourse = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M4 7.5 12 4l8 3.5-8 3.5Z" />
+    <path d="M6.5 10.5v5.2c0 .7 2.4 2.3 5.5 2.3s5.5-1.6 5.5-2.3v-5.2" />
+    <path d="M20 8v7.5" />
+  </Base>
+);
+
+export const IconBriefcase = (p: IconProps) => (
+  <Base {...p}>
+    <rect x="4" y="8" width="16" height="12" rx="2" />
+    <path d="M9 8V6.5A1.5 1.5 0 0 1 10.5 5h3A1.5 1.5 0 0 1 15 6.5V8M4 13h16" />
+  </Base>
+);
+
 /** Salon monogram crest used as the console mark. */
 export function ConsoleCrest({ letter, ...p }: IconProps & { letter: string }) {
   return (

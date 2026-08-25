@@ -82,7 +82,7 @@ export const defaultHomeContent: HomeContent = {
   hero: {
     image:
       "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1920&q=85",
-    imageAlt: "HA Beauty Salon artist preparing a client at home",
+    imageAlt: "Huma Beauty Salon artist preparing a client at home",
     headlineBefore: "Your look,",
     headlineAccent: "at home",
     subcopy:
@@ -119,9 +119,9 @@ export const defaultHomeContent: HomeContent = {
       "https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?w=900&q=80",
     badgeValue: "Home",
     badgeLabel: "Service first",
-    eyebrow: "About HA",
+    eyebrow: "About Huma",
     title: "Beauty that travels to you",
-    body: "HA Beauty Salon is a home-service studio for families across Jhelum, Dina, and Gujrat. We prepare brides and guests for nikkah, mehndi, barat, and walima — with sanitised kits, honest timing, and makeup that survives tears, heat, and the dance floor.",
+    body: "Huma Beauty Salon is a home-service studio for families across Jhelum, Dina, and Gujrat. We prepare brides and guests for nikkah, mehndi, barat, and walima — with sanitised kits, honest timing, and makeup that survives tears, heat, and the dance floor.",
     bullets: [
       "Artists experienced with Pakistani bridal wear",
       "Sealed, sanitised tools every visit",
@@ -132,7 +132,7 @@ export const defaultHomeContent: HomeContent = {
     ctaHref: "/contact",
   },
   why: {
-    eyebrow: "Why HA",
+    eyebrow: "Why Huma",
     title: "What clients notice",
     reasons: [
       {
@@ -322,7 +322,7 @@ export const defaultServiceMenus: ServiceMenus = {
       "https://i.pinimg.com/736x/2c/a0/25/2ca0258ddeef532121c97c579a897541.jpg?w=800&q=70",
       "https://i.pinimg.com/736x/36/34/65/363465309f06503bea07436a701ea8d8.jpg?w=800&q=70",
     ],
-    heroAlt: "Hair colour and styling by HA Beauty Salon at home",
+    heroAlt: "Hair colour and styling by Huma Beauty Salon at home",
     kicker: "Hair at home",
     title: "Hair services",
     description:
@@ -336,7 +336,7 @@ export const defaultServiceMenus: ServiceMenus = {
       "https://i.pinimg.com/736x/86/87/9c/86879c401e8248877e6a6f3065c08118.jpg?w=800&q=70",
       "https://i.pinimg.com/736x/be/f3/d9/bef3d934e5cfaeeec54f5a1c7ee6dcb2.jpg?w=800&q=70",
     ],
-    heroAlt: "Bridal and party makeup by HA Beauty Salon",
+    heroAlt: "Bridal and party makeup by Huma Beauty Salon",
     kicker: "Makeup at home",
     title: "Makeup services",
     description:
@@ -350,7 +350,7 @@ export const defaultServiceMenus: ServiceMenus = {
       "https://i.pinimg.com/736x/90/c2/ca/90c2ca7d26c07a57933640fac0b9173b.jpg?w=800&q=70",
       "https://i.pinimg.com/736x/f3/ac/5c/f3ac5c2b0083d236ccaa18957bd41791.jpg?w=800&q=70",
     ],
-    heroAlt: "Facial and skin care with HA Beauty Salon",
+    heroAlt: "Facial and skin care with Huma Beauty Salon",
     kicker: "Facial at home",
     title: "Facial services",
     description:
@@ -364,7 +364,7 @@ export const defaultServiceMenus: ServiceMenus = {
       "https://i.pinimg.com/736x/81/6d/df/816ddf871f37612426c401d39c55d22f.jpg?w=800&q=70",
       "https://i.pinimg.com/1200x/95/55/e0/9555e062724cc2ca83f0cb3e6b38c586.jpg?w=800&q=70",
     ],
-    heroAlt: "Waxing and body care by HA Beauty Salon",
+    heroAlt: "Waxing and body care by Huma Beauty Salon",
     kicker: "Wax & body at home",
     title: "Wax & Body",
     description:
@@ -378,7 +378,7 @@ export const defaultServiceMenus: ServiceMenus = {
       "https://i.pinimg.com/736x/ef/ba/be/efbabefb56f94241eb3304cc52de4898.jpg?w=800&q=70",
       "https://i.pinimg.com/1200x/02/ea/e1/02eae1fc1f0e7c9f4bfa52ee8347a941.jpg?w=800&q=70",
     ],
-    heroAlt: "Manicure and nail art by HA Beauty Salon",
+    heroAlt: "Manicure and nail art by Huma Beauty Salon",
     kicker: "Nails at home",
     title: "Manicure, pedicure & nails",
     description:
@@ -392,7 +392,7 @@ export const defaultServiceMenus: ServiceMenus = {
       "https://i.pinimg.com/1200x/c1/d3/b9/c1d3b9e7d681b52e8d3f4e8ae49141ce.jpg?w=800&q=70",
       "https://i.pinimg.com/736x/ab/fb/dc/abfbdcf1e7ed662642efcf641228e77f.jpg?w=800&q=70",
     ],
-    heroAlt: "Bridal and occasion mehndi by HA Beauty Salon",
+    heroAlt: "Bridal and occasion mehndi by Huma Beauty Salon",
     kicker: "Mehndi at home",
     title: "Mehndi",
     description:

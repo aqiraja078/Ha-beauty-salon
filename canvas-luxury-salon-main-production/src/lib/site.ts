@@ -6,7 +6,7 @@ import { allMehndiServiceNames } from "@/lib/mehndi-services-data";
 import { allNailsServiceNames } from "@/lib/nails-services-data";
 
 export const site = {
-  name: "HA Beauty Salon",
+  name: "Huma Beauty Salon",
   tagline: "Home beauty, done right — Jhelum · Dina · Gujrat",
   description:
     "Where beauty meets elegance. We offer personalized makeup, hair styling, skincare, bridal services, body spa, and waxing using premium products and professional techniques for a flawless experience every time.",
@@ -51,7 +51,7 @@ export const serviceCategories = [
     href: "/services/facial",
     image:
       "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=900&q=85",
-    price: "From PKR 2,200",
+    price: "From PKR 1,800",
   },
   {
     slug: "body-spa",
@@ -60,7 +60,7 @@ export const serviceCategories = [
     href: "/services/body-spa",
     image:
       "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=900&q=85",
-    price: "From PKR 400",
+    price: "From PKR 200",
   },
   {
     slug: "nails",
@@ -78,7 +78,7 @@ export const serviceCategories = [
     href: "/services/mehndi",
     image:
       "https://i.pinimg.com/736x/ae/84/5f/ae845fba0f519d795710e90bf6a866ec.jpg",
-    price: "From PKR 1,500",
+    price: "From PKR 800",
   },
   {
     slug: "makeup",
@@ -87,7 +87,7 @@ export const serviceCategories = [
     href: "/services/makeup",
     image:
       "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=900&q=85",
-    price: "From PKR 3,000",
+    price: "From PKR 3,500",
   },
 ] as const;
 

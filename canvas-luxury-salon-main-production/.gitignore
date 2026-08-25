@@ -27,6 +27,9 @@
 /data/cms-services.json
 /data/clients.json
 /data/blocked-dates.json
+/data/blog.json
+/data/courses.json
+/data/jobs.json
 
 # production
 /build

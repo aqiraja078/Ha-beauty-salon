@@ -88,7 +88,7 @@ export function BookingForm({
   defaultMode,
   services,
   servicePrices = {},
-  siteName = "HA Beauty Salon",
+  siteName = "Huma Beauty Salon",
   phoneDigits = "923355462214",
 }: FormProps) {
   const router = useRouter();

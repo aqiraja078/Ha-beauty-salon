@@ -15,211 +15,131 @@ export type MehndiServiceSection = {
 export const mehndiServiceSections: MehndiServiceSection[] = [
   {
     id: "hand-mehndi",
-    emoji: "✋",
-    title: "Hand mehndi",
+    emoji: "✦",
+    title: "Hand Mehndi",
     services: [
       {
-        name: "Simple Mehndi Design",
-        description: "Light coverage for first-timers, Eid visits, or casual days.",
-        price: "From Rs. 1,500",
-        duration: "30–45 min",
-      },
-      {
-        name: "Arabic Mehndi",
-        description: "Bold vines and open space — popular for mehndi nights in Punjab.",
-        price: "From Rs. 2,500",
-        duration: "45–90 min",
-      },
-      {
-        name: "Indian Mehndi",
-        description: "Dense peacocks and motifs with full-palm fill for festive weeks.",
-        price: "From Rs. 3,500",
-        duration: "1–2 hrs",
-      },
-      {
-        name: "Pakistani Mehndi",
-        description: "Fine front-and-back detail in the classic Pakistani bridal style.",
-        price: "From Rs. 4,000",
-        duration: "1.5–2.5 hrs",
-      },
-      {
-        name: "Floral Mehndi",
-        description: "Roses and vines that sit well with pastel mehndi outfits.",
-        price: "From Rs. 2,200",
-        duration: "45–75 min",
-      },
-      {
-        name: "Mandala Mehndi",
-        description: "Centred mandala with layered rings for guest and party looks.",
-        price: "From Rs. 2,800",
-        duration: "60–90 min",
-      },
-      {
         name: "Finger Mehndi",
-        description: "Fingers and bracelet lines — quick for Chaand Raat or office Eid.",
-        price: "From Rs. 1,200",
-        duration: "25–40 min",
+        description:
+          "Make a minimal yet striking statement with finger mehndi and jewellery-inspired bracelet lines.",
+        price: "Rs. 800",
+        duration: "",
+      },
+      {
+        name: "Simple Mehndi (Back Hand)",
+        description: "Elegant back-hand patterns with clean, balanced coverage.",
+        price: "Rs. 1,000",
+        duration: "",
+      },
+      {
+        name: "Simple Mehndi (Front Hand)",
+        description:
+          "Light front-hand coverage for casual days or first-time clients.",
+        price: "Rs. 1,200",
+        duration: "",
+      },
+      {
+        name: "Arabic Mehndi (Back Hand)",
+        description: "Signature Arabic negative-space patterns on the back hand.",
+        price: "Rs. 1,800",
+        duration: "",
+      },
+      {
+        name: "Arabic Mehndi (Front Hand)",
+        description: "Bold Arabic flows and vines on the front of the hand.",
+        price: "Rs. 2,000",
+        duration: "",
+      },
+      {
+        name: "Simple Mehndi (Full Hand)",
+        description:
+          "Complete front and back simple design for a cohesive look.",
+        price: "Rs. 2,000",
+        duration: "",
+      },
+      {
+        name: "Arabic Mehndi (Full Hand)",
+        description:
+          "Full Arabic mehndi front and back with flowing vine detail.",
+        price: "Rs. 3,500",
+        duration: "",
       },
     ],
   },
   {
     id: "feet-mehndi",
-    emoji: "🦶",
-    title: "Feet mehndi",
+    emoji: "✦",
+    title: "Feet Mehndi",
     services: [
       {
         name: "Simple Feet Mehndi",
-        description: "Toes and tops of feet for khussas and guest sandals.",
-        price: "From Rs. 1,800",
-        duration: "30–45 min",
-      },
-      {
-        name: "Bridal Feet Mehndi",
-        description: "Rich soles and sides matched to your bridal hand set.",
-        price: "From Rs. 4,500",
-        duration: "1–2 hrs",
+        description:
+          "Decorate toes and feet tops with light, graceful mehndi patterning for a subtle festive touch.",
+        price: "Rs. 1,500",
+        duration: "",
       },
       {
         name: "Anklet Style Mehndi",
-        description: "Jewellery-style bands that peek under lehenga hems.",
-        price: "From Rs. 2,000",
-        duration: "40–60 min",
+        description:
+          "Wear jewellery-inspired anklet mehndi with delicate bands and charms circling your ankle beautifully.",
+        price: "Rs. 1,800",
+        duration: "",
       },
       {
         name: "Full Feet Mehndi",
-        description: "Toes to ankle fill — full bridal or heavy festive coverage.",
-        price: "From Rs. 5,500",
-        duration: "1.5–2.5 hrs",
-      },
-    ],
-  },
-  {
-    id: "bridal-mehndi",
-    emoji: "👰",
-    title: "Bridal mehndi",
-    services: [
-      {
-        name: "Full Bridal Mehndi (Hands + Feet)",
-        description: "Full hands and feet at home — density planned on consult.",
-        price: "Rs. 8,000 – 15,000",
-        duration: "2–4 hrs",
-      },
-      {
-        name: "Heavy Bridal Mehndi",
-        description: "Maximum fill; elbows or calves optional — quote after preview.",
-        price: "From Rs. 12,000",
-        duration: "3–5 hrs",
-      },
-      {
-        name: "Dulhan Special Mehndi",
-        description: "Signature dulhan set with names, dates, or hidden motifs.",
-        price: "From Rs. 10,000",
-        duration: "3–4 hrs",
-      },
-      {
-        name: "Customized Bridal Design",
-        description: "Your story and references drawn into the pattern — Jhelum to Gujrat.",
-        price: "Quote on consult",
-        duration: "Varies",
+        description:
+          "Cover toes to ankle with detailed full feet mehndi for a lavish, traditional bridal finish.",
+        price: "Rs. 4,500",
+        duration: "",
       },
     ],
   },
   {
     id: "occasion-mehndi",
-    emoji: "🎉",
-    title: "Occasion mehndi",
+    emoji: "✦",
+    title: "Occasion Mehndi",
     services: [
       {
-        name: "Eid Mehndi",
-        description: "Festive sets sized for family Eid photos and Chaand Raat.",
-        price: "From Rs. 1,800",
-        duration: "30–60 min",
+        name: "Eid Mehndi (Front)",
+        description:
+          "Festive front-hand set sized for Eid gatherings and photos.",
+        price: "Rs. 1,500",
+        duration: "",
       },
       {
         name: "Party Mehndi",
-        description: "Trend patterns for birthdays, dholki, and girls’ nights.",
-        price: "From Rs. 2,200",
-        duration: "45–75 min",
+        description:
+          "Stand out at birthdays and celebrations with trend-forward party mehndi patterns full of personality.",
+        price: "Rs. 1,800",
+        duration: "",
       },
       {
-        name: "Wedding Guest Mehndi",
-        description: "Elegant but quicker so you are ready before the baraat.",
-        price: "From Rs. 2,500",
-        duration: "45–90 min",
-      },
-      {
-        name: "Engagement Mehndi",
-        description: "Hands-focused design for mangni ring shots and close-ups.",
-        price: "From Rs. 3,500",
-        duration: "1–2 hrs",
+        name: "Customized Bridal Design",
+        description:
+          "Tell your story through mehndi — your symbols, references, and ideas woven into a one-of-a-kind bridal design.",
+        price: "Quote on Consult",
+        duration: "",
       },
     ],
   },
   {
-    id: "modern-mehndi",
-    emoji: "✨",
-    title: "Modern / trend mehndi",
+    id: "bridal-mehndi",
+    emoji: "✦",
+    title: "Bridal Mehndi",
     services: [
       {
-        name: "Glitter Mehndi",
-        description: "Henna with safe glitter accents for party and mehndi nights.",
-        price: "From Rs. 2,000",
-        duration: "+20–30 min",
+        name: "Full Hand + Full Feet Bridal",
+        description:
+          "Full hands and feet bridal mehndi with rich, detailed coverage.",
+        price: "Rs. 10,000",
+        duration: "",
       },
       {
-        name: "White Mehndi",
-        description: "White paste look for contrast on deeper skin tones.",
-        price: "From Rs. 2,500",
-        duration: "45–75 min",
-      },
-      {
-        name: "Colored Mehndi",
-        description: "Tinted pastes or gems for festivals and content shoots.",
-        price: "From Rs. 2,800",
-        duration: "45–90 min",
-      },
-      {
-        name: "Tattoo Style Mehndi",
-        description: "Bold graphic lines inspired by modern tattoo looks.",
-        price: "From Rs. 2,200",
-        duration: "45–70 min",
-      },
-      {
-        name: "Minimal Mehndi",
-        description: "Single-line and open-space looks for everyday Eid wear.",
-        price: "From Rs. 1,500",
-        duration: "25–45 min",
-      },
-    ],
-  },
-  {
-    id: "premium-mehndi",
-    emoji: "💎",
-    title: "Premium mehndi",
-    services: [
-      {
-        name: "Portrait Mehndi (Face Design)",
-        description: "Small portrait or symbol — size and placement on consult.",
-        price: "From Rs. 5,000",
-        duration: "1–2 hrs",
-      },
-      {
-        name: "Theme Based Mehndi",
-        description: "Travel, film, or personal themes sketched into the design.",
-        price: "From Rs. 6,000",
-        duration: "2–3 hrs",
-      },
-      {
-        name: "Designer Mehndi",
-        description: "Bespoke senior-artist design with a sketch if you want one.",
-        price: "From Rs. 8,000",
-        duration: "2–4 hrs",
-      },
-      {
-        name: "Instant Mehndi Service (Quick Apply)",
-        description: "Fast patterns when guests arrive early or time is short.",
-        price: "From Rs. 1,000",
-        duration: "15–30 min",
+        name: "Premium Bridal Mehndi (Designer / Customized)",
+        description:
+          "Bespoke designer bridal mehndi with customized motifs and premium detail.",
+        price: "Rs. 15,000",
+        duration: "",
       },
     ],
   },
@@ -228,9 +148,7 @@ export const mehndiServiceSections: MehndiServiceSection[] = [
 export function allMehndiServiceNames(): string[] {
   const names: string[] = [];
   for (const sec of mehndiServiceSections) {
-    for (const s of sec.services) {
-      names.push(s.name);
-    }
+    for (const s of sec.services) names.push(s.name);
   }
   return names;
 }

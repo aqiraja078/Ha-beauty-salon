@@ -1,20 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" role="img" aria-label="Huma Beauty Salon">
   <defs>
-    <linearGradient id="haIcon" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#12876a"/>
-      <stop offset="1" stop-color="#084a3b"/>
+    <linearGradient id="humaIconBg" x1="2" y1="2" x2="30" y2="30" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#148066"/>
+      <stop offset="1" stop-color="#084739"/>
+    </linearGradient>
+    <linearGradient id="humaIconGold" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#d4b06a"/>
+      <stop offset="1" stop-color="#9a7340"/>
     </linearGradient>
   </defs>
-  <rect width="32" height="32" rx="8" fill="url(#haIcon)"/>
-  <rect x="3" y="3" width="26" height="26" rx="6" fill="none" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.9"/>
-  <text
-    x="16"
-    y="21.5"
-    text-anchor="middle"
-    font-family="Georgia, 'Times New Roman', serif"
-    font-size="12.5"
-    font-weight="700"
-    letter-spacing="0.03em"
+  <rect width="32" height="32" rx="9" fill="url(#humaIconBg)"/>
+  <rect x="3.5" y="3.5" width="25" height="25" rx="7" stroke="#ffffff" stroke-opacity="0.22" stroke-width="0.9"/>
+  <path d="M8 10.5c4-1.4 8.2-1.4 12.2 0" stroke="url(#humaIconGold)" stroke-width="1.1" stroke-linecap="round"/>
+  <circle cx="14" cy="9.2" r="0.9" fill="url(#humaIconGold)"/>
+  <circle cx="16" cy="8.5" r="1.1" fill="url(#humaIconGold)"/>
+  <circle cx="18" cy="9.2" r="0.9" fill="url(#humaIconGold)"/>
+  <path
+    d="M10.5 12.5v11M19.5 12.5v11M10.5 18c2.4-1.8 4.8-2.8 8.5-3.3M10.5 18c2.4 1.8 4.8 2.8 8.5 3.3"
+    stroke="#ffffff"
+    stroke-width="1.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M21.2 14.2c1.1.6 1.4 1.7.7 2.4-.9.9-2.4.2-2.4-.9 0-.7.9-1.2 1.7-1.5Z"
     fill="#ffffff"
-  >HA</text>
+    fill-opacity="0.18"
+  />
 </svg>

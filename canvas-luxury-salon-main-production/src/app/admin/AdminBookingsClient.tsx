@@ -6,6 +6,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { AdminDayCalendar } from "@/components/admin/AdminDayCalendar";
 import { AdminClientsPanel } from "@/components/admin/AdminClientsPanel";
+import { AdminBlogPanel } from "@/components/admin/AdminBlogPanel";
+import { AdminCoursesPanel } from "@/components/admin/AdminCoursesPanel";
+import { AdminJobsPanel } from "@/components/admin/AdminJobsPanel";
 import { AdminHomeEditor } from "@/components/admin/AdminHomeEditor";
 import { AdminServicesEditor } from "@/components/admin/AdminServicesEditor";
 import { AdminSidebar, type ConsoleView } from "@/components/admin/AdminSidebar";
@@ -87,6 +90,18 @@ const VIEW_COPY: Record<ConsoleView, { title?: string; subtitle: string }> = {
   clients: {
     title: "Clients",
     subtitle: "Manual client book — save names, phone, notes",
+  },
+  blog: {
+    title: "Blog",
+    subtitle: "Add and publish posts for the public blog",
+  },
+  courses: {
+    title: "Courses",
+    subtitle: "Beauty training courses — add, edit, publish",
+  },
+  jobs: {
+    title: "Jobs",
+    subtitle: "Career listings — active roles on the site",
   },
   services: {
     title: "Service menus",
@@ -637,6 +652,12 @@ export function AdminBookingsClient({
           ) : null}
 
           {view === "clients" ? <AdminClientsPanel /> : null}
+
+          {view === "blog" ? <AdminBlogPanel /> : null}
+
+          {view === "courses" ? <AdminCoursesPanel /> : null}
+
+          {view === "jobs" ? <AdminJobsPanel /> : null}
 
           {view === "calendar" ? (
             <section className="console-card mt-7 p-5 sm:p-6">
