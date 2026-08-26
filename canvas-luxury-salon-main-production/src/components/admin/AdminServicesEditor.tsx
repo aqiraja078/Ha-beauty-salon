@@ -22,8 +22,6 @@ const LABELS: Record<ServiceCategorySlug, string> = {
   makeup: "Makeup",
   facial: "Facial",
   "body-spa": "Wax & Body",
-  nails: "Nails",
-  mehndi: "Mehndi",
 };
 
 const LENGTHS: HairLength[] = ["short", "medium", "long"];

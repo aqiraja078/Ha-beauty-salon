@@ -105,8 +105,11 @@ function mergeHome(raw: Partial<HomeContent> | null): HomeContent {
     servicesSection: {
       ...d.servicesSection,
       ...(raw.servicesSection ?? {}),
-      categories:
-        raw.servicesSection?.categories ?? d.servicesSection.categories,
+      categories: (
+        raw.servicesSection?.categories ?? d.servicesSection.categories
+      ).filter((c) =>
+        (SERVICE_CATEGORY_SLUGS as string[]).includes(c.slug)
+      ),
     },
     about: { ...d.about, ...(raw.about ?? {}) },
     why: {
@@ -242,7 +245,6 @@ export async function getBookingServiceNames(): Promise<string[]> {
     "Hair Color & Styling",
     "Facial Treatment",
     "Body Waxing",
-    "Manicure & Pedicure",
     "Laser Hair Removal",
     "Consultation / Trial",
   ]) {

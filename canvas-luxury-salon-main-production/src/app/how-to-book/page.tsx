@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const site = await getSiteContent();
   return {
     title: "How to book",
-    description: `Learn how to book hair, makeup, facial, wax, mehndi, and nail services with ${site.name} in Jhelum, Dina, and Gujrat.`,
+    description: `Learn how to book hair, makeup, facial, and wax services with ${site.name} in Jhelum, Dina, and Gujrat.`,
   };
 }
 

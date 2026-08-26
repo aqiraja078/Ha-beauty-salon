@@ -6,6 +6,4 @@ export const slugToTheme: Record<ServiceCategorySlug, ServiceThemeId> = {
   makeup: "makeup",
   facial: "facial",
   "body-spa": "bodySpa",
-  nails: "nails",
-  mehndi: "mehndi",
 };

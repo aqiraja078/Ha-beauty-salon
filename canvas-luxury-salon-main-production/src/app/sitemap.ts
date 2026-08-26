@@ -10,8 +10,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/services/makeup",
     "/services/facial",
     "/services/body-spa",
-    "/services/nails",
-    "/services/mehndi",
     "/contact",
     "/book",
     "/sales",

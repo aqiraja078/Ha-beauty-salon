@@ -2,17 +2,13 @@ export type ServiceCategorySlug =
   | "hair"
   | "makeup"
   | "facial"
-  | "body-spa"
-  | "nails"
-  | "mehndi";
+  | "body-spa";
 
 export const SERVICE_CATEGORY_SLUGS: ServiceCategorySlug[] = [
   "hair",
   "makeup",
   "facial",
   "body-spa",
-  "nails",
-  "mehndi",
 ];
 
 export type CmsMenuItem = {

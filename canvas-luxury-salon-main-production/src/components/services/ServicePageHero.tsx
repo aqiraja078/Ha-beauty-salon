@@ -7,9 +7,7 @@ export type ServiceThemeId =
   | "hair"
   | "makeup"
   | "facial"
-  | "bodySpa"
-  | "nails"
-  | "mehndi";
+  | "bodySpa";
 
 type Props = {
   theme: ServiceThemeId;
@@ -58,22 +56,6 @@ const HERO_COPY: Record<
     lead:
       "Face-to-toe waxing, bridal packages, and polish care scheduled around mehndi and barat.",
     accent: "Leave a few days for skin to settle.",
-  },
-  nails: {
-    label: "Nails · home service",
-    line1: "Hands & feet",
-    line2: "Event finished",
-    lead:
-      "Gel, art, and bridal sets colour-matched to your outfit — done at home with tidy cleanup.",
-    accent: "Group bookings welcome for bridal parties.",
-  },
-  mehndi: {
-    label: "Mehndi · home service",
-    line1: "Henna that",
-    line2: "Holds the night",
-    lead:
-      "Bridal, Arabic, and Eid patterns for hands and feet — paced for guests and deep stain.",
-    accent: "Book early for heavy bridal sets.",
   },
 };
 

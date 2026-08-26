@@ -21,8 +21,6 @@ const scopeOf: Record<ServiceThemeId, ScopeId> = {
   makeup: "makeup",
   facial: "facial",
   bodySpa: "body-spa",
-  nails: "nails",
-  mehndi: "mehndi",
 };
 
 const grid = "mt-7 grid grid-cols-1 gap-4 sm:mt-9 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3";

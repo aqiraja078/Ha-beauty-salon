@@ -8,8 +8,6 @@ import {
   type HairLengthPrices,
 } from "@/lib/hair-length-pricing";
 import type { MakeupServiceSection } from "@/lib/makeup-services-data";
-import type { MehndiServiceSection } from "@/lib/mehndi-services-data";
-import type { NailsServiceSection } from "@/lib/nails-services-data";
 
 export type ServiceMenuItem = {
   name: string;
@@ -94,34 +92,6 @@ export function facialToMenu(sections: FacialServiceSection[]): ServiceMenuSecti
 }
 
 export function bodySpaToMenu(sections: BodySpaServiceSection[]): ServiceMenuSection[] {
-  return sections.map((s) => ({
-    id: s.id,
-    emoji: s.emoji,
-    title: s.title,
-    services: s.services.map((i) => ({
-      name: i.name,
-      price: i.price,
-      blurb: i.description,
-      meta: i.duration,
-    })),
-  }));
-}
-
-export function nailsToMenu(sections: NailsServiceSection[]): ServiceMenuSection[] {
-  return sections.map((s) => ({
-    id: s.id,
-    emoji: s.emoji,
-    title: s.title,
-    services: s.services.map((i) => ({
-      name: i.name,
-      price: i.price,
-      blurb: i.description,
-      meta: i.duration,
-    })),
-  }));
-}
-
-export function mehndiToMenu(sections: MehndiServiceSection[]): ServiceMenuSection[] {
   return sections.map((s) => ({
     id: s.id,
     emoji: s.emoji,

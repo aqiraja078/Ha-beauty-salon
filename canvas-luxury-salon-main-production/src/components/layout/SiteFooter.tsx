@@ -7,8 +7,6 @@ const exploreLinks = [
   { href: "/services/makeup", label: "Makeup" },
   { href: "/services/facial", label: "Facial" },
   { href: "/services/body-spa", label: "Wax & Body" },
-  { href: "/services/nails", label: "Mani, pedi & nails" },
-  { href: "/services/mehndi", label: "Mehndi" },
 ];
 
 const linkClass =

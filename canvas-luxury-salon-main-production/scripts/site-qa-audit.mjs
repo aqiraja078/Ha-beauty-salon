@@ -86,8 +86,6 @@ async function main() {
     "/services/makeup",
     "/services/facial",
     "/services/body-spa",
-    "/services/nails",
-    "/services/mehndi",
     "/book",
     "/contact",
     "/sales",

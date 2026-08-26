@@ -2,8 +2,6 @@ import { allBodySpaServiceNames } from "@/lib/body-spa-services-data";
 import { allFacialServiceNames } from "@/lib/facial-services-data";
 import { allHairServiceNames } from "@/lib/hair-services-data";
 import { allMakeupServiceNames } from "@/lib/makeup-services-data";
-import { allMehndiServiceNames } from "@/lib/mehndi-services-data";
-import { allNailsServiceNames } from "@/lib/nails-services-data";
 
 export const site = {
   name: "Huma Beauty Salon",
@@ -63,24 +61,6 @@ export const serviceCategories = [
     price: "From PKR 200",
   },
   {
-    slug: "nails",
-    title: "Mani, pedi & nails",
-    short: "Gel, art, extensions & bridal hand sets.",
-    href: "/services/nails",
-    image:
-      "https://i.pinimg.com/1200x/02/ea/e1/02eae1fc1f0e7c9f4bfa52ee8347a941.jpg",
-    price: "From PKR 1,200",
-  },
-  {
-    slug: "mehndi",
-    title: "Mehndi",
-    short: "Bridal, Arabic & Eid designs for hands and feet.",
-    href: "/services/mehndi",
-    image:
-      "https://i.pinimg.com/736x/ae/84/5f/ae845fba0f519d795710e90bf6a866ec.jpg",
-    price: "From PKR 800",
-  },
-  {
     slug: "makeup",
     title: "Makeup",
     short: "Barat, walima, mehndi & party looks that last.",
@@ -97,7 +77,6 @@ const bookingServicesBase = [
   "Hair Color & Styling",
   "Facial Treatment",
   "Body Waxing",
-  "Manicure & Pedicure",
   "Laser Hair Removal",
   "Consultation / Trial",
 ] as const;
@@ -108,8 +87,6 @@ export const bookingServices: string[] = Array.from(
     ...allHairServiceNames(),
     ...allFacialServiceNames(),
     ...allBodySpaServiceNames(),
-    ...allNailsServiceNames(),
-    ...allMehndiServiceNames(),
     ...allMakeupServiceNames(),
     ...bookingServicesBase,
   ])

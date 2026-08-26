@@ -18,8 +18,6 @@ const SERVICES_MENU = [
   { href: "/services/hair", label: "Hair" },
   { href: "/services/facial", label: "Facial" },
   { href: "/services/body-spa", label: "Wax" },
-  { href: "/services/mehndi", label: "Mehndi" },
-  { href: "/services/nails", label: "Nail, mani & pedi" },
 ] as const;
 
 function IconHome({

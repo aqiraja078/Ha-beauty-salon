@@ -35,9 +35,7 @@
 [data-scope="hair"],
 [data-scope="makeup"],
 [data-scope="facial"],
-[data-scope="body-spa"],
-[data-scope="nails"],
-[data-scope="mehndi"] {
+[data-scope="body-spa"] {
   --canvas: 246 250 252;
   --canvas-2: 235 243 247;
   --tint: 30 110 128;

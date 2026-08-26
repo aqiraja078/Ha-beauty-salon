@@ -10,7 +10,6 @@ import {
 } from "@/lib/content-store";
 import { allHairServiceNames } from "@/lib/hair-services-data";
 import { allMakeupServiceNames } from "@/lib/makeup-services-data";
-import { allMehndiServiceNames } from "@/lib/mehndi-services-data";
 import type { BookingMode } from "@/lib/bookings-types";
 import { safeSearchParam } from "@/lib/booking-prefill";
 import { site } from "@/lib/site";
@@ -48,7 +47,6 @@ export default async function BookPage({
   ]);
 
   const bridalServices = {
-    mehndi: allMehndiServiceNames(),
     makeup: allMakeupServiceNames(),
     hair: allHairServiceNames(),
   };

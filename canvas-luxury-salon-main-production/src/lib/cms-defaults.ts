@@ -13,8 +13,6 @@ import {
 } from "@/lib/hair-length-pricing";
 import { homeMakeupCards } from "@/lib/makeup-home-cards";
 import { makeupServiceSections } from "@/lib/makeup-services-data";
-import { mehndiServiceSections } from "@/lib/mehndi-services-data";
-import { nailsServiceSections } from "@/lib/nails-services-data";
 import { serviceCategories, site } from "@/lib/site";
 
 function fromHintSections(
@@ -86,7 +84,7 @@ export const defaultHomeContent: HomeContent = {
     headlineBefore: "Your look,",
     headlineAccent: "at home",
     subcopy:
-      "Bridal makeup, hair, facials, waxing, nails, and mehndi — booked for Jhelum, Dina, and Gujrat, with prices you can see before you confirm.",
+      "Bridal makeup, hair, facials, and waxing — booked for Jhelum, Dina, and Gujrat, with prices you can see before you confirm.",
     primaryCta: { label: "Book your slot", href: "/book" },
     secondaryCta: { label: "WhatsApp", href: "https://wa.me/923355462214" },
     highlights: [
@@ -104,7 +102,7 @@ export const defaultHomeContent: HomeContent = {
   servicesSection: {
     eyebrow: "Full menu",
     title: "Everything we bring to your door",
-    lead: "Six clear menus — hair, skin, wax, nails, mehndi, and makeup — so you can plan the whole week of functions in one place.",
+    lead: "Four clear menus — hair, skin, wax, and makeup — so you can plan the whole week of functions in one place.",
     categories: serviceCategories.map((c) => ({
       slug: c.slug as HomeContent["servicesSection"]["categories"][number]["slug"],
       title: c.title,
@@ -372,33 +370,5 @@ export const defaultServiceMenus: ServiceMenus = {
     footerNote:
       "Full bridal wax plan? Message both event dates so we leave enough days for skin to settle.",
     sections: fromDescSections(bodySpaServiceSections),
-  },
-  nails: {
-    heroImages: [
-      "https://i.pinimg.com/736x/ef/ba/be/efbabefb56f94241eb3304cc52de4898.jpg?w=800&q=70",
-      "https://i.pinimg.com/1200x/02/ea/e1/02eae1fc1f0e7c9f4bfa52ee8347a941.jpg?w=800&q=70",
-    ],
-    heroAlt: "Manicure and nail art by Huma Beauty Salon",
-    kicker: "Nails at home",
-    title: "Manicure, pedicure & nails",
-    description:
-      "Gel, art, extensions, and bridal hand sets finished at home — colour matched to lehenga or jewellery on request.",
-    footerNote:
-      "Bridal party of 4+? Book one block so we bring enough tips, gels, and drying time.",
-    sections: fromDescSections(nailsServiceSections),
-  },
-  mehndi: {
-    heroImages: [
-      "https://i.pinimg.com/1200x/c1/d3/b9/c1d3b9e7d681b52e8d3f4e8ae49141ce.jpg?w=800&q=70",
-      "https://i.pinimg.com/736x/ab/fb/dc/abfbdcf1e7ed662642efcf641228e77f.jpg?w=800&q=70",
-    ],
-    heroAlt: "Bridal and occasion mehndi by Huma Beauty Salon",
-    kicker: "Mehndi at home",
-    title: "Mehndi",
-    description:
-      "Bridal, Arabic, and Eid mehndi for hands and feet — stained for depth, paced so guests stay comfortable.",
-    footerNote:
-      "Heavy bridal feet + hands or a large guest list? Reserve early so we assign enough artists.",
-    sections: fromDescSections(mehndiServiceSections),
   },
 };

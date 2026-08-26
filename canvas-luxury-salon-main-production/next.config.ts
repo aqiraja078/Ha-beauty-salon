@@ -41,6 +41,16 @@ const nextConfig: NextConfig = {
         destination: "/sales",
         permanent: true,
       },
+      {
+        source: "/services/nails",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/services/mehndi",
+        destination: "/",
+        permanent: true,
+      },
     ];
   },
   experimental: {

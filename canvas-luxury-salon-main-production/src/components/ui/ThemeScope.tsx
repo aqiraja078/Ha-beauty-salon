@@ -6,8 +6,6 @@ export type ScopeId =
   | "makeup"
   | "facial"
   | "body-spa"
-  | "nails"
-  | "mehndi"
   | "contact"
   | "book"
   | "blog"

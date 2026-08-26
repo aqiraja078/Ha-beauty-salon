@@ -135,7 +135,7 @@ export default async function BlogPage() {
               <span className="italic text-accent"> at home</span>
             </p>
             <p className="mx-auto mt-2 max-w-xs text-xs leading-relaxed text-ink-soft sm:mt-4 sm:max-w-md sm:text-sm">
-              Makeup, facial, wax, nails, or mehndi — booked for your doorstep
+              Makeup, facial, or wax — booked for your doorstep
               in Jhelum, Dina & Gujrat.
             </p>
             <Link

@@ -33,7 +33,6 @@ type FormProps = {
   services?: string[];
   servicePrices?: Record<string, string>;
   bridalServices?: {
-    mehndi: string[];
     makeup: string[];
     hair: string[];
   };
