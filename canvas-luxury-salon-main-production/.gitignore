@@ -30,6 +30,10 @@
 /data/blog.json
 /data/courses.json
 /data/jobs.json
+/data/job-applications.json
+/data/course-enrollments.json
+/data/qa-audit-latest.json
+/data/qa-playwright-findings.json
 
 # production
 /build

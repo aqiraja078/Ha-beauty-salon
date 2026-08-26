@@ -225,6 +225,11 @@ export function AdminCoursesPanel() {
             ))
           )}
         </ul>
+        {error && !formOpen ? (
+          <p className="border-t border-line px-6 py-3 text-sm text-rose-600">
+            {error}
+          </p>
+        ) : null}
       </section>
 
       <AnimatePresence>

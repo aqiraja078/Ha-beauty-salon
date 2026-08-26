@@ -28,6 +28,10 @@ function parseInput(body: unknown): BlogPostInput | null {
     coverImage: typeof b.coverImage === "string" ? b.coverImage : undefined,
     excerpt: typeof b.excerpt === "string" ? b.excerpt : undefined,
     body: typeof b.body === "string" ? b.body : undefined,
+    category: typeof b.category === "string" ? b.category : undefined,
+    tags:
+      Array.isArray(b.tags) || typeof b.tags === "string" ? (b.tags as string[] | string) : undefined,
+    author: typeof b.author === "string" ? b.author : undefined,
     published: typeof b.published === "boolean" ? b.published : undefined,
   };
 }

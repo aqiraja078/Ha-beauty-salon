@@ -62,13 +62,13 @@ const PUBLIC_PAGES = [
   ["/", ["Huma", "Makeup"]],
   ["/services/hair", ["Hair"]],
   ["/services/makeup", ["Event & Party Makeup", "Bridal Barat Makeup", "Bridal Walima Makeup", "Everyday Makeup", "Signature Bridal Package Barat", "Rs. 18,000"]],
-  ["/services/facial", ["Basic Facial", "Whitening / Brightening", "Advanced", "Herbal / Organic", "Bridal", "Hydra Facial", "Josn", "Rs. 1,800"]],
+  ["/services/facial", ["Basic Facial", "Whitening / Brightening", "Advanced", "Herbal / Organic", "Bridal", "Hydra Facial", "Jason Facial", "Rs. 1,800"]],
   ["/services/body-spa", ["Face Waxing", "Arm Waxing", "Leg Waxing", "Body Waxing", "Bikini Waxing", "Eyebrow Shaping", "Rs. 200"]],
   ["/services/nails", ["Manicure"]],
   ["/services/mehndi", ["Hand Mehndi", "Feet Mehndi", "Occasion Mehndi", "Bridal Mehndi", "Finger Mehndi", "Rs. 800", "Quote on Consult"]],
   ["/book", ["Book"]],
   ["/contact", ["Contact"]],
-  ["/offers", []],
+  ["/sales", []],
   ["/how-to-book", []],
   ["/blog", []],
   ["/courses", []],
@@ -466,15 +466,18 @@ async function testMobilePlaywright() {
   }
 
   // Admin UI login + open panels
-  await page.goto(`${BASE}/admin/login`, { waitUntil: "domcontentloaded", timeout: 45000 });
-  await page.fill('input[name="username"], input[type="text"]', USER).catch(() => {});
-  // Try common selectors
-  const userInput = page.locator('input[name="username"], input#username, input[type="text"]').first();
+  await page.goto(`${BASE}/admin/login`, { waitUntil: "networkidle", timeout: 45000 });
+  const userInput = page.locator('input[name="username"], input#username').first();
   const passInput = page.locator('input[name="password"], input#password, input[type="password"]').first();
+  await userInput.waitFor({ state: "visible", timeout: 10000 });
   await userInput.fill(USER);
   await passInput.fill(PASS);
-  await page.locator('button[type="submit"]').click();
-  await page.waitForTimeout(2000);
+  await Promise.all([
+    page.waitForURL((url) => url.pathname.includes("/admin") && !url.pathname.includes("/login"), {
+      timeout: 20000,
+    }),
+    page.locator('button[type="submit"]').click(),
+  ]);
   const afterLogin = page.url();
   assert(
     afterLogin.includes("/admin") && !afterLogin.includes("/login"),

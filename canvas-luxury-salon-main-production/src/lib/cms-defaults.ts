@@ -189,7 +189,7 @@ export const defaultHomeContent: HomeContent = {
     ],
   },
   offers: {
-    eyebrow: "Offers",
+    eyebrow: "Sales",
     title: "Deals worth booking now",
     lead: "Clear packages with what’s included and the price — book for Jhelum, Dina, or Gujrat home visits.",
     items: [

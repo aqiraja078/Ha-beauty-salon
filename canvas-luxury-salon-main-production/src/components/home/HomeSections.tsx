@@ -166,10 +166,10 @@ export function HomePageSections({
             />
             <Reveal delay={0.05}>
               <Link
-                href="/offers"
+                href="/sales"
                 className="group inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-accent"
               >
-                View all offers
+                View all sales
                 <span className="transition-transform duration-300 group-hover:translate-x-1">
                   →
                 </span>

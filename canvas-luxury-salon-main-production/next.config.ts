@@ -36,6 +36,11 @@ const nextConfig: NextConfig = {
         destination: "/icon.svg",
         permanent: false,
       },
+      {
+        source: "/offers",
+        destination: "/sales",
+        permanent: true,
+      },
     ];
   },
   experimental: {

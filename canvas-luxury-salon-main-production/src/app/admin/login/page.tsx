@@ -1,14 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { ConsoleCrest } from "@/components/admin/icons";
 import { ThemeScope } from "@/components/ui/ThemeScope";
 import { site } from "@/lib/site";
 
 export default function AdminLoginPage() {
-  const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
@@ -28,11 +26,12 @@ export default function AdminLoginPage() {
         const data = (await res.json()) as { error?: string };
         throw new Error(data.error || "Login failed");
       }
-      router.push("/admin");
-      router.refresh();
+      // Hard navigation so the session cookie is always picked up (more reliable
+      // than client router.push on mobile / slow devices).
+      window.location.assign("/admin");
+      return;
     } catch (e) {
       setErr(e instanceof Error ? e.message : "Login failed");
-    } finally {
       setLoading(false);
     }
   }
@@ -78,6 +77,8 @@ export default function AdminLoginPage() {
           </span>
           <input
             type="text"
+            name="username"
+            id="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             className="console-field"
@@ -92,6 +93,8 @@ export default function AdminLoginPage() {
           </span>
           <input
             type="password"
+            name="password"
+            id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="console-field"

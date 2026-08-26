@@ -10,6 +10,7 @@ export type ScopeId =
   | "mehndi"
   | "contact"
   | "book"
+  | "blog"
   | "admin";
 
 /**

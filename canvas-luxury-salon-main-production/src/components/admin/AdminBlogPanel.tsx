@@ -17,6 +17,9 @@ const EMPTY = {
   coverImage: "",
   excerpt: "",
   body: "",
+  category: "",
+  tags: "",
+  author: "",
   published: true,
 };
 
@@ -77,6 +80,9 @@ export function AdminBlogPanel() {
       coverImage: p.coverImage ?? "",
       excerpt: p.excerpt ?? "",
       body: p.body,
+      category: p.category ?? "",
+      tags: (p.tags ?? []).join(", "),
+      author: p.author ?? "",
       published: p.published,
     });
     setError("");
@@ -312,14 +318,52 @@ export function AdminBlogPanel() {
                   />
                 </label>
                 <label className="block">
-                  <span className={fieldLabel}>Body</span>
+                  <span className={fieldLabel}>Category</span>
+                  <input
+                    value={form.category}
+                    onChange={(e) =>
+                      setForm((f) => ({ ...f, category: e.target.value }))
+                    }
+                    className="console-field"
+                    placeholder="Bridal, Tips, Guides…"
+                    disabled={busy}
+                  />
+                </label>
+                <label className="block">
+                  <span className={fieldLabel}>Tags (comma separated)</span>
+                  <input
+                    value={form.tags}
+                    onChange={(e) =>
+                      setForm((f) => ({ ...f, tags: e.target.value }))
+                    }
+                    className="console-field"
+                    placeholder="BridalMakeup, Barat, Jhelum"
+                    disabled={busy}
+                  />
+                </label>
+                <label className="block">
+                  <span className={fieldLabel}>Author</span>
+                  <input
+                    value={form.author}
+                    onChange={(e) =>
+                      setForm((f) => ({ ...f, author: e.target.value }))
+                    }
+                    className="console-field"
+                    placeholder="Huma Beauty Team"
+                    disabled={busy}
+                  />
+                </label>
+                <label className="block">
+                  <span className={fieldLabel}>
+                    Body (use ## headings, - lists)
+                  </span>
                   <textarea
-                    rows={6}
+                    rows={8}
                     value={form.body}
                     onChange={(e) =>
                       setForm((f) => ({ ...f, body: e.target.value }))
                     }
-                    className="console-field resize-none"
+                    className="console-field resize-y min-h-[10rem]"
                     disabled={busy}
                   />
                 </label>

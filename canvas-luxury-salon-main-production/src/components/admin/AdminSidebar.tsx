@@ -24,6 +24,7 @@ export type ConsoleView =
   | "clients"
   | "blog"
   | "courses"
+  | "enrollments"
   | "jobs"
   | "services"
   | "settings";
@@ -37,12 +38,13 @@ type NavItem = {
 const NAV: NavItem[] = [
   { view: "dashboard", label: "Dashboard", Icon: IconDashboard },
   { view: "home", label: "Home", Icon: IconHome },
-  { view: "offers", label: "Offers", Icon: IconTag },
+  { view: "offers", label: "Sales", Icon: IconTag },
   { view: "bookings", label: "Bookings", Icon: IconCalendar },
   { view: "calendar", label: "Calendar", Icon: IconCalendar },
   { view: "clients", label: "Clients", Icon: IconUsers },
   { view: "blog", label: "Blog", Icon: IconBlog },
   { view: "courses", label: "Courses", Icon: IconCourse },
+  { view: "enrollments", label: "Enrollments", Icon: IconUsers },
   { view: "jobs", label: "Jobs", Icon: IconBriefcase },
   { view: "services", label: "Services", Icon: IconScissors },
   { view: "settings", label: "Setting", Icon: IconSettings },

@@ -58,6 +58,16 @@
   --tint-soft: 248 241 229;
 }
 
+/* Beauty journal — mist green wash; emerald brand accent from :root */
+[data-scope="blog"] {
+  --canvas: 247 249 248;
+  --canvas-2: 235 241 238;
+  --surface: 255 255 255;
+  --tint: 20 120 95;
+  --tint-soft: 230 241 236;
+  --line: 218 226 222;
+}
+
 /* The staff console declares no overrides — it runs the house ivory + emerald
    palette from :root so the dashboard matches the home page. Retinting the
    whole admin area means adding a [data-scope="admin"] block here; nothing in

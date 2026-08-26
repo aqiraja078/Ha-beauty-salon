@@ -82,7 +82,7 @@ export const facialServiceSections: FacialServiceSection[] = [
         duration: "",
       },
       {
-        name: "Josn",
+        name: "Jason Facial",
         description:
           "Advanced skin renewal treatment for smoother, refreshed complexion.",
         price: "Rs. 4,000",

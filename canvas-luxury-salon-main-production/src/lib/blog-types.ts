@@ -5,6 +5,9 @@ export type BlogPost = {
   coverImage?: string;
   excerpt?: string;
   body: string;
+  category?: string;
+  tags?: string[];
+  author?: string;
   published: boolean;
   createdAt: string;
   updatedAt: string;
@@ -16,5 +19,8 @@ export type BlogPostInput = {
   coverImage?: string;
   excerpt?: string;
   body?: string;
+  category?: string;
+  tags?: string[] | string;
+  author?: string;
   published?: boolean;
 };

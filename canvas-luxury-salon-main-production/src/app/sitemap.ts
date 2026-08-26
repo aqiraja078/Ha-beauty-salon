@@ -14,12 +14,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/services/mehndi",
     "/contact",
     "/book",
-    "/offers",
+    "/sales",
+    "/blog",
+    "/courses",
+    "/jobs",
   ];
   return paths.map((path) => ({
     url: `${base}${path}`,
     lastModified: new Date(),
-    changeFrequency: "weekly",
+    changeFrequency: "weekly" as const,
     priority: path === "" ? 1 : 0.8,
   }));
 }

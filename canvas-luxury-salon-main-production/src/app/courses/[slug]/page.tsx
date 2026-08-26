@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CourseDetailEnroll } from "@/components/courses/CourseDetailEnroll";
 import { Reveal } from "@/components/ui/Reveal";
 import { ThemeScope } from "@/components/ui/ThemeScope";
 import { getCourseBySlug } from "@/lib/courses-store";
@@ -27,11 +28,6 @@ export default async function CourseDetailPage({ params }: Props) {
     getSiteContent(),
   ]);
   if (!course || !course.published) notFound();
-
-  const waText = encodeURIComponent(
-    course.whatsappNote || `Hi, I want info about: ${course.title}`
-  );
-  const waHref = `https://wa.me/${site.phoneDigits}?text=${waText}`;
 
   return (
     <ThemeScope scope="book">
@@ -67,12 +63,17 @@ export default async function CourseDetailPage({ params }: Props) {
             {course.description}
           </div>
 
-          <div className="mt-10 flex flex-wrap gap-3">
-            <a href={waHref} target="_blank" rel="noreferrer" className="btn-primary">
-              Enquire on WhatsApp
-            </a>
-            <Link href="/contact" className="btn-ghost">
-              Contact
+          <CourseDetailEnroll
+            slug={course.slug}
+            title={course.title}
+            price={course.price}
+            level={course.level}
+            duration={course.duration}
+          />
+
+          <div className="mt-4">
+            <Link href="/contact" className="btn-ghost inline-flex">
+              Or contact {site.name.split(" ")[0]}
             </Link>
           </div>
         </div>

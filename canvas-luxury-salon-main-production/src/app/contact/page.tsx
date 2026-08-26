@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ContactMessageForm } from "@/components/contact/ContactMessageForm";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { ThemeScope } from "@/components/ui/ThemeScope";
 import { getSiteContent } from "@/lib/content-store";
@@ -33,8 +34,8 @@ export default async function ContactPage() {
               Let’s plan your <span className="accent-gradient-text">look</span>
             </h1>
             <p className="mt-3.5 max-w-2xl text-sm leading-relaxed text-ink-soft sm:mt-5 sm:text-base">
-              Reach us by call, WhatsApp, or email. We usually respond quickly
-              and help you pick the right service slot.
+              Reach us by call, WhatsApp, email, or the message form below. We
+              usually respond quickly and help you pick the right service slot.
             </p>
 
             <div className="mt-5 flex w-full max-w-md flex-row items-center gap-2 sm:mt-8 sm:max-w-none sm:gap-3">
@@ -137,6 +138,15 @@ export default async function ContactPage() {
               </div>
             </RevealItem>
           </RevealGroup>
+
+          <div className="mt-6 sm:mt-8">
+            <Reveal>
+              <ContactMessageForm
+                phoneDigits={site.phoneDigits}
+                siteName={site.name}
+              />
+            </Reveal>
+          </div>
 
           <div className="mt-4 grid gap-4 lg:grid-cols-5">
             <Reveal from="left" className="lg:col-span-2">

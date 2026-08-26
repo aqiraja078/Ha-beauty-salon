@@ -138,9 +138,9 @@ const ITEMS: NavItem[] = [
     Icon: IconBook,
   },
   {
-    href: "/offers",
-    label: "Offers",
-    match: (p) => p.startsWith("/offers"),
+    href: "/sales",
+    label: "Sales",
+    match: (p) => p.startsWith("/sales") || p.startsWith("/offers"),
     Icon: IconStar,
   },
   {

@@ -277,6 +277,12 @@ export const IconCourse = (p: IconProps) => (
   </Base>
 );
 
+export const IconFilter = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M4 6h16M7 12h10M10 18h4" />
+  </Base>
+);
+
 export const IconBriefcase = (p: IconProps) => (
   <Base {...p}>
     <rect x="4" y="8" width="16" height="12" rx="2" />

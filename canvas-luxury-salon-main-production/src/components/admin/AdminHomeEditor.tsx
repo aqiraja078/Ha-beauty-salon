@@ -26,7 +26,7 @@ const TAB_LABEL: Record<Tab, string> = {
   why: "Why us",
   steps: "Steps",
   gallery: "Gallery",
-  offers: "Offers",
+  offers: "Sales",
   testimonials: "Testimonials",
   cta: "CTA",
 };
@@ -93,7 +93,7 @@ export function AdminHomeEditor({
       setData((await res.json()) as HomeContent);
       setMsg(
         onlyTab === "offers"
-          ? "Offers saved — home aur /offers page pe refresh karke dekhein."
+          ? "Sales saved — home aur /sales page pe refresh karke dekhein."
           : "Home content saved — main page pe refresh karke dekhein."
       );
     } catch {
@@ -139,7 +139,7 @@ export function AdminHomeEditor({
           {saving
             ? "Saving…"
             : onlyTab === "offers"
-              ? "Save offers"
+              ? "Save sales"
               : "Save home"}
         </button>
       </div>
@@ -154,9 +154,9 @@ export function AdminHomeEditor({
         {onlyTab === "offers" ? (
           <p className="rounded-xl border border-accent/20 bg-accent-soft px-4 py-3 text-sm text-accent-strong">
             Yahan se packages add, edit, reorder ya remove karein. Save ke baad
-            home Offers section aur{" "}
-            <a href="/offers" className="font-semibold underline">
-              /offers
+            home Sales section aur{" "}
+            <a href="/sales" className="font-semibold underline">
+              /sales
             </a>{" "}
             page dono update ho jate hain.
           </p>

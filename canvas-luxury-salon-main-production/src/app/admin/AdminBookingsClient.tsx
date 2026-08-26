@@ -8,6 +8,7 @@ import { AdminDayCalendar } from "@/components/admin/AdminDayCalendar";
 import { AdminClientsPanel } from "@/components/admin/AdminClientsPanel";
 import { AdminBlogPanel } from "@/components/admin/AdminBlogPanel";
 import { AdminCoursesPanel } from "@/components/admin/AdminCoursesPanel";
+import { AdminEnrollmentsPanel } from "@/components/admin/AdminEnrollmentsPanel";
 import { AdminJobsPanel } from "@/components/admin/AdminJobsPanel";
 import { AdminHomeEditor } from "@/components/admin/AdminHomeEditor";
 import { AdminServicesEditor } from "@/components/admin/AdminServicesEditor";
@@ -75,9 +76,9 @@ const VIEW_COPY: Record<ConsoleView, { title?: string; subtitle: string }> = {
     subtitle: "Edit hero, gallery, about — changes show on the live homepage",
   },
   offers: {
-    title: "Offers",
+    title: "Sales",
     subtitle:
-      "Add, edit, reorder packages — live on home Offers section and /offers",
+      "Add, edit, reorder packages — live on home Sales section and /sales",
   },
   bookings: {
     title: "All Bookings",
@@ -98,6 +99,10 @@ const VIEW_COPY: Record<ConsoleView, { title?: string; subtitle: string }> = {
   courses: {
     title: "Courses",
     subtitle: "Beauty training courses — add, edit, publish",
+  },
+  enrollments: {
+    title: "Course Applications",
+    subtitle: "Manage and review course applications submitted by users",
   },
   jobs: {
     title: "Jobs",
@@ -657,6 +662,8 @@ export function AdminBookingsClient({
 
           {view === "courses" ? <AdminCoursesPanel /> : null}
 
+          {view === "enrollments" ? <AdminEnrollmentsPanel /> : null}
+
           {view === "jobs" ? <AdminJobsPanel /> : null}
 
           {view === "calendar" ? (
@@ -942,15 +949,15 @@ export function AdminBookingsClient({
                 <section className="console-card p-6 lg:col-span-2">
                   <h2 className="font-display text-lg text-ink">Quick links</h2>
                   <p className="mt-2 text-sm text-ink-soft">
-                    Home, Offers aur Services sidebar se edit karein — live site
+                    Home, Sales aur Services sidebar se edit karein — live site
                     pe turant dikhega.
                   </p>
                   <div className="mt-5 flex flex-wrap gap-2">
                     <Link href="/" className="console-btn-soft">
                       Live site
                     </Link>
-                    <Link href="/offers" className="console-btn-soft">
-                      Offers page
+                    <Link href="/sales" className="console-btn-soft">
+                      Sales page
                     </Link>
                     <Link href="/book" className="console-btn-soft">
                       Booking form
