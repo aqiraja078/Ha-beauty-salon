@@ -9,7 +9,15 @@ const LEGACY_FULL_NAME =
   /\b(?:huma|ha)\s+(?:beauty\s+)?(?:salon|saloon)(?:\s*(?:&amp;|&|and)\s*studio)?\b/gi;
 const LEGACY_SHORT_NAME = /\b(?:Huma|HUMA)\b/g;
 
+/** Image URLs that used to be seeded but no longer exist (404). */
+const DEAD_IMAGE_FIXES: Array<[string, string]> = [
+  ["photo-1516975080664-ed2fc6a86108", "photo-1516975080664-ed2fc6a32937"],
+];
+
 export function rebrandString(text: string): string {
+  for (const [dead, alive] of DEAD_IMAGE_FIXES) {
+    if (text.includes(dead)) return text.split(dead).join(alive);
+  }
   if (!text || !/huma/i.test(text) && !/\bha\s+(beauty\s+)?sal/i.test(text)) return text;
   if (/^(?:https?:|mailto:|tel:|\/)/i.test(text.trim())) return text;
   return text

@@ -1,34 +1,28 @@
 /**
  * Canonical public origin for metadata, sitemap, robots, and JSON-LD.
- * Set NEXT_PUBLIC_SITE_URL in production (https://your-domain.com, no trailing slash).
+ * Order: NEXT_PUBLIC_SITE_URL (set this to your custom domain) → Netlify's own `URL`
+ * → the live Netlify address. No trailing slash.
  */
-const DEFAULT_ORIGIN = "https://humasalon.com.pk";
+const DEFAULT_ORIGIN = "https://habeautysalon.netlify.app";
 
-export function getPublicSiteOrigin(): string {
-  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  if (raw) {
+function fromEnv(): URL | null {
+  for (const raw of [process.env.NEXT_PUBLIC_SITE_URL, process.env.URL]) {
+    const value = raw?.trim();
+    if (!value) continue;
     try {
-      return new URL(raw).origin;
+      return new URL(value);
     } catch {
-      // fall through
+      // try the next candidate
     }
   }
-  return DEFAULT_ORIGIN;
+  return null;
+}
+
+export function getPublicSiteOrigin(): string {
+  return (fromEnv() ?? new URL(DEFAULT_ORIGIN)).origin;
 }
 
 /** Safe URL for Next.js `metadataBase` (always absolute). */
 export function getMetadataBase(): URL {
-  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  if (raw) {
-    try {
-      return new URL(raw);
-    } catch {
-      // fall through
-    }
-  }
-  try {
-    return new URL(DEFAULT_ORIGIN);
-  } catch {
-    return new URL("https://example.com");
-  }
+  return fromEnv() ?? new URL(DEFAULT_ORIGIN);
 }

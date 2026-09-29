@@ -18,7 +18,7 @@ function seedCourses(): Course[] {
       title: "Bridal makeup basics",
       slug: "bridal-makeup-basics",
       coverImage:
-        "https://images.unsplash.com/photo-1516975080664-ed2fc6a86108?w=1200&q=80",
+        "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=1200&q=80",
       price: "From Rs. 25,000",
       duration: "3 days",
       level: "Beginner",
