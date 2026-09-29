@@ -8,7 +8,7 @@ export const site = {
   tagline: "Beauty salon & training center — Jhelum · Dina · Gujrat",
   description:
     "Adaa Beauty Salon & Training Center — luxury makeup, hair, skincare, bridal services, and professional beauty training with premium products and expert techniques.",
-  logo: "/logo-header@2x.png",
+  logo: "/logo-adaa.png",
   email: "humabeautysalon07@gmail.com",
   phone: "+92 335 5462214",
   phoneDigits: "923355462214",

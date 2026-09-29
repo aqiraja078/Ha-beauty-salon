@@ -448,7 +448,7 @@ export function AdminServicesEditor({ initial }: { initial: ServiceMenus }) {
                       </label>
                       <label className="block sm:col-span-2 lg:col-span-4">
                         <span className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
-                          Description
+                          Description (internal note — not shown on service cards)
                         </span>
                         <input
                           className="console-field"

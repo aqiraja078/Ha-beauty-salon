@@ -129,7 +129,7 @@ export function HomePageSections({
             {home.makeupSection.cards.map((card) => (
               <RevealItem key={card.id} className="h-full">
                 <article className="card-interactive group flex h-full flex-col overflow-hidden">
-                  <div className="relative aspect-[4/5] w-full overflow-hidden">
+                  <div className="relative aspect-[8/7] xs:aspect-[10/11] md:aspect-[9/11] w-full overflow-hidden">
                     <Image
                       src={card.image}
                       alt={card.name}
@@ -140,18 +140,23 @@ export function HomePageSections({
                     <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent opacity-70 transition group-hover:opacity-90" />
                   </div>
 
-                  <div className="card-body">
-                    <h3 className="font-display text-xl text-ink">{card.name}</h3>
-                    <p className="mt-2 flex-1 text-sm font-semibold text-accent">
-                      {card.price}
-                    </p>
+                  <div className="card-body !p-3.5 sm:!p-4">
+                    <div className="flex items-start justify-between gap-2">
+                      <h3 className="min-w-0 flex-1 font-display text-base leading-snug text-ink sm:text-lg">
+                        {card.name}
+                      </h3>
+                      <span className="shrink-0 whitespace-nowrap pt-0.5 text-[13px] font-semibold text-accent">
+                        {card.price}
+                      </span>
+                    </div>
+                    <div className="flex-1" aria-hidden />
                     <Link
                       href={`/book?service=${encodeURIComponent(card.name)}${
                         card.price
                           ? `&price=${encodeURIComponent(card.price)}`
                           : ""
                       }`}
-                      className="mt-5 inline-flex min-h-[42px] w-full items-center justify-center rounded-full border border-accent/25 bg-accent-soft text-[10px] font-semibold uppercase tracking-[0.18em] text-accent transition duration-300 hover:bg-accent hover:text-accent-fg"
+                      className="mt-3 inline-flex min-h-[42px] w-full items-center justify-center rounded-full border border-accent/25 bg-accent-soft text-[10px] font-semibold uppercase tracking-[0.18em] text-accent transition duration-300 hover:bg-accent hover:text-accent-fg"
                     >
                       Book now
                     </Link>
@@ -214,14 +219,14 @@ export function HomePageSections({
             </Reveal>
           </div>
 
-          <RevealGroup className="mt-8 sm:mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <RevealGroup className="mt-8 grid gap-4 sm:mt-12 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
             {home.servicesSection.categories.map((s, index) => (
               <RevealItem key={s.slug} className="h-full">
                 <Link
                   href={s.href}
                   className="group flex h-full flex-col rounded-[1.5rem] bg-surface p-2.5 shadow-[0_1px_0_rgb(var(--gilt)/0.35),0_18px_40px_-28px_rgb(var(--ink)/0.45)] transition duration-500 hover:-translate-y-1.5 hover:shadow-[0_1px_0_rgb(var(--gilt)/0.7),0_28px_50px_-24px_rgb(var(--accent)/0.35)]"
                 >
-                  <div className="relative aspect-[5/4] overflow-hidden rounded-[1.1rem]">
+                  <div className="relative aspect-[16/9] overflow-hidden rounded-[1.1rem] sm:aspect-[16/10] lg:aspect-[2/1]">
                     <Image
                       src={s.image}
                       alt={s.title}
@@ -237,7 +242,7 @@ export function HomePageSections({
                     </span>
                   </div>
 
-                  <div className="flex flex-1 flex-col px-2.5 pb-3 pt-4 sm:px-3">
+                  <div className="flex flex-1 flex-col px-2.5 pb-2.5 pt-3 sm:px-3">
                     <div className="flex items-start justify-between gap-3">
                       <h3 className="font-display text-[1.45rem] leading-none text-ink sm:text-[1.6rem]">
                         {s.title}
@@ -250,7 +255,7 @@ export function HomePageSections({
                     <p className="mt-2 flex-1 text-[13px] leading-snug text-ink-soft">
                       {s.short}
                     </p>
-                    <p className="mt-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-accent">
+                    <p className="mt-2 text-[12px] font-semibold uppercase tracking-[0.14em] text-accent">
                       {s.price || "On request"}
                     </p>
                   </div>

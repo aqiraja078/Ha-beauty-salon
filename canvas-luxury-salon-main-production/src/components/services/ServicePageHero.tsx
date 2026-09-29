@@ -110,9 +110,9 @@ function ServiceLuxuryHero({
   const lead = description.trim() || copy.lead;
 
   return (
-    <section className="relative isolate min-h-[88vh] overflow-hidden bg-canvas">
-      <div className="absolute inset-0 bg-gradient-to-r from-canvas via-canvas/92 to-canvas/55 lg:via-canvas/85 lg:to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-t from-canvas via-transparent to-canvas/40" />
+    <section className="relative isolate min-h-[min(62svh,500px)] sm:min-h-[min(66svh,600px)] overflow-hidden bg-canvas lg:min-h-[88vh]">
+      <div className="absolute inset-0 bg-gradient-to-r from-canvas/60 via-canvas/25 to-transparent lg:from-canvas lg:via-canvas/85 lg:to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-canvas from-[12%] via-canvas/90 via-[52%] to-canvas/25 lg:from-canvas lg:via-transparent lg:to-canvas/40" />
 
       <div className="absolute inset-y-0 right-0 w-full lg:w-[58%]">
         <Image
@@ -121,13 +121,23 @@ function ServiceLuxuryHero({
           fill
           unoptimized={!canOptimizeImage(heroImage)}
           priority
-          className="object-cover object-[center_20%] opacity-90 lg:opacity-100"
+          className="object-cover object-[center_15%] lg:object-[center_20%]"
           sizes="(max-width: 1024px) 100vw, 58vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-l from-transparent via-canvas/20 to-canvas lg:via-canvas/35 lg:to-canvas/90" />
+        <div className="absolute inset-0 hidden bg-gradient-to-l from-transparent via-canvas/35 to-canvas/90 lg:block" />
       </div>
 
-      <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-8 px-4 pb-14 pt-[max(5.5rem,calc(env(safe-area-inset-top)+4rem))] sm:px-6 md:px-8 lg:min-h-[88vh] lg:grid-cols-2 lg:gap-4 lg:pb-20">
+      {/* Mobile/tablet scrim — sits above the photo so text stays readable */}
+      <div
+        className="absolute inset-0 bg-gradient-to-t from-canvas from-[18%] via-canvas/95 via-[54%] to-transparent to-[90%] sm:via-[72%] sm:to-[100%] lg:hidden"
+        aria-hidden
+      />
+      <div
+        className="absolute inset-0 hidden bg-gradient-to-r from-canvas/85 via-canvas/55 to-transparent sm:block lg:hidden"
+        aria-hidden
+      />
+
+      <div className="relative z-10 mx-auto grid min-h-[min(62svh,500px)] sm:min-h-[min(66svh,600px)] max-w-7xl content-end items-end gap-8 px-4 pb-8 pt-[max(6.5rem,calc(env(safe-area-inset-top)+5.5rem))] sm:px-6 sm:pb-12 md:px-8 lg:min-h-[88vh] lg:grid-cols-2 lg:content-normal lg:items-center lg:gap-4 lg:pb-20 lg:pt-[max(5.5rem,calc(env(safe-area-inset-top)+4rem))]">
         <motion.div
           className="max-w-xl"
           initial={reduce ? false : "hidden"}
@@ -138,7 +148,7 @@ function ServiceLuxuryHero({
           }}
         >
           <motion.p
-            className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.32em] text-ink-soft sm:text-[11px]"
+            className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.32em] text-ink [text-shadow:0_1px_10px_rgba(0,0,0,0.85)] sm:text-[11px] lg:text-ink-soft lg:[text-shadow:none]"
             variants={fadeUp}
           >
             <span className="h-px w-10 bg-accent/70" aria-hidden />
@@ -146,7 +156,7 @@ function ServiceLuxuryHero({
           </motion.p>
 
           <motion.h1
-            className="mt-5 font-display text-[2.35rem] leading-[1.08] text-accent xs:text-5xl sm:mt-6 sm:text-[3.25rem] md:text-[3.75rem]"
+            className="mt-3 font-display text-[2rem] leading-[1.08] text-accent [text-shadow:0_2px_14px_rgba(0,0,0,0.8)] xs:text-[2.35rem] lg:[text-shadow:none] sm:mt-6 sm:text-[3.25rem] md:text-[3.75rem]"
             variants={fadeUp}
           >
             <span className="block">{copy.line1}</span>
@@ -156,20 +166,20 @@ function ServiceLuxuryHero({
           <span className="sr-only">{title}</span>
 
           <motion.p
-            className="mt-5 max-w-md text-sm leading-[1.75] text-ink-soft sm:mt-7 sm:text-[1.02rem]"
+            className="mt-3 max-w-md text-[13px] leading-[1.65] text-ink [text-shadow:0_1px_10px_rgba(0,0,0,0.9)] sm:mt-7 sm:text-[1.02rem] sm:leading-[1.75] lg:text-ink-soft lg:[text-shadow:none]"
             variants={fadeUp}
           >
             {lead}
           </motion.p>
 
           <motion.div
-            className="mt-8 flex flex-wrap gap-3"
+            className="mt-5 flex flex-wrap gap-2.5 sm:mt-8 sm:gap-3"
             variants={fadeUp}
           >
-            <Link href="/book" className="btn-primary px-7">
+            <Link href="/book" className="btn-primary min-h-[42px] px-6 text-[11px] sm:min-h-0 sm:px-7 sm:text-[length:inherit]">
               Book now →
             </Link>
-            <Link href="/contact" className="btn-ghost px-7">
+            <Link href="/contact" className="btn-ghost min-h-[42px] px-6 text-[11px] sm:min-h-0 sm:px-7 sm:text-[length:inherit]">
               Contact
             </Link>
           </motion.div>

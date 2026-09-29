@@ -1,6 +1,8 @@
 /** Built-in ADAA logo files shipped in /public. Anything else set in Admin → Setting is a custom logo. */
 const BUILT_IN_LOGOS = new Set([
   "",
+  "/logo-adaa.png",
+  "/logo-adaa@2x.png",
   "/logo-header@2x.png",
   "/logo-header.png",
   "/logo-header@4k.png",

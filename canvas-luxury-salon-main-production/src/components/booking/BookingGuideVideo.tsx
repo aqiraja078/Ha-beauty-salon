@@ -151,7 +151,7 @@ function BrowserChrome() {
           A
         </span>
         <span className="min-w-0 flex-1 truncate text-[10px] text-ink-soft">
-          ha-beauty.salon/book
+          adaa-beauty-salon/book
         </span>
         <span className="text-[9px] text-muted">↻</span>
       </div>

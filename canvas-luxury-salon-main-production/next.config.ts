@@ -7,7 +7,7 @@ const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 const nextConfig: NextConfig = {
   // Dev only: lets phones/other PCs on the same Wi-Fi open the Network URL
   // (Next blocks HMR/dev resources from non-localhost hosts by default).
-  allowedDevOrigins: ["192.168.18.100", "192.168.*.*", "*.local"],
+  allowedDevOrigins: ["192.168.18.100", "192.168.*.*", "*.local", "*.trycloudflare.com"],
   turbopack: {
     // Prevent Next from picking the parent folder lockfile as the workspace root.
     root: projectRoot,

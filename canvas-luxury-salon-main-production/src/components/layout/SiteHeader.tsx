@@ -61,8 +61,8 @@ export function SiteHeader({ site: siteProp }: { site?: SiteContent }) {
     <header
       className={`fixed left-0 right-0 top-0 z-40 transition-all duration-500 ${
         scrolled
-          ? "border-b border-line/80 bg-canvas/92 py-2 shadow-soft backdrop-blur-xl sm:py-2.5"
-          : "border-b border-line/30 bg-canvas/75 py-3 backdrop-blur-md sm:py-4"
+          ? "border-b border-line/80 bg-canvas/92 py-1.5 shadow-soft backdrop-blur-xl sm:py-2"
+          : "border-b border-line/30 bg-canvas/75 py-2 backdrop-blur-md sm:py-2.5"
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 pt-[env(safe-area-inset-top)] sm:px-6 md:px-8">
@@ -73,18 +73,20 @@ export function SiteHeader({ site: siteProp }: { site?: SiteContent }) {
         >
           {/* eslint-disable-next-line @next/next/no-img-element -- brand SVG logo */}
           <img
-            src={customLogo ? site.logo : "/logo-header@2x.png"}
+            src={customLogo ? site.logo : "/logo-adaa.png"}
             srcSet={
               customLogo
                 ? undefined
-                : "/logo-header.png 860w, /logo-header@2x.png 1720w, /logo-header@4k.png 3441w"
+                : "/logo-adaa.png 825w, /logo-adaa@2x.png 1650w"
             }
-            sizes="(max-width: 640px) 84px, 100px"
+            sizes="(max-width: 640px) 46px, 60px"
             alt={site.name}
-            width={84}
-            height={75}
+            width={54}
+            height={66}
             decoding="async"
-            className="h-10 w-auto max-w-[84px] transition duration-500 group-hover:scale-[1.03] xs:h-11 sm:h-12 sm:max-w-[100px]"
+            className={`w-auto transition-all duration-500 group-hover:scale-[1.03] ${
+              scrolled ? "h-12 sm:h-14" : "h-14 sm:h-[72px]"
+            }`}
           />
         </Link>
 

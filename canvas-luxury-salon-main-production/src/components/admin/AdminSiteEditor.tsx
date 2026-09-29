@@ -66,7 +66,7 @@ export function AdminSiteEditor({ initial }: { initial: SiteContent }) {
             ["phoneDigits", "WhatsApp digits (no +)"],
             ["email", "Email"],
             ["address", "Address / areas"],
-            ["logo", "Logo path (leave /logo-header@2x.png for the built-in ADAA logo)"],
+            ["logo", "Logo path (leave /logo-adaa.png for the built-in Adaa logo)"],
           ] as const
         ).map(([key, label]) => (
           <label key={key} className="block sm:col-span-1">

@@ -14,7 +14,8 @@ import { makeupServiceImage } from "@/lib/service-card-images";
 
 type Props = {
   name: string;
-  blurb: string;
+  /** Kept for CMS/data compatibility; the description is intentionally not shown on cards. */
+  blurb?: string;
   price: string;
   lengthPrices?: HairLengthPrices;
   variant?: "default" | "luxury" | "luxury-wide";
@@ -64,7 +65,6 @@ function WaveDivider() {
 
 export function ServiceMenuCard({
   name,
-  blurb,
   price,
   lengthPrices,
   variant = "default",
@@ -89,7 +89,7 @@ export function ServiceMenuCard({
       >
         <div
           className={`relative shrink-0 overflow-hidden bg-canvas-2 ${
-            wide ? "h-40 sm:h-auto sm:w-[42%]" : "h-36"
+            wide ? "h-56 sm:h-auto sm:min-h-[15rem] sm:w-[42%]" : "h-56 sm:h-60"
           }`}
         >
           <Image
@@ -110,15 +110,15 @@ export function ServiceMenuCard({
         </div>
 
         <div className={`flex flex-1 flex-col p-4 sm:p-5 ${wide ? "justify-center" : "pt-6"}`}>
-          <div className="flex flex-wrap items-start justify-between gap-2">
-            <h3 className="font-display text-xl leading-snug text-accent sm:text-[1.35rem]">
+          <div className="flex items-start justify-between gap-2">
+            <h3 className="min-w-0 flex-1 font-display text-[1.05rem] leading-snug text-accent xs:text-lg sm:text-[1.25rem]">
               {name}
             </h3>
-            <span className="shrink-0 rounded-full bg-gold-gradient px-3.5 py-1 text-[11px] font-semibold text-accent-fg">
+            <span className="shrink-0 whitespace-nowrap rounded-full bg-gold-gradient px-3 py-1 text-[11px] font-semibold text-accent-fg">
               {displayPrice}
             </span>
           </div>
-          <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-soft">{blurb}</p>
+          <div className="flex-1" aria-hidden />
 
           {lengthPrices ? (
             <div className="mt-3 border-t border-line/80 pt-3">
@@ -163,7 +163,7 @@ export function ServiceMenuCard({
   return (
     <article className="flex h-full flex-col rounded-3xl border border-line bg-surface p-5 shadow-soft transition duration-500 hover:-translate-y-1.5 hover:border-accent/35 hover:shadow-lift-lg sm:p-6">
       <h3 className="font-display text-lg leading-snug text-accent sm:text-xl">{name}</h3>
-      <p className="mt-2.5 flex-1 text-sm leading-relaxed text-ink-soft">{blurb}</p>
+      <div className="flex-1" aria-hidden />
 
       {lengthPrices ? (
         <div className="mt-5 border-t border-line pt-4">

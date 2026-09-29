@@ -59,7 +59,7 @@ async function req(path, { method = "GET", body, jar, headers = {} } = {}) {
 }
 
 const PUBLIC_PAGES = [
-  ["/", ["Huma", "Makeup"]],
+  ["/", ["Adaa", "Makeup"]],
   ["/services/hair", ["Hair"]],
   ["/services/makeup", ["Event & Party Makeup", "Bridal Barat Makeup", "Bridal Walima Makeup", "Everyday Makeup", "Signature Bridal Package Barat", "Rs. 18,000"]],
   ["/services/facial", ["Basic Facial", "Whitening / Brightening", "Advanced", "Herbal / Organic", "Bridal", "Hydra Facial", "Jason Facial", "Rs. 1,800"]],

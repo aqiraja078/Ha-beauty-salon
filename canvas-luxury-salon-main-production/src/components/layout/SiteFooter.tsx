@@ -20,22 +20,22 @@ export function SiteFooter({ site: siteProp }: { site?: SiteContent }) {
     <footer className="relative overflow-hidden border-t border-line bg-canvas-alt">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px hairline" />
 
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-5 px-4 py-6 sm:px-6 md:grid-cols-2 md:px-8 lg:grid-cols-[2fr_1fr_1fr_1fr] lg:gap-8 lg:items-start">
-        <div className="flex items-start gap-5 sm:gap-6 md:col-span-2 lg:col-span-1 lg:max-w-none">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 gap-y-5 px-4 py-6 sm:px-6 md:px-8 lg:grid-cols-[2fr_1fr_1fr_1fr] lg:gap-8 lg:items-start">
+        <div className="col-span-2 flex items-start gap-5 sm:gap-6 lg:col-span-1 lg:max-w-none">
           {/* eslint-disable-next-line @next/next/no-img-element -- brand PNG logo */}
           <img
-            src={customLogo ? site.logo : "/logo-text@2x.png"}
+            src={customLogo ? site.logo : "/logo-adaa.png"}
             srcSet={
               customLogo
                 ? undefined
-                : "/logo-text@2x.png 1806w, /logo-text-4k.png 3613w, /logo-text-8k.png 3854w"
+                : "/logo-adaa.png 825w, /logo-adaa@2x.png 1650w"
             }
-            sizes="(max-width: 640px) 88px, 100px"
+            sizes="(max-width: 640px) 104px, 128px"
             alt={site.name}
-            width={100}
-            height={106}
+            width={128}
+            height={156}
             decoding="async"
-            className="h-auto w-[88px] shrink-0 sm:w-[100px]"
+            className="h-auto w-[104px] shrink-0 sm:w-[128px]"
           />
           <div className="min-w-0 flex-1 text-left sm:max-w-xl lg:max-w-none">
             <p className="max-w-md text-sm leading-relaxed text-ink-soft sm:max-w-lg lg:max-w-xl">
@@ -93,7 +93,7 @@ export function SiteFooter({ site: siteProp }: { site?: SiteContent }) {
           </ul>
         </div>
 
-        <div>
+        <div className="row-span-2 lg:row-span-1">
           <p className="eyebrow">Company</p>
           <ul className="mt-2 space-y-0.5 text-ink-soft">
             <li>
