@@ -1,6 +1,6 @@
-# HA Beauty Salon
+# Adaa Beauty Salon & Training Center
 
-Next.js site for **HA Beauty Salon** — home beauty services across Jhelum, Dina, and Gujrat.
+Next.js site for **Adaa Beauty Salon & Training Center** — home beauty services across Jhelum, Dina, and Gujrat.
 
 The app lives in `canvas-luxury-salon-main-production/`.
 
