@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/book",
     "/sales",
     "/blog",
+    "/gallery",
     "/courses",
     "/jobs",
   ];

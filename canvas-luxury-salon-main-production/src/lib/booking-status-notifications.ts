@@ -1,5 +1,6 @@
 import type { Booking, BookingStatus } from "@/lib/bookings-types";
-import { site } from "@/lib/site";
+import type { SiteContent } from "@/lib/cms-types";
+import { getSiteContent } from "@/lib/content-store";
 
 /**
  * When admin sets a booking to confirmed or cancelled, optionally email the guest.
@@ -13,13 +14,17 @@ function statusVerb(status: BookingStatus): string {
   return status;
 }
 
-function emailSubject(status: BookingStatus): string {
+function emailSubject(status: BookingStatus, site: SiteContent): string {
   if (status === "confirmed") return `Appointment confirmed — ${site.name}`;
   if (status === "cancelled") return `Appointment update — ${site.name}`;
   return `Booking update — ${site.name}`;
 }
 
-function emailHtml(booking: Booking, status: BookingStatus): string {
+function emailHtml(
+  booking: Booking,
+  status: BookingStatus,
+  site: SiteContent
+): string {
   const v = statusVerb(status);
   const intro =
     status === "confirmed"
@@ -46,7 +51,11 @@ function emailHtml(booking: Booking, status: BookingStatus): string {
 </html>`;
 }
 
-function emailText(booking: Booking, status: BookingStatus): string {
+function emailText(
+  booking: Booking,
+  status: BookingStatus,
+  site: SiteContent
+): string {
   return `${statusVerb(status).toUpperCase()} — ${site.name}\n\n${booking.name}\n${booking.service}\n${booking.date} at ${booking.time}\n\n${site.phone} | ${site.email}`;
 }
 
@@ -89,15 +98,17 @@ export async function notifyGuestOfBookingStatus(
   if (previousStatus === booking.status) return;
   if (booking.status !== "confirmed" && booking.status !== "cancelled") return;
 
-  const subject = emailSubject(booking.status);
-  const html = emailHtml(booking, booking.status);
-  const text = emailText(booking, booking.status);
+  const site = await getSiteContent();
+  const subject = emailSubject(booking.status, site);
+  const html = emailHtml(booking, booking.status, site);
+  const text = emailText(booking, booking.status, site);
 
   await sendWithResend(booking.email.trim(), subject, html, text);
 }
 
 /** Email salon admin when a new booking arrives (RESEND + ADMIN_NOTIFY_EMAIL or site.email). */
 export async function notifyAdminOfNewBooking(booking: Booking): Promise<void> {
+  const site = await getSiteContent();
   const to =
     process.env.ADMIN_NOTIFY_EMAIL?.trim() || site.email?.trim() || "";
   if (!to) return;

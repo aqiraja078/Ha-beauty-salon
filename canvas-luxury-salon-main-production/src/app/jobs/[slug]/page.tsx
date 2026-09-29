@@ -43,7 +43,7 @@ export default async function JobDetailPage({ params }: Props) {
   };
 
   return (
-    <ThemeScope scope="book">
+    <ThemeScope scope="jobs">
       <article className="px-4 pb-12 pt-[max(5rem,calc(env(safe-area-inset-top)+3.25rem))] sm:px-6 sm:pb-20 md:px-8">
         <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1fr_280px] lg:gap-12">
           <div>

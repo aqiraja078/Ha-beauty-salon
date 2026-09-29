@@ -13,6 +13,8 @@ const TABS = [
   "gallery",
   "offers",
   "testimonials",
+  "galleryPage",
+  "blog",
   "cta",
 ] as const;
 
@@ -28,6 +30,8 @@ const TAB_LABEL: Record<Tab, string> = {
   gallery: "Gallery",
   offers: "Sales",
   testimonials: "Testimonials",
+  galleryPage: "Gallery page",
+  blog: "Blog page",
   cta: "CTA",
 };
 
@@ -722,8 +726,14 @@ export function AdminHomeEditor({
                 setData({ ...data, gallery: { ...data.gallery, title: v } })
               }
             />
+            <p className="rounded-xl border border-accent/20 bg-accent-soft px-4 py-3 text-sm text-accent-strong">
+              The 6 photos shown here are the <strong>first 6 items</strong> of
+              the <strong>Gallery</strong> tab (sidebar). Reorder, add or hide
+              photos/videos there — everything else appears on the /gallery page.
+              The list below is legacy — it only pre-filled the Gallery the first time.
+            </p>
             <Field
-              label="Image URLs (one per line)"
+              label="Legacy image URLs (not used any more)"
               multiline
               value={data.gallery.images.join("\n")}
               onChange={(v) =>
@@ -1035,6 +1045,112 @@ export function AdminHomeEditor({
             >
               + Add testimonial
             </button>
+          </div>
+        ) : null}
+
+        {tab === "galleryPage" ? (
+          <div className="grid gap-3 sm:grid-cols-2">
+            <Field
+              label="Label"
+              value={data.galleryPage.eyebrow}
+              onChange={(v) =>
+                setData({
+                  ...data,
+                  galleryPage: { ...data.galleryPage, eyebrow: v },
+                })
+              }
+            />
+            <Field
+              label="Title"
+              value={data.galleryPage.title}
+              onChange={(v) =>
+                setData({
+                  ...data,
+                  galleryPage: { ...data.galleryPage, title: v },
+                })
+              }
+            />
+            <div className="sm:col-span-2">
+              <Field
+                label="Description"
+                multiline
+                value={data.galleryPage.lead}
+                onChange={(v) =>
+                  setData({
+                    ...data,
+                    galleryPage: { ...data.galleryPage, lead: v },
+                  })
+                }
+              />
+            </div>
+            <p className="text-xs text-muted sm:col-span-2">
+              Photos and videos are managed in the Gallery tab of the sidebar.
+            </p>
+          </div>
+        ) : null}
+
+        {tab === "blog" ? (
+          <div className="grid gap-3 sm:grid-cols-2">
+            <Field
+              label="Hero label"
+              value={data.blog.eyebrow}
+              onChange={(v) =>
+                setData({ ...data, blog: { ...data.blog, eyebrow: v } })
+              }
+            />
+            <Field
+              label="Hero photo URL"
+              value={data.blog.image}
+              onChange={(v) =>
+                setData({ ...data, blog: { ...data.blog, image: v } })
+              }
+            />
+            <div className="sm:col-span-2">
+              <Field
+                label="Hero description"
+                multiline
+                value={data.blog.description}
+                onChange={(v) =>
+                  setData({ ...data, blog: { ...data.blog, description: v } })
+                }
+              />
+            </div>
+            <Field
+              label="Collection label"
+              value={data.blog.collectionEyebrow}
+              onChange={(v) =>
+                setData({
+                  ...data,
+                  blog: { ...data.blog, collectionEyebrow: v },
+                })
+              }
+            />
+            <Field
+              label="Collection title"
+              value={data.blog.collectionTitle}
+              onChange={(v) =>
+                setData({
+                  ...data,
+                  blog: { ...data.blog, collectionTitle: v },
+                })
+              }
+            />
+            <div className="sm:col-span-2">
+              <Field
+                label="Collection description"
+                multiline
+                value={data.blog.collectionLead}
+                onChange={(v) =>
+                  setData({
+                    ...data,
+                    blog: { ...data.blog, collectionLead: v },
+                  })
+                }
+              />
+            </div>
+            <p className="text-xs text-muted sm:col-span-2">
+              Blog posts themselves are managed in the Blog tab of the sidebar.
+            </p>
           </div>
         ) : null}
 

@@ -71,9 +71,9 @@ export function HomeHeroAnimated({ siteName, hero, whatsappHref }: Props) {
         />
       </motion.div>
 
-      <div className="absolute inset-0 bg-gradient-to-r from-canvas via-canvas/80 to-canvas/25" />
-      <div className="absolute inset-0 bg-gradient-to-t from-canvas via-canvas/35 to-transparent" />
-      <div className="pointer-events-none absolute -left-24 top-10 h-80 w-80 rounded-full bg-accent/[0.12] blur-3xl" />
+      <div className="absolute inset-0 bg-gradient-to-r from-canvas via-canvas/88 to-canvas/35" />
+      <div className="absolute inset-0 bg-gradient-to-t from-canvas via-canvas/50 to-canvas/15" />
+      <div className="pointer-events-none absolute -left-24 top-10 h-80 w-80 rounded-full bg-accent/[0.14] blur-3xl" />
       <div
         className="pointer-events-none absolute bottom-0 right-0 h-96 w-96 rounded-full bg-tint/10 blur-3xl"
         aria-hidden

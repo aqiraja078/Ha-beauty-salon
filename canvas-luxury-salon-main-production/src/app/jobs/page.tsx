@@ -23,7 +23,7 @@ export default async function JobsPage() {
   )}`;
 
   return (
-    <ThemeScope scope="book">
+    <ThemeScope scope="jobs">
       <section
         id="open-roles"
         className="bg-canvas px-4 pb-12 pt-[max(5.25rem,calc(env(safe-area-inset-top)+3.5rem))] sm:px-6 sm:pb-20 sm:pt-[max(7rem,env(safe-area-inset-top))] md:px-8"

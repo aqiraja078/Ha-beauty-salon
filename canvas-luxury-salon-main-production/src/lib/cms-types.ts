@@ -16,6 +16,8 @@ export type CmsMenuItem = {
   blurb: string;
   price: string;
   duration?: string;
+  /** Optional card photo URL. Blank = automatic themed photo. */
+  image?: string;
   lengthPrices?: {
     short: string;
     medium: string;
@@ -33,8 +35,16 @@ export type CmsMenuSection = {
 export type CmsServiceCategory = {
   heroImages: string[];
   heroAlt: string;
+  /** Small label above the hero headline. */
   kicker: string;
+  /** Page title (SEO / browser tab). */
   title: string;
+  /** Hero headline, line 1 (gold). Blank = default. */
+  headline?: string;
+  /** Hero headline, line 2 (italic cream). Blank = default. */
+  headlineAccent?: string;
+  /** Script tagline over the hero photo. Blank = default. */
+  script?: string;
   description: string;
   footerNote: string;
   sections: CmsMenuSection[];
@@ -146,6 +156,21 @@ export type HomeContent = {
     eyebrow: string;
     title: string;
     items: { quote: string; name: string; role: string }[];
+  };
+  galleryPage: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+  };
+  blog: {
+    /** Small label above the blog hero title. */
+    eyebrow: string;
+    description: string;
+    /** Hero photo shown on the right of the blog hero. */
+    image: string;
+    collectionEyebrow: string;
+    collectionTitle: string;
+    collectionLead: string;
   };
   cta: {
     trustPoints: string[];

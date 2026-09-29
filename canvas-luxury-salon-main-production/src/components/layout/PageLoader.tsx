@@ -2,11 +2,10 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { site } from "@/lib/site";
 
 const isDev = process.env.NODE_ENV === "development";
 
-export function PageLoader() {
+export function PageLoader({ siteName }: { siteName: string }) {
   const [done, setDone] = useState(isDev);
   const reduce = useReducedMotion();
 
@@ -35,7 +34,7 @@ export function PageLoader() {
               className="flex h-16 w-16 items-center justify-center rounded-2xl border border-accent/25 bg-accent-soft"
             >
               <span className="font-display text-lg font-semibold text-accent">
-                Huma
+                Adaa
               </span>
             </motion.div>
 
@@ -45,7 +44,7 @@ export function PageLoader() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.12, duration: 0.6 }}
             >
-              {site.name}
+              {siteName}
             </motion.p>
 
             <motion.div

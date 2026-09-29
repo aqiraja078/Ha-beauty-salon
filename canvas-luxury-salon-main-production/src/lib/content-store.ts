@@ -147,6 +147,8 @@ function mergeHome(raw: Partial<HomeContent> | null): HomeContent {
       ...(raw.testimonials ?? {}),
       items: raw.testimonials?.items ?? d.testimonials.items,
     },
+    galleryPage: { ...d.galleryPage, ...(raw.galleryPage ?? {}) },
+    blog: { ...d.blog, ...(raw.blog ?? {}) },
     cta: {
       ...d.cta,
       ...(raw.cta ?? {}),

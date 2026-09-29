@@ -48,7 +48,7 @@ export function OfferCard({
   offer,
   featured = false,
   contactHref = "/contact",
-  contactLabel = "Ask Huma",
+  contactLabel = "Ask Adaa",
 }: Props) {
   const bookHref = offerBookHref(offer);
   return (

@@ -6,12 +6,9 @@ import { Reveal } from "@/components/ui/Reveal";
 import { ThemeScope } from "@/components/ui/ThemeScope";
 import { getPublishedBlogPosts } from "@/lib/blog-store";
 import { blogReadingMinutes, formatBlogDate } from "@/lib/blog-utils";
-import { getSiteContent } from "@/lib/content-store";
+import { getHomeContent, getSiteContent } from "@/lib/content-store";
 
 export const dynamic = "force-dynamic";
-
-const FALLBACK_HERO =
-  "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=1800&q=85";
 
 export async function generateMetadata(): Promise<Metadata> {
   const site = await getSiteContent();
@@ -22,73 +19,124 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function BlogPage() {
-  const [posts, site] = await Promise.all([
+  const [posts, site, home] = await Promise.all([
     getPublishedBlogPosts(),
     getSiteContent(),
+    getHomeContent(),
   ]);
+  const blog = home.blog;
 
   const latest = posts[0];
-  const heroImage = latest?.coverImage || FALLBACK_HERO;
+  const heroImage = blog.image;
+  const ampIdx = site.name.indexOf("&");
+  const titleTop = ampIdx > 0 ? site.name.slice(0, ampIdx).trim() : site.name;
+  const titleBottom = ampIdx > 0 ? site.name.slice(ampIdx).trim() : "";
 
   return (
     <ThemeScope scope="blog">
-      {/* ── Hero: compact on mobile ── */}
-      <section className="relative min-h-[42vh] overflow-hidden xs:min-h-[48vh] sm:min-h-[56vh]">
+      {/* ── Hero ── */}
+      <section className="relative min-h-[460px] overflow-hidden border-b border-line/60 sm:min-h-[480px]">
         <BlogHeroMedia src={heroImage} />
 
-        <div className="relative z-10 mx-auto flex min-h-[42vh] max-w-6xl flex-col justify-end px-4 pb-7 pt-[max(4.75rem,calc(env(safe-area-inset-top)+3rem))] xs:min-h-[48vh] xs:pb-8 sm:min-h-[56vh] sm:px-6 sm:pb-12 md:px-10 md:pb-14">
-          <Reveal blur>
-            <p className="font-display text-[clamp(1.85rem,9vw,4.75rem)] leading-[0.92] tracking-[-0.02em] text-white">
-              {site.name}
+        {/* Left: bokeh glow + fine-line gold leaves */}
+        <div
+          className="pointer-events-none absolute inset-y-0 left-0 z-[1] w-[52%] bg-[radial-gradient(circle_at_18%_30%,rgb(var(--accent)/0.14),transparent_9%),radial-gradient(circle_at_42%_78%,rgb(var(--accent)/0.12),transparent_7%),radial-gradient(circle_at_30%_55%,rgb(var(--accent)/0.08),transparent_12%),radial-gradient(circle_at_8%_85%,rgb(var(--accent)/0.12),transparent_8%)]"
+          aria-hidden
+        />
+        <svg
+          viewBox="0 0 260 200"
+          fill="none"
+          aria-hidden
+          className="pointer-events-none absolute -left-6 bottom-0 z-[1] w-44 -scale-x-100 text-accent opacity-40 sm:-left-2 sm:w-64 md:w-72"
+        >
+          <g stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M250 196 C210 150 170 110 120 60" />
+            <path d="M215 160 C190 150 176 128 178 104 C204 112 218 134 215 160Z" />
+            <path d="M186 126 C160 122 144 102 144 80 C168 84 184 102 186 126Z" />
+            <path d="M150 88 C128 88 112 72 110 50 C132 52 148 68 150 88Z" />
+            <path d="M232 178 C246 152 232 128 208 118" />
+            <path d="M240 186 C236 156 250 130 246 104 C226 118 220 152 240 186Z" />
+            <path d="M120 60 C118 40 128 22 144 12" />
+          </g>
+        </svg>
+
+        <div className="relative z-10 mx-auto flex min-h-[460px] max-w-6xl flex-col justify-center px-4 pb-5 pt-[max(5.75rem,calc(env(safe-area-inset-top)+4.5rem))] sm:min-h-[480px] sm:px-6 md:px-10">
+          <Reveal blur className="max-w-2xl">
+            <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.34em] text-accent sm:text-[11px]">
+              <span className="h-px w-8 bg-accent/70 sm:w-12" aria-hidden />
+              {blog.eyebrow}
+              <span className="h-px w-8 bg-accent/70 sm:w-12" aria-hidden />
             </p>
 
-            <div className="mt-3 max-w-lg sm:mt-5">
-              <h1 className="font-display text-2xl italic leading-tight text-white/95 sm:text-[2.25rem]">
-                Journal
-              </h1>
-              <p className="mt-2 max-w-[20rem] text-[13px] leading-relaxed text-white/75 sm:max-w-none sm:text-sm">
-                Bridal looks, home tips, and notes for Jhelum, Dina & Gujrat.
-              </p>
+            <h1 className="mt-4 font-display text-[clamp(1.9rem,4.8vw,3.5rem)] leading-[1.06] tracking-[-0.01em] sm:mt-6">
+              <span className="accent-gradient-text">{titleTop}</span>
+              {titleBottom ? (
+                <>
+                  <br />
+                  <span className="text-ink">{titleBottom}</span>
+                </>
+              ) : null}
+              <span className="sr-only"> — Blog</span>
+            </h1>
 
-              <div className="mt-4 flex flex-wrap items-center gap-2.5 sm:mt-6 sm:gap-3">
-                {latest ? (
-                  <Link
-                    href={`/blog/${latest.slug}`}
-                    className="inline-flex min-h-10 items-center justify-center rounded-full bg-white px-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-ink transition hover:bg-accent-soft sm:min-h-11 sm:px-6 sm:text-[11px]"
-                  >
-                    Read latest
-                  </Link>
-                ) : null}
-                <a
-                  href="#notes"
-                  className="inline-flex min-h-10 items-center justify-center rounded-full border border-white/35 px-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-white transition hover:border-white hover:bg-white/10 sm:min-h-11 sm:px-6 sm:text-[11px]"
-                >
-                  Browse
-                </a>
-              </div>
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-ink sm:mt-5 sm:text-[0.95rem]">
+              {blog.description}
+            </p>
+
+            <div className="mt-6 flex flex-wrap items-center gap-3 sm:mt-7">
+              {latest ? (
+                <Link href={`/blog/${latest.slug}`} className="btn-primary gap-2 px-7">
+                  Read latest
+                  <span aria-hidden>→</span>
+                </Link>
+              ) : null}
+              <a href="#notes" className="btn-ghost border-accent/80 px-7 text-white hover:border-accent">
+                Browse
+              </a>
             </div>
           </Reveal>
 
-          <div className="mt-5 flex items-center justify-between gap-4 border-t border-white/20 pt-3 sm:mt-8 sm:pt-4">
-            <p className="text-[10px] uppercase tracking-[0.2em] text-white/55 sm:text-[11px]">
+          <div className="mt-auto flex items-center gap-4 pt-8 sm:pt-10">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-ink-soft sm:text-[11px]">
               {posts.length} {posts.length === 1 ? "note" : "notes"}
             </p>
+            <span className="h-px w-16 bg-accent/60 sm:w-24" aria-hidden />
           </div>
         </div>
       </section>
 
       {/* ── Stories ── */}
       <section id="notes" className="scroll-mt-16 bg-canvas sm:scroll-mt-20">
-        <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-14 md:px-10">
-          <Reveal>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-accent sm:text-[11px]">
-              The collection
+        <div className="relative mx-auto max-w-6xl overflow-hidden px-4 py-10 sm:px-6 sm:py-16 md:px-10">
+          <svg
+            viewBox="0 0 260 200"
+            fill="none"
+            aria-hidden
+            className="pointer-events-none absolute -bottom-6 right-0 w-44 text-accent opacity-25 sm:right-6 sm:w-64 md:w-72"
+          >
+            <g stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M250 196 C210 150 170 110 120 60" />
+              <path d="M215 160 C190 150 176 128 178 104 C204 112 218 134 215 160Z" />
+              <path d="M186 126 C160 122 144 102 144 80 C168 84 184 102 186 126Z" />
+              <path d="M150 88 C128 88 112 72 110 50 C132 52 148 68 150 88Z" />
+              <path d="M232 178 C246 152 232 128 208 118" />
+              <path d="M240 186 C236 156 250 130 246 104 C226 118 220 152 240 186Z" />
+              <path d="M120 60 C118 40 128 22 144 12" />
+              <path d="M96 78 C82 72 74 58 78 42 C94 46 100 62 96 78Z" opacity="0.7" />
+            </g>
+          </svg>
+
+          <Reveal className="relative">
+            <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.3em] text-accent sm:text-[11px]">
+              <span className="h-px w-6 bg-accent/60 sm:w-10" aria-hidden />
+              {blog.collectionEyebrow}
+              <span className="h-px w-6 bg-accent/60 sm:w-10" aria-hidden />
             </p>
-            <h2 className="mt-1.5 font-display text-2xl text-ink sm:mt-2 sm:text-4xl md:text-5xl">
-              Notes worth keeping
+            <h2 className="mt-3 font-display text-3xl text-ink sm:mt-4 sm:text-4xl md:text-5xl">
+              {blog.collectionTitle}
             </h2>
-            <p className="mt-2 max-w-sm text-xs leading-relaxed text-ink-soft sm:mt-3 sm:text-sm">
-              Open any story — written for real wedding weeks and everyday glow.
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-ink-soft sm:mt-4">
+              {blog.collectionLead}
             </p>
           </Reveal>
         </div>

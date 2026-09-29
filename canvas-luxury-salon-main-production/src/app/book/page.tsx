@@ -12,14 +12,16 @@ import { allHairServiceNames } from "@/lib/hair-services-data";
 import { allMakeupServiceNames } from "@/lib/makeup-services-data";
 import type { BookingMode } from "@/lib/bookings-types";
 import { safeSearchParam } from "@/lib/booking-prefill";
-import { site } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Book appointment",
-  description: `Schedule a home beauty visit with ${site.name} in Jhelum, Dina, or Gujrat.`,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getSiteContent();
+  return {
+    title: "Book appointment",
+    description: `Schedule a home beauty visit with ${site.name} in Jhelum, Dina, or Gujrat.`,
+  };
+}
 
 const assurances = [
   {

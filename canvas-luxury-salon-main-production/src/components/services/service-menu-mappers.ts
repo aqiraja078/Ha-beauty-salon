@@ -14,6 +14,7 @@ export type ServiceMenuItem = {
   price: string;
   blurb: string;
   meta?: string;
+  image?: string;
   lengthPrices?: HairLengthPrices;
 };
 
@@ -45,6 +46,7 @@ export function cmsToMenu(sections: CmsMenuSection[]): ServiceMenuSection[] {
       price: i.price,
       blurb: i.blurb,
       meta: i.duration,
+      image: i.image?.trim() || undefined,
       lengthPrices: maybeLengthPrices(s.id, i.price, i.lengthPrices),
     })),
   }));

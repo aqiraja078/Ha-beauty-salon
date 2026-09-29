@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Playfair_Display, Poppins } from "next/font/google";
+import { Great_Vibes, Playfair_Display, Poppins } from "next/font/google";
 import "./globals.css";
 import { PageLoader } from "@/components/layout/PageLoader";
 import { PublicChrome } from "@/components/layout/PublicChrome";
@@ -12,7 +12,6 @@ import { PageTransition } from "@/components/ui/PageTransition";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { getSiteContent } from "@/lib/content-store";
 import { getMetadataBase } from "@/lib/public-site-url";
-import { site } from "@/lib/site";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -30,38 +29,48 @@ const playfair = Playfair_Display({
   adjustFontFallback: true,
 });
 
+const greatVibes = Great_Vibes({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-great-vibes",
+  display: "swap",
+});
+
 const metadataBase = getMetadataBase();
 
-export const metadata: Metadata = {
-  metadataBase,
-  icons: {
-    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
-    shortcut: "/icon.svg",
-    apple: "/icon.svg",
-  },
-  title: {
-    default: `${site.name} | Home Beauty Services in Jhelum, Dina, Gujrat`,
-    template: `%s | ${site.name}`,
-  },
-  description: site.description,
-  openGraph: {
-    title: site.name,
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getSiteContent();
+  return {
+    metadataBase,
+    icons: {
+      icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+      shortcut: "/icon.svg",
+      apple: "/icon.svg",
+    },
+    title: {
+      default: `${site.name} | Home Beauty Services in Jhelum, Dina, Gujrat`,
+      template: `%s | ${site.name}`,
+    },
     description: site.description,
-    locale: "en_PK",
-    type: "website",
-    url: "/",
-    siteName: site.name,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: site.name,
-    description: site.description,
-  },
-  robots: { index: true, follow: true },
-};
+    openGraph: {
+      title: site.name,
+      description: site.description,
+      locale: "en_PK",
+      type: "website",
+      url: "/",
+      siteName: site.name,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: site.name,
+      description: site.description,
+    },
+    robots: { index: true, follow: true },
+  };
+}
 
 export const viewport: Viewport = {
-  themeColor: "#faf9f4",
+  themeColor: "#111111",
   width: "device-width",
   initialScale: 1,
 };
@@ -82,7 +91,7 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://i.pinimg.com" crossOrigin="" />
       </head>
       <body
-        className={`${poppins.variable} ${playfair.variable} grain min-h-screen overflow-x-clip bg-canvas text-ink antialiased`}
+        className={`${poppins.variable} ${playfair.variable} ${greatVibes.variable} grain min-h-screen overflow-x-clip bg-canvas text-ink antialiased`}
       >
         <a
           href="#main-content"
@@ -90,8 +99,8 @@ export default async function RootLayout({
         >
           Skip to main content
         </a>
-        <JsonLd />
-        <PageLoader />
+        <JsonLd site={siteLive} />
+        <PageLoader siteName={siteLive.name} />
         <PublicChrome>
           <ScrollProgress />
           <SiteHeader site={siteLive} />

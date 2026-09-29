@@ -1,87 +1,115 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="236" height="68" viewBox="0 0 236 68" fill="none" role="img" aria-label="Huma Beauty Salon">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 520" fill="none" role="img" aria-label="ADAA Beauty Salon and Training Center">
   <defs>
-    <linearGradient id="humaCrest" x1="8" y1="6" x2="58" y2="62" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#148066"/>
-      <stop offset="0.55" stop-color="#0d6a54"/>
-      <stop offset="1" stop-color="#084739"/>
+    <linearGradient id="goldMain" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6b4e16"/>
+      <stop offset="22%" stop-color="#c9a227"/>
+      <stop offset="45%" stop-color="#f7e7a8"/>
+      <stop offset="58%" stop-color="#d4af37"/>
+      <stop offset="78%" stop-color="#a67c00"/>
+      <stop offset="100%" stop-color="#5c4510"/>
     </linearGradient>
-    <linearGradient id="humaGold" x1="0" y1="0" x2="1" y2="1">
-      <stop stop-color="#d4b06a"/>
-      <stop offset="1" stop-color="#9a7340"/>
+    <linearGradient id="goldShine" x1="30%" y1="0%" x2="70%" y2="100%">
+      <stop offset="0%" stop-color="#fff8dc" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
     </linearGradient>
-    <linearGradient id="humaInk" x1="72" y1="20" x2="230" y2="52" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#0d2620"/>
-      <stop offset="1" stop-color="#1a4a3d"/>
-    </linearGradient>
+    <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#d4af37" flood-opacity="0.35"/>
+    </filter>
   </defs>
 
-  <!-- Crest badge -->
-  <path
-    d="M12 18C12 10.8 17.8 5 25 5h22c7.2 0 13 5.8 13 13v28c0 7.2-5.8 13-13 13H25c-7.2 0-13-5.8-13-13V18Z"
-    fill="url(#humaCrest)"
-  />
-  <path
-    d="M16.5 20.5C16.5 14.5 21.3 9.5 27.3 9.5h17.4c6 0 10.8 5 10.8 11v23c0 6-4.8 11-10.8 11H27.3c-6 0-10.8-5-10.8-11v-23Z"
-    stroke="#ffffff"
-    stroke-opacity="0.22"
-    stroke-width="1"
-  />
+  <g filter="url(#goldGlow)">
+    <!-- Circular frame -->
+    <circle cx="210" cy="248" r="198" stroke="url(#goldMain)" stroke-width="2.2" fill="none"/>
+    <path d="M210 48 L210 62" stroke="url(#goldMain)" stroke-width="2" stroke-linecap="round"/>
+    <path d="M88 430 H332" stroke="url(#goldMain)" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
 
-  <!-- Gold crown flourish -->
-  <path
-    d="M22 12.5c6.5-2.2 13.5-2.2 20 0"
-    stroke="url(#humaGold)"
-    stroke-width="1.6"
-    stroke-linecap="round"
-  />
-  <circle cx="32" cy="10.8" r="1.2" fill="url(#humaGold)"/>
-  <circle cx="36" cy="9.8" r="1.6" fill="url(#humaGold)"/>
-  <circle cx="40" cy="10.8" r="1.2" fill="url(#humaGold)"/>
+    <!-- Crown -->
+    <path
+      d="M188 108 L196 92 L204 102 L210 88 L216 102 L224 92 L232 108"
+      stroke="url(#goldMain)"
+      stroke-width="2.2"
+      stroke-linejoin="round"
+      fill="none"
+    />
 
-  <!-- Stylized H — flowing crossbar (hair / elegance motif) -->
-  <path
-    d="M27 18v28M43 18v28M27 32c4.5-3.5 9-5.5 16-6.5"
-    stroke="#ffffff"
-    stroke-width="3.2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
-  <path
-    d="M27 32c4.5 3.5 9 5.5 16 6.5"
-    stroke="#ffffff"
-    stroke-width="2.2"
-    stroke-linecap="round"
-    stroke-opacity="0.55"
-  />
-  <path
-    d="M46 22c2.2 1.2 2.8 3.4 1.4 4.8-1.8 1.8-4.8.4-4.8-1.8 0-1.4 1.8-2.4 3.4-3Z"
-    fill="#ffffff"
-    fill-opacity="0.18"
-  />
+    <!-- Monogram A + profile silhouette -->
+    <path
+      fill="url(#goldMain)"
+      d="M148 118 L210 318 L272 118 H248 L228 178 H192 L172 118 H148 Z M198 198 H222 L210 248 L198 198 Z"
+    />
+    <path
+      fill="url(#goldMain)"
+      opacity="0.95"
+      d="M248 118 C268 118 285 132 292 152 C302 182 298 218 280 248 C268 268 252 278 238 282 C228 284 220 278 222 268 C224 258 234 252 246 244 C262 232 272 210 270 188 C268 168 258 152 242 142 C236 138 242 118 248 118 Z"
+    />
+    <path
+      fill="url(#goldMain)"
+      d="M292 168 C302 162 312 168 314 178 C316 188 308 196 298 194 C288 192 284 174 292 168 Z M304 182 C310 178 318 182 318 190 C318 198 310 202 304 198 C298 194 298 186 304 182 Z M316 198 C322 194 330 200 328 208 C326 216 316 216 312 210 C308 204 310 200 316 198 Z"
+    />
 
-  <!-- Wordmark -->
-  <text
-    x="72"
-    y="40"
-    font-family="Georgia, 'Times New Roman', serif"
-    font-size="38"
-    font-weight="600"
-    letter-spacing="0.02em"
-    fill="url(#humaInk)"
-  >Huma</text>
+    <!-- Shine overlay on monogram -->
+    <path
+      fill="url(#goldShine)"
+      opacity="0.35"
+      d="M148 118 L210 318 L272 118 H248 L228 178 H192 L172 118 H148 Z"
+    />
 
-  <!-- Gold divider with diamond -->
-  <path d="M72 49h52" stroke="url(#humaGold)" stroke-width="1.2" stroke-linecap="round"/>
-  <path d="M96.5 49l3 3 3-3-3-3z" fill="url(#humaGold)"/>
-  <path d="M126 49h34" stroke="url(#humaGold)" stroke-width="1.2" stroke-linecap="round" stroke-opacity="0.5"/>
+    <!-- ADAA wordmark -->
+    <text
+      x="210"
+      y="368"
+      text-anchor="middle"
+      font-family="Georgia, 'Times New Roman', serif"
+      font-size="72"
+      font-weight="700"
+      letter-spacing="0.06em"
+      fill="url(#goldMain)"
+    >ADAA</text>
 
-  <text
-    x="72"
-    y="62"
-    font-family="Arial, Helvetica, sans-serif"
-    font-size="11.5"
-    font-weight="600"
-    letter-spacing="0.34em"
-    fill="#0d6a54"
-  >BEAUTY SALON</text>
+    <!-- Decorative swash under first A -->
+    <path
+      d="M118 378 C140 402 175 412 210 412 C245 412 280 402 302 378"
+      stroke="url(#goldMain)"
+      stroke-width="2.5"
+      fill="none"
+      stroke-linecap="round"
+    />
+    <path
+      d="M302 368 C308 362 318 364 318 372 C318 380 306 384 302 378"
+      fill="url(#goldMain)"
+    />
+
+    <!-- BEAUTY SALON -->
+    <path d="M128 428 H168" stroke="url(#goldMain)" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M252 428 H292" stroke="url(#goldMain)" stroke-width="1.4" stroke-linecap="round"/>
+    <text
+      x="210"
+      y="438"
+      text-anchor="middle"
+      font-family="Arial, Helvetica, sans-serif"
+      font-size="22"
+      font-weight="600"
+      letter-spacing="0.38em"
+      fill="url(#goldMain)"
+    >BEAUTY SALON</text>
+
+    <!-- Bottom lotus -->
+    <path
+      d="M210 468 C200 458 188 462 188 472 C188 482 200 486 210 496 C220 486 232 482 232 472 C232 462 220 458 210 468 Z"
+      fill="url(#goldMain)"
+    />
+    <path d="M178 488 H198" stroke="url(#goldMain)" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M222 488 H242" stroke="url(#goldMain)" stroke-width="1.2" stroke-linecap="round"/>
+
+    <text
+      x="210"
+      y="512"
+      text-anchor="middle"
+      font-family="Arial, Helvetica, sans-serif"
+      font-size="13"
+      font-weight="500"
+      letter-spacing="0.28em"
+      fill="url(#goldMain)"
+    >&amp; TRAINING CENTER</text>
+  </g>
 </svg>

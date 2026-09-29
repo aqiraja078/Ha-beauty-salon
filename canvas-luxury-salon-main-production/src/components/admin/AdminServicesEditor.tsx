@@ -99,6 +99,7 @@ export function AdminServicesEditor({ initial }: { initial: ServiceMenus }) {
       blurb: item.blurb,
       price: item.price,
       duration: item.duration,
+      image: item.image,
     });
   }
 
@@ -218,9 +219,12 @@ export function AdminServicesEditor({ initial }: { initial: ServiceMenus }) {
         <div className="grid gap-3 sm:grid-cols-2">
           {(
             [
-              ["kicker", "Kicker"],
-              ["title", "Title"],
-              ["heroAlt", "Hero alt text"],
+              ["kicker", "Hero label (small text above headline)"],
+              ["title", "Page title (browser tab / SEO)"],
+              ["headline", "Hero headline — line 1"],
+              ["headlineAccent", "Hero headline — line 2"],
+              ["script", "Script tagline on photo"],
+              ["heroAlt", "Hero photo alt text"],
             ] as const
           ).map(([key, label]) => (
             <label key={key} className="block">
@@ -229,7 +233,7 @@ export function AdminServicesEditor({ initial }: { initial: ServiceMenus }) {
               </span>
               <input
                 className="console-field"
-                value={cat[key]}
+                value={cat[key] ?? ""}
                 onChange={(e) => patchCat({ ...cat, [key]: e.target.value })}
               />
             </label>
@@ -260,7 +264,7 @@ export function AdminServicesEditor({ initial }: { initial: ServiceMenus }) {
           </label>
           <label className="block sm:col-span-2">
             <span className="mb-1.5 block text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
-              Hero image URLs (one per line)
+              Hero photo URL (first line is shown on the page)
             </span>
             <textarea
               className="console-field min-h-[72px] font-mono text-xs"
@@ -426,6 +430,22 @@ export function AdminServicesEditor({ initial }: { initial: ServiceMenus }) {
                           Remove
                         </button>
                       </div>
+                      <label className="block sm:col-span-2 lg:col-span-4">
+                        <span className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
+                          Card photo URL (optional — blank = automatic photo)
+                        </span>
+                        <input
+                          className="console-field font-mono text-xs"
+                          value={item.image ?? ""}
+                          placeholder="https://…"
+                          onChange={(e) =>
+                            patchItem(si, ii, {
+                              ...item,
+                              image: e.target.value.trim() || undefined,
+                            })
+                          }
+                        />
+                      </label>
                       <label className="block sm:col-span-2 lg:col-span-4">
                         <span className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
                           Description

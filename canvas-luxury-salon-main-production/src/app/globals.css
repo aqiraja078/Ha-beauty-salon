@@ -3,71 +3,38 @@
 @tailwind utilities;
 
 /*
-  Palette is expressed as raw RGB channels so Tailwind can apply /<alpha-value>.
-  Each page scope re-declares --canvas / --tint to get its own mood while the
-  emerald accent keeps the brand consistent.
+  Site-wide palette (every page + header/footer + staff console), raw RGB channels
+  so Tailwind can apply /<alpha-value>:
+    #111111 Black  ·  #252525 Charcoal  ·  #C9A35B Luxury Gold  ·  #F4E8D2 Cream
+  Per-page [data-scope] blocks are intentionally gone — all pages share this one palette.
 */
 :root {
-  --canvas: 250 249 244;
-  --canvas-2: 243 242 234;
-  --surface: 255 255 255;
+  --canvas: 17 17 17;
+  --canvas-2: 22 22 22;
+  --surface: 37 37 37;
 
-  --ink: 13 38 32;
-  --ink-soft: 58 82 74;
-  --muted: 124 140 132;
-  --line: 226 226 216;
+  --ink: 244 232 210;
+  --ink-soft: 208 197 178;
+  --muted: 150 141 126;
+  --line: 78 66 44;
 
-  --accent: 13 106 84;
-  --accent-strong: 8 71 57;
-  --accent-soft: 228 242 237;
-  --accent-fg: 255 255 255;
+  --accent: 201 163 91;
+  --accent-strong: 160 126 62;
+  --accent-soft: 46 39 27;
+  --accent-fg: 17 17 17;
 
-  --tint: 20 128 102;
-  --tint-soft: 233 245 240;
+  --tint: 201 163 91;
+  --tint-soft: 40 34 24;
 
-  --gilt: 176 141 87;
+  --gilt: 201 163 91;
+  --gold-hi: 244 232 210;
+  --gold-lo: 160 126 62;
 
-  --background: rgb(250 249 244);
-  --foreground: rgb(13 38 32);
+  --background: rgb(17 17 17);
+  --foreground: rgb(244 232 210);
 }
 
-/* All six service menus share the body & spa palette. */
-[data-scope="hair"],
-[data-scope="makeup"],
-[data-scope="facial"],
-[data-scope="body-spa"] {
-  --canvas: 246 250 252;
-  --canvas-2: 235 243 247;
-  --tint: 30 110 128;
-  --tint-soft: 226 240 245;
-}
-
-[data-scope="contact"] {
-  --canvas: 247 251 249;
-  --canvas-2: 236 245 241;
-  --tint: 16 112 92;
-  --tint-soft: 229 243 238;
-}
-
-[data-scope="book"] {
-  --canvas: 252 250 245;
-  --canvas-2: 245 242 233;
-  --tint: 150 112 60;
-  --tint-soft: 248 241 229;
-}
-
-/* Beauty journal — mist green wash; emerald brand accent from :root */
-[data-scope="blog"] {
-  --canvas: 247 249 248;
-  --canvas-2: 235 241 238;
-  --surface: 255 255 255;
-  --tint: 20 120 95;
-  --tint-soft: 230 241 236;
-  --line: 218 226 222;
-}
-
-/* The staff console declares no overrides — it runs the house ivory + emerald
-   palette from :root so the dashboard matches the home page. Retinting the
+/* The staff console declares no overrides — it runs the site palette from :root. Retinting the
    whole admin area means adding a [data-scope="admin"] block here; nothing in
    the console components hardcodes a colour. */
 
@@ -130,11 +97,37 @@ body {
   }
 
   .btn-primary {
-    @apply inline-flex min-h-[48px] items-center justify-center rounded-full bg-accent px-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-accent-fg shadow-lift caret-transparent transition duration-300 hover:bg-accent-strong hover:shadow-lift-lg focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/25 active:scale-[0.98];
+    background-image: linear-gradient(
+      105deg,
+      rgb(var(--gold-lo)),
+      rgb(var(--accent)) 35%,
+      rgb(var(--gold-hi)) 52%,
+      rgb(var(--accent)) 68%,
+      rgb(var(--gold-lo))
+    );
+    @apply inline-flex min-h-[48px] items-center justify-center rounded-full px-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-accent-fg shadow-lift caret-transparent transition duration-300 hover:brightness-110 hover:shadow-lift-lg focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/35 active:scale-[0.98];
   }
 
   .btn-ghost {
-    @apply inline-flex min-h-[48px] items-center justify-center rounded-full border border-accent/25 bg-surface/70 px-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-accent caret-transparent backdrop-blur-sm transition duration-300 hover:border-accent/50 hover:bg-accent-soft focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/15 active:scale-[0.98];
+    @apply inline-flex min-h-[48px] items-center justify-center rounded-full border border-accent/45 bg-surface/40 px-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-accent caret-transparent backdrop-blur-sm transition duration-300 hover:border-accent hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/20 active:scale-[0.98];
+  }
+
+  .bg-gold-gradient {
+    background-image: linear-gradient(
+      105deg,
+      rgb(var(--gold-lo)),
+      rgb(var(--accent)) 35%,
+      rgb(var(--gold-hi)) 52%,
+      rgb(var(--accent)) 68%,
+      rgb(var(--gold-lo))
+    );
+  }
+
+  .luxury-card {
+    @apply rounded-2xl border border-accent/35 bg-surface shadow-lift;
+    box-shadow:
+      0 0 0 1px rgb(var(--accent) / 0.08),
+      0 18px 40px -22px rgb(0 0 0 / 0.85);
   }
 
   .eyebrow {
@@ -261,6 +254,6 @@ body {
   position: fixed;
   inset: 0;
   z-index: 50;
-  opacity: 0.025;
+  opacity: 0.04;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }

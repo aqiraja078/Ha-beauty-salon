@@ -26,11 +26,15 @@ export function BlogHeroMedia({ src, alt = "" }: { src: string; alt?: string }) 
         </motion.div>
       )}
       <div
-        className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/25"
+        className="absolute inset-0 bg-gradient-to-r from-canvas from-[8%] via-canvas/65 via-[42%] to-transparent to-[78%]"
         aria-hidden
       />
       <div
-        className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgb(var(--accent)/0.25),transparent_55%)]"
+        className="absolute inset-0 bg-gradient-to-t from-canvas via-canvas/20 to-transparent to-45%"
+        aria-hidden
+      />
+      <div
+        className="absolute inset-0 bg-[radial-gradient(ellipse_at_75%_35%,rgb(var(--accent)/0.16),transparent_55%)]"
         aria-hidden
       />
     </div>

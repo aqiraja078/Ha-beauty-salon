@@ -28,12 +28,12 @@ function seedPosts(): BlogPost[] {
         "Walima",
         "Jhelum",
         "HomeService",
-        "HumaBeautySalon",
+        "AdaaBeautySalon",
       ],
-      author: "Huma Beauty Team",
+      author: "Adaa Beauty Team",
       body: `Home bridal beauty across Punjab is growing fast. Families want camera-ready looks without travelling to a crowded salon — and artists who understand Pakistani bridal wear, humid halls, and long function days.
 
-At Huma Beauty Salon we bring HD bridal makeup, hair, and facial prep to your door in Jhelum, Dina, and Gujrat.
+At Adaa Beauty Salon & Training Center we bring HD bridal makeup, hair, and facial prep to your door in Jhelum, Dina, and Gujrat.
 
 ## Why bridal makeup matters for shaadi week
 
@@ -70,7 +70,7 @@ Bridal makeup scope in our cities is expanding because families want reliable ho
     },
     {
       id: randomUUID(),
-      title: "How to Book a Home Beauty Visit with Huma",
+      title: "How to Book a Home Beauty Visit with Adaa",
       slug: "how-to-book-home-beauty-visit",
       coverImage:
         "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1400&q=80",
@@ -78,8 +78,8 @@ Bridal makeup scope in our cities is expanding because families want reliable ho
         "A clear step-by-step guide to booking makeup, facial, wax, nails, or mehndi at home in Jhelum, Dina, and Gujrat.",
       category: "Guides",
       tags: ["Booking", "HomeService", "WhatsApp", "Jhelum"],
-      author: "Huma Beauty Team",
-      body: `Booking a home beauty visit should feel simple. Here is how to lock your slot with Huma Beauty Salon.
+      author: "Adaa Beauty Team",
+      body: `Booking a home beauty visit should feel simple. Here is how to lock your slot with Adaa Beauty Salon & Training Center.
 
 ## Step 1 — Open the Book page
 
@@ -122,7 +122,7 @@ Home service means salon-quality finishing without the drive — just book early
         "Keep foundation fresh through heat, tears, and the dance floor with practical tips for Punjab wedding halls.",
       category: "Tips",
       tags: ["BridalMakeup", "Weather", "HDMakeup", "TouchUp"],
-      author: "Huma Beauty Team",
+      author: "Adaa Beauty Team",
       body: `Barat halls in Jhelum can get warm fast. The right prep keeps your look camera-ready from nikkah to the last dance.
 
 ## Start with skin, not product

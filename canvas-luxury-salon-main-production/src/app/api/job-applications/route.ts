@@ -3,7 +3,7 @@ import { jobApplicationWhatsAppText, notifyAdminOfJobApplication } from "@/lib/j
 import { addJobApplication } from "@/lib/job-applications-store";
 import { getJobBySlug } from "@/lib/jobs-store";
 import { clientIpFromRequest, rateLimitBooking } from "@/lib/rate-limit";
-import { site } from "@/lib/site";
+import { getSiteContent } from "@/lib/content-store";
 
 export async function POST(request: Request) {
   const ip = clientIpFromRequest(request);
@@ -71,7 +71,7 @@ export async function POST(request: Request) {
       )
     );
 
-    const waDigits = job.applyWhatsApp || site.phoneDigits;
+    const waDigits = job.applyWhatsApp || (await getSiteContent()).phoneDigits;
     const waText = jobApplicationWhatsAppText(app);
     const whatsappUrl = `https://wa.me/${waDigits}?text=${encodeURIComponent(waText)}`;
 

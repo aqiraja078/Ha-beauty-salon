@@ -1,30 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" role="img" aria-label="Huma Beauty Salon">
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" role="img" aria-label="ADAA Beauty Salon">
   <defs>
-    <linearGradient id="humaIconBg" x1="2" y1="2" x2="30" y2="30" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#148066"/>
-      <stop offset="1" stop-color="#084739"/>
-    </linearGradient>
-    <linearGradient id="humaIconGold" x1="0" y1="0" x2="1" y2="1">
-      <stop stop-color="#d4b06a"/>
-      <stop offset="1" stop-color="#9a7340"/>
+    <linearGradient id="themeGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a88228"/>
+      <stop offset="35%" stop-color="#c9a35b"/>
+      <stop offset="55%" stop-color="#fcf6ba"/>
+      <stop offset="100%" stop-color="#a88228"/>
     </linearGradient>
   </defs>
-  <rect width="32" height="32" rx="9" fill="url(#humaIconBg)"/>
-  <rect x="3.5" y="3.5" width="25" height="25" rx="7" stroke="#ffffff" stroke-opacity="0.22" stroke-width="0.9"/>
-  <path d="M8 10.5c4-1.4 8.2-1.4 12.2 0" stroke="url(#humaIconGold)" stroke-width="1.1" stroke-linecap="round"/>
-  <circle cx="14" cy="9.2" r="0.9" fill="url(#humaIconGold)"/>
-  <circle cx="16" cy="8.5" r="1.1" fill="url(#humaIconGold)"/>
-  <circle cx="18" cy="9.2" r="0.9" fill="url(#humaIconGold)"/>
-  <path
-    d="M10.5 12.5v11M19.5 12.5v11M10.5 18c2.4-1.8 4.8-2.8 8.5-3.3M10.5 18c2.4 1.8 4.8 2.8 8.5 3.3"
-    stroke="#ffffff"
-    stroke-width="1.8"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
-  <path
-    d="M21.2 14.2c1.1.6 1.4 1.7.7 2.4-.9.9-2.4.2-2.4-.9 0-.7.9-1.2 1.7-1.5Z"
-    fill="#ffffff"
-    fill-opacity="0.18"
-  />
+  <rect width="32" height="32" rx="8" fill="#111111"/>
+  <circle cx="16" cy="16" r="12.5" stroke="url(#themeGold)" stroke-width="1.1" fill="none"/>
+  <path fill="url(#themeGold)" d="M10 12 L16 24 L22 12 H19 L17 17 H15 L13 12 H10 Z M14.5 18 H17.5 L16 21 L14.5 18 Z"/>
+  <path fill="url(#themeGold)" d="M19 12 C21 12 22.5 13.5 23 15 C23.6 17.2 22.8 19.5 21 21 C20 22 19 22.5 18 22.5 C17.2 22.5 17 21.8 17.4 21 C17.8 20.2 18.8 19.6 19.8 18.8 C20.8 18 21.2 16.5 21 15.2 C20.8 14 20.2 12 19 12 Z"/>
+  <path d="M12 9 L13.5 7 L15 8.5 L16 6.5 L17 8.5 L18.5 7 L20 9" stroke="url(#themeGold)" stroke-width="0.9" fill="none" stroke-linejoin="round"/>
 </svg>

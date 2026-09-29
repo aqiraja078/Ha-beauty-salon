@@ -9,6 +9,7 @@ import {
   IconClose,
   IconCourse,
   IconDashboard,
+  IconGallery,
   IconHome,
   IconScissors,
   IconSettings,
@@ -23,6 +24,7 @@ export type ConsoleView =
   | "calendar"
   | "clients"
   | "blog"
+  | "gallery"
   | "courses"
   | "enrollments"
   | "jobs"
@@ -43,6 +45,7 @@ const NAV: NavItem[] = [
   { view: "calendar", label: "Calendar", Icon: IconCalendar },
   { view: "clients", label: "Clients", Icon: IconUsers },
   { view: "blog", label: "Blog", Icon: IconBlog },
+  { view: "gallery", label: "Gallery", Icon: IconGallery },
   { view: "courses", label: "Courses", Icon: IconCourse },
   { view: "enrollments", label: "Enrollments", Icon: IconUsers },
   { view: "jobs", label: "Jobs", Icon: IconBriefcase },

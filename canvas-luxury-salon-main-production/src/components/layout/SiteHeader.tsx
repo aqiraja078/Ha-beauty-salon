@@ -6,11 +6,13 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { SiteContent } from "@/lib/cms-types";
 import { site as siteFallback } from "@/lib/site";
+import { isCustomLogo } from "@/lib/brand-logo";
 
 const simpleLinks = [
   { href: "/how-to-book", label: "How to book" },
   { href: "/sales", label: "Sales" },
   { href: "/blog", label: "Blog" },
+  { href: "/gallery", label: "Gallery" },
   { href: "/courses", label: "Courses" },
   { href: "/jobs", label: "Jobs" },
   { href: "/contact", label: "Contact" },
@@ -29,6 +31,7 @@ function servicesActive(pathname: string) {
 
 export function SiteHeader({ site: siteProp }: { site?: SiteContent }) {
   const site = siteProp ?? siteFallback;
+  const customLogo = isCustomLogo(site.logo);
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -58,8 +61,8 @@ export function SiteHeader({ site: siteProp }: { site?: SiteContent }) {
     <header
       className={`fixed left-0 right-0 top-0 z-40 transition-all duration-500 ${
         scrolled
-          ? "border-b border-line/80 bg-canvas/85 py-2 shadow-soft backdrop-blur-xl sm:py-2.5"
-          : "border-b border-transparent bg-canvas/40 py-3 backdrop-blur-md sm:py-4"
+          ? "border-b border-line/80 bg-canvas/92 py-2 shadow-soft backdrop-blur-xl sm:py-2.5"
+          : "border-b border-line/30 bg-canvas/75 py-3 backdrop-blur-md sm:py-4"
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 pt-[env(safe-area-inset-top)] sm:px-6 md:px-8">
@@ -70,13 +73,22 @@ export function SiteHeader({ site: siteProp }: { site?: SiteContent }) {
         >
           {/* eslint-disable-next-line @next/next/no-img-element -- brand SVG logo */}
           <img
-            src={site.logo}
+            src={customLogo ? site.logo : "/logo-header@2x.png"}
+            srcSet={
+              customLogo
+                ? undefined
+                : "/logo-header.png 860w, /logo-header@2x.png 1720w, /logo-header@4k.png 3441w"
+            }
+            sizes="(max-width: 640px) 84px, 100px"
             alt={site.name}
-            className="h-10 w-auto transition duration-500 group-hover:scale-[1.03] xs:h-11 md:h-12"
+            width={84}
+            height={75}
+            decoding="async"
+            className="h-10 w-auto max-w-[84px] transition duration-500 group-hover:scale-[1.03] xs:h-11 sm:h-12 sm:max-w-[100px]"
           />
         </Link>
 
-        <nav className="hidden items-center gap-9 lg:flex">
+        <nav className="hidden items-center gap-5 xl:gap-8 lg:flex">
           <Link
             href="/"
             className={`${linkBase} ${
@@ -182,9 +194,9 @@ export function SiteHeader({ site: siteProp }: { site?: SiteContent }) {
         <div className="flex items-center gap-3">
           <Link
             href="/book"
-            className="hidden min-h-[42px] items-center justify-center rounded-full bg-accent px-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-accent-fg shadow-lift transition duration-300 hover:bg-accent-strong hover:shadow-lift-lg active:scale-[0.98] sm:inline-flex"
+            className="btn-primary hidden min-h-[42px] px-6 text-[10px] tracking-[0.2em] sm:inline-flex"
           >
-            Book now
+            Book now →
           </Link>
 
           <button

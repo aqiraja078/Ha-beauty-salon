@@ -8,7 +8,10 @@ export type ScopeId =
   | "body-spa"
   | "contact"
   | "book"
+  | "sales"
+  | "jobs"
   | "blog"
+  | "gallery"
   | "admin";
 
 /**

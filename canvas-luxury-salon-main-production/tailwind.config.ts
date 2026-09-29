@@ -44,13 +44,14 @@ export default {
       },
       fontFamily: {
         display: ["var(--font-playfair)", "Georgia", "serif"],
+        script: ["var(--font-great-vibes)", "cursive"],
         sans: ["var(--font-poppins)", "system-ui", "sans-serif"],
       },
       boxShadow: {
-        soft: "0 1px 2px rgba(16, 40, 34, 0.04), 0 12px 32px -18px rgba(16, 40, 34, 0.28)",
-        lift: "0 10px 30px -12px rgba(13, 106, 84, 0.35)",
-        "lift-lg": "0 22px 55px -20px rgba(13, 106, 84, 0.45)",
-        ring: "0 0 0 1px rgba(16, 40, 34, 0.06)",
+        soft: "0 1px 2px rgba(0, 0, 0, 0.35), 0 12px 32px -18px rgba(0, 0, 0, 0.55)",
+        lift: "0 10px 30px -12px rgb(var(--accent) / 0.22)",
+        "lift-lg": "0 22px 55px -20px rgb(var(--accent) / 0.28)",
+        ring: "0 0 0 1px rgb(var(--accent) / 0.12)",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

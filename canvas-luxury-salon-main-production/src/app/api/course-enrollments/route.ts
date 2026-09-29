@@ -6,7 +6,7 @@ import {
 import { addCourseEnrollment } from "@/lib/course-enrollments-store";
 import { getCourseBySlug } from "@/lib/courses-store";
 import { clientIpFromRequest, rateLimitBooking } from "@/lib/rate-limit";
-import { site } from "@/lib/site";
+import { getSiteContent } from "@/lib/content-store";
 
 export async function POST(request: Request) {
   const ip = clientIpFromRequest(request);
@@ -76,7 +76,7 @@ export async function POST(request: Request) {
     );
 
     const waText = courseEnrollmentWhatsAppText(app);
-    const whatsappUrl = `https://wa.me/${site.phoneDigits}?text=${encodeURIComponent(waText)}`;
+    const whatsappUrl = `https://wa.me/${(await getSiteContent()).phoneDigits}?text=${encodeURIComponent(waText)}`;
 
     return NextResponse.json({
       ok: true,

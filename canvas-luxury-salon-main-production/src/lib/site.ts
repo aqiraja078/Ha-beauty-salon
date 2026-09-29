@@ -4,11 +4,11 @@ import { allHairServiceNames } from "@/lib/hair-services-data";
 import { allMakeupServiceNames } from "@/lib/makeup-services-data";
 
 export const site = {
-  name: "Huma Beauty Salon",
-  tagline: "Home beauty, done right — Jhelum · Dina · Gujrat",
+  name: "Adaa Beauty Salon & Training Center",
+  tagline: "Beauty salon & training center — Jhelum · Dina · Gujrat",
   description:
-    "Where beauty meets elegance. We offer personalized makeup, hair styling, skincare, bridal services, body spa, and waxing using premium products and professional techniques for a flawless experience every time.",
-  logo: "/logo.svg",
+    "Adaa Beauty Salon & Training Center — luxury makeup, hair, skincare, bridal services, and professional beauty training with premium products and expert techniques.",
+  logo: "/logo-header@2x.png",
   email: "humabeautysalon07@gmail.com",
   phone: "+92 335 5462214",
   phoneDigits: "923355462214",

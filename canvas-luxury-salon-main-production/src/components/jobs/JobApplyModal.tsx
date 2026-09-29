@@ -98,7 +98,7 @@ export function JobApplyModal({ job, onClose }: Props) {
           <button
             type="button"
             aria-label="Close"
-            className="absolute inset-0 bg-ink/40 backdrop-blur-[2px]"
+            className="absolute inset-0 bg-black/70 backdrop-blur-[2px]"
             onClick={onClose}
           />
           <motion.div

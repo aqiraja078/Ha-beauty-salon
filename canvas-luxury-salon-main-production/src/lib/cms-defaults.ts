@@ -80,7 +80,7 @@ export const defaultHomeContent: HomeContent = {
   hero: {
     image:
       "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1920&q=85",
-    imageAlt: "Huma Beauty Salon artist preparing a client at home",
+    imageAlt: "Adaa Beauty Salon & Training Center artist preparing a client at home",
     headlineBefore: "Your look,",
     headlineAccent: "at home",
     subcopy:
@@ -117,9 +117,9 @@ export const defaultHomeContent: HomeContent = {
       "https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?w=900&q=80",
     badgeValue: "Home",
     badgeLabel: "Service first",
-    eyebrow: "About Huma",
+    eyebrow: "About Adaa",
     title: "Beauty that travels to you",
-    body: "Huma Beauty Salon is a home-service studio for families across Jhelum, Dina, and Gujrat. We prepare brides and guests for nikkah, mehndi, barat, and walima — with sanitised kits, honest timing, and makeup that survives tears, heat, and the dance floor.",
+    body: "Adaa Beauty Salon & Training Center is a home-service studio for families across Jhelum, Dina, and Gujrat. We prepare brides and guests for nikkah, mehndi, barat, and walima — with sanitised kits, honest timing, and makeup that survives tears, heat, and the dance floor.",
     bullets: [
       "Artists experienced with Pakistani bridal wear",
       "Sealed, sanitised tools every visit",
@@ -130,7 +130,7 @@ export const defaultHomeContent: HomeContent = {
     ctaHref: "/contact",
   },
   why: {
-    eyebrow: "Why Huma",
+    eyebrow: "Why Adaa",
     title: "What clients notice",
     reasons: [
       {
@@ -287,6 +287,22 @@ export const defaultHomeContent: HomeContent = {
       },
     ],
   },
+  galleryPage: {
+    eyebrow: "Gallery",
+    title: "Our work, up close",
+    lead: "Bridal looks, hair, skin and behind-the-scenes moments — photos and videos from real visits across Jhelum, Dina & Gujrat.",
+  },
+  blog: {
+    eyebrow: "Blog",
+    description:
+      "Beauty tips, bridal looks, home tips, and notes for Jhelum, Dina & Gujrat.",
+    image:
+      "https://i.pinimg.com/736x/86/87/9c/86879c401e8248877e6a6f3065c08118.jpg",
+    collectionEyebrow: "The collection",
+    collectionTitle: "Notes worth keeping",
+    collectionLead:
+      "Open any story — written for real wedding weeks and everyday beauty.",
+  },
   cta: {
     trustPoints: [
       "Home visits",
@@ -320,9 +336,12 @@ export const defaultServiceMenus: ServiceMenus = {
       "https://i.pinimg.com/736x/2c/a0/25/2ca0258ddeef532121c97c579a897541.jpg?w=800&q=70",
       "https://i.pinimg.com/736x/36/34/65/363465309f06503bea07436a701ea8d8.jpg?w=800&q=70",
     ],
-    heroAlt: "Hair colour and styling by Huma Beauty Salon at home",
-    kicker: "Hair at home",
+    heroAlt: "Hair colour and styling by Adaa Beauty Salon & Training Center at home",
+    kicker: "Hair · home service",
     title: "Hair services",
+    headline: "Colour & Cut",
+    headlineAccent: "At your door",
+    script: "Your Crown, Our Care",
     description:
       "Cuts, colour, keratin, and bridal styling brought to your house in Jhelum, Dina, or Gujrat — length-based prices on colour and treatments.",
     footerNote:
@@ -334,9 +353,12 @@ export const defaultServiceMenus: ServiceMenus = {
       "https://i.pinimg.com/736x/86/87/9c/86879c401e8248877e6a6f3065c08118.jpg?w=800&q=70",
       "https://i.pinimg.com/736x/be/f3/d9/bef3d934e5cfaeeec54f5a1c7ee6dcb2.jpg?w=800&q=70",
     ],
-    heroAlt: "Bridal and party makeup by Huma Beauty Salon",
-    kicker: "Makeup at home",
+    heroAlt: "Bridal and party makeup by Adaa Beauty Salon & Training Center",
+    kicker: "Look beautiful · feel confident",
     title: "Makeup services",
+    headline: "Event & Party",
+    headlineAccent: "Makeup",
+    script: "Because You Deserve to Shine",
     description:
       "Barat, walima, mehndi, and party makeup finished for long hours, photos, and humid halls — artists come to you.",
     footerNote:
@@ -348,9 +370,12 @@ export const defaultServiceMenus: ServiceMenus = {
       "https://i.pinimg.com/736x/90/c2/ca/90c2ca7d26c07a57933640fac0b9173b.jpg?w=800&q=70",
       "https://i.pinimg.com/736x/f3/ac/5c/f3ac5c2b0083d236ccaa18957bd41791.jpg?w=800&q=70",
     ],
-    heroAlt: "Facial and skin care with Huma Beauty Salon",
-    kicker: "Facial at home",
+    heroAlt: "Facial and skin care with Adaa Beauty Salon & Training Center",
+    kicker: "Facial · home service",
     title: "Facial services",
+    headline: "Calm skin",
+    headlineAccent: "For event week",
+    script: "Glow That Speaks for You",
     description:
       "Cleanup to bridal glow facials timed around your event week — calm skin for camera, not a heavy mask look.",
     footerNote:
@@ -362,9 +387,12 @@ export const defaultServiceMenus: ServiceMenus = {
       "https://i.pinimg.com/736x/81/6d/df/816ddf871f37612426c401d39c55d22f.jpg?w=800&q=70",
       "https://i.pinimg.com/1200x/95/55/e0/9555e062724cc2ca83f0cb3e6b38c586.jpg?w=800&q=70",
     ],
-    heroAlt: "Waxing and body care by Huma Beauty Salon",
-    kicker: "Wax & body at home",
+    heroAlt: "Waxing and body care by Adaa Beauty Salon & Training Center",
+    kicker: "Wax & body · home service",
     title: "Wax & Body",
+    headline: "Smooth prep",
+    headlineAccent: "Before the functions",
+    script: "Smooth, Soft & Radiant",
     description:
       "Face, arms, legs, and bridal wax packages plus polish and tan care — scheduled before your mehndi or barat.",
     footerNote:

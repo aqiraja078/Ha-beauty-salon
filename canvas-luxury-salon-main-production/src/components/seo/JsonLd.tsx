@@ -1,7 +1,7 @@
 import { getPublicSiteOrigin } from "@/lib/public-site-url";
-import { site } from "@/lib/site";
+import type { SiteContent } from "@/lib/cms-types";
 
-export function JsonLd() {
+export function JsonLd({ site }: { site: SiteContent }) {
   const data = {
     "@context": "https://schema.org",
     "@type": "BeautySalon",

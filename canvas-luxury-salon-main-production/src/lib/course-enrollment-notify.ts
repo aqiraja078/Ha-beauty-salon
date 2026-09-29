@@ -1,5 +1,5 @@
 import type { CourseEnrollment } from "@/lib/course-enrollments-types";
-import { site } from "@/lib/site";
+import { getSiteContent } from "@/lib/content-store";
 
 function escapeHtml(s: string): string {
   return s
@@ -37,6 +37,7 @@ async function sendWithResend(
 export async function notifyAdminOfCourseEnrollment(
   app: CourseEnrollment
 ): Promise<void> {
+  const site = await getSiteContent();
   const to =
     process.env.ADMIN_NOTIFY_EMAIL?.trim() || site.email?.trim() || "";
   if (!to) return;

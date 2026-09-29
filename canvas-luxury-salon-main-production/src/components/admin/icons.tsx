@@ -342,3 +342,11 @@ export function ConsoleCrest({ letter, ...p }: IconProps & { letter: string }) {
     </svg>
   );
 }
+
+export const IconGallery = (p: IconProps) => (
+  <Base {...p}>
+    <rect x="3" y="4" width="18" height="16" rx="2.5" />
+    <circle cx="8.5" cy="9.5" r="1.6" />
+    <path d="m21 16-5-5-8 9" />
+  </Base>
+);

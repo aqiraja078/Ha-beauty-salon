@@ -57,3 +57,5 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+/data/gallery.json
+/data/uploads/

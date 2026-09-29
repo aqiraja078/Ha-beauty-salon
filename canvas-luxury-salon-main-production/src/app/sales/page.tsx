@@ -21,7 +21,7 @@ export default async function SalesPage() {
   const contactLabel = `Ask ${site.name.split(" ")[0]}`;
 
   return (
-    <ThemeScope scope="book">
+    <ThemeScope scope="sales">
       <section className="aurora relative overflow-hidden px-4 pb-6 pt-[max(5.25rem,calc(env(safe-area-inset-top)+3.5rem))] sm:px-6 sm:pb-14 sm:pt-[max(8rem,env(safe-area-inset-top))] md:px-8">
         <div className="relative z-10 mx-auto max-w-3xl text-center">
           <Reveal blur>

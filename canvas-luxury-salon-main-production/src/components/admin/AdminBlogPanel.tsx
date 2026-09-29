@@ -349,7 +349,7 @@ export function AdminBlogPanel() {
                       setForm((f) => ({ ...f, author: e.target.value }))
                     }
                     className="console-field"
-                    placeholder="Huma Beauty Team"
+                    placeholder="Adaa Beauty Team"
                     disabled={busy}
                   />
                 </label>

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { HomeHeroAnimated } from "@/components/home/HomeHeroAnimated";
 import type { HomeContent } from "@/lib/cms-types";
+import { canOptimizeImage } from "@/lib/image-host";
+import { parseVideoEmbed, type GalleryItem } from "@/lib/gallery-types";
 import { whatsappBookUrl } from "@/lib/site";
 
 const TestimonialSlider = dynamic(
@@ -85,11 +87,18 @@ export function HomePageSections({
   home,
   siteName,
   phoneDigits,
+  galleryItems,
 }: {
   home: HomeContent;
   siteName: string;
   phoneDigits: string;
+  /** First published /gallery items (max 6). The home gallery block is hidden when empty. */
+  galleryItems?: GalleryItem[];
 }) {
+  const homeGallery: GalleryItem[] =
+    galleryItems && galleryItems.length > 0
+      ? galleryItems.slice(0, 6)
+      : [];
   const aboutBody = home.about.body.replaceAll("{name}", siteName);
   const whatsappHref = whatsappBookUrl(undefined, {
     name: siteName,
@@ -372,6 +381,7 @@ export function HomePageSections({
         </div>
       </section>
 
+      {homeGallery.length > 0 ? (
       <section className={`bg-canvas ${sectionPad}`}>
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
@@ -382,10 +392,10 @@ export function HomePageSections({
             />
             <Reveal delay={0.1} from="right">
               <Link
-                href="/book"
+                href="/gallery"
                 className="group inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-accent"
               >
-                Book a session
+                View full gallery
                 <span className="transition-transform duration-300 group-hover:translate-x-1">
                   →
                 </span>
@@ -397,28 +407,72 @@ export function HomePageSections({
             className="mt-8 sm:mt-12 grid grid-cols-2 gap-3 md:grid-cols-3 lg:gap-4"
             stagger={0.06}
           >
-            {home.gallery.images.map((src, idx) => (
-              <RevealItem
-                key={`${src}-${idx}`}
-                className={
-                  idx === 0 || idx === 5 ? "col-span-2 md:col-span-1" : undefined
-                }
-              >
-                <div className="card-media group relative aspect-square">
-                  <Image
-                    src={src}
-                    alt={`${siteName} portfolio preview ${idx + 1}`}
-                    fill
-                    className="object-cover transition duration-[900ms] group-hover:scale-110"
-                    sizes="(max-width: 768px) 50vw, 33vw"
-                  />
-                  <div className="pointer-events-none absolute inset-0 bg-accent/0 transition duration-500 group-hover:bg-accent/15" />
-                </div>
-              </RevealItem>
-            ))}
+            {homeGallery.map((item, idx) => {
+              const embed =
+                item.type === "video" ? parseVideoEmbed(item.src) : null;
+              const still =
+                item.type === "image"
+                  ? item.src
+                  : item.poster ||
+                    (embed?.kind === "youtube"
+                      ? `https://img.youtube.com/vi/${embed.id}/hqdefault.jpg`
+                      : "");
+              const label =
+                item.title || `${siteName} portfolio preview ${idx + 1}`;
+              return (
+                <RevealItem
+                  key={item.id}
+                  className={
+                    idx === 0 || idx === 5
+                      ? "col-span-2 md:col-span-1"
+                      : undefined
+                  }
+                >
+                  <Link
+                    href="/gallery"
+                    aria-label={`${label} — open gallery`}
+                    className="card-media group relative block aspect-square"
+                  >
+                    {still ? (
+                      <Image
+                        src={still}
+                        alt={label}
+                        fill
+                        unoptimized={!canOptimizeImage(still)}
+                        className="object-cover transition duration-[900ms] group-hover:scale-110"
+                        sizes="(max-width: 768px) 50vw, 33vw"
+                      />
+                    ) : embed?.kind === "file" ? (
+                      <video
+                        src={`${item.src}#t=0.1`}
+                        muted
+                        playsInline
+                        preload="metadata"
+                        aria-label={label}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div className="h-full w-full bg-surface" />
+                    )}
+                    {item.type === "video" ? (
+                      <span
+                        className="absolute left-1/2 top-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-accent/70 bg-canvas/70 text-accent backdrop-blur-sm"
+                        aria-hidden
+                      >
+                        <svg viewBox="0 0 24 24" className="ml-0.5 h-5 w-5" fill="currentColor">
+                          <path d="M8 5.14v13.72a1 1 0 0 0 1.52.85l11-6.86a1 1 0 0 0 0-1.7l-11-6.86A1 1 0 0 0 8 5.14z" />
+                        </svg>
+                      </span>
+                    ) : null}
+                    <div className="pointer-events-none absolute inset-0 bg-accent/0 transition duration-500 group-hover:bg-accent/15" />
+                  </Link>
+                </RevealItem>
+              );
+            })}
           </RevealGroup>
         </div>
       </section>
+      ) : null}
 
       <section className={`bg-canvas ${sectionPad}`}>
         <div className="mx-auto max-w-7xl">

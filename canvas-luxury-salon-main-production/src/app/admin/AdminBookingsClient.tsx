@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { AdminDayCalendar } from "@/components/admin/AdminDayCalendar";
 import { AdminClientsPanel } from "@/components/admin/AdminClientsPanel";
 import { AdminBlogPanel } from "@/components/admin/AdminBlogPanel";
+import { AdminGalleryPanel } from "@/components/admin/AdminGalleryPanel";
 import { AdminCoursesPanel } from "@/components/admin/AdminCoursesPanel";
 import { AdminEnrollmentsPanel } from "@/components/admin/AdminEnrollmentsPanel";
 import { AdminJobsPanel } from "@/components/admin/AdminJobsPanel";
@@ -95,6 +96,10 @@ const VIEW_COPY: Record<ConsoleView, { title?: string; subtitle: string }> = {
   blog: {
     title: "Blog",
     subtitle: "Add and publish posts for the public blog",
+  },
+  gallery: {
+    title: "Gallery",
+    subtitle: "Upload or link photos & videos — live on the public /gallery page",
   },
   courses: {
     title: "Courses",
@@ -659,6 +664,8 @@ export function AdminBookingsClient({
           {view === "clients" ? <AdminClientsPanel /> : null}
 
           {view === "blog" ? <AdminBlogPanel /> : null}
+
+          {view === "gallery" ? <AdminGalleryPanel /> : null}
 
           {view === "courses" ? <AdminCoursesPanel /> : null}
 
