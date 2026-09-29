@@ -4,6 +4,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import type { Course, CourseInput } from "@/lib/courses-types";
 import { uniqueSlug } from "@/lib/content-slug";
+import { rebrandLegacy } from "@/lib/legacy-brand";
 
 const STORE_KEY = "salon-courses";
 const DATA_DIR = path.resolve(process.cwd(), "data");
@@ -96,13 +97,13 @@ export async function getCourses(): Promise<Course[]> {
     if (store) {
       try {
         const data = await store.get(STORE_KEY, { type: "json" });
-        if (Array.isArray(data)) return data as Course[];
+        if (Array.isArray(data)) return rebrandLegacy(data as Course[]);
       } catch {
         /* fall through */
       }
     }
     const local = await readLocal();
-    if (local) return local;
+    if (local) return rebrandLegacy(local);
     const seeded = seedCourses();
     await writeLocal(seeded);
     return seeded;

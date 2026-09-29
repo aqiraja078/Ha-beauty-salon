@@ -5,6 +5,7 @@ import path from "path";
 import type { BlogPost, BlogPostInput } from "@/lib/blog-types";
 import { normalizeBlogTags } from "@/lib/blog-utils";
 import { slugify, uniqueSlug } from "@/lib/content-slug";
+import { rebrandLegacy } from "@/lib/legacy-brand";
 
 const STORE_KEY = "salon-blog";
 const DATA_DIR = path.resolve(process.cwd(), "data");
@@ -203,13 +204,13 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     if (store) {
       try {
         const data = await store.get(STORE_KEY, { type: "json" });
-        if (Array.isArray(data)) return data as BlogPost[];
+        if (Array.isArray(data)) return rebrandLegacy(data as BlogPost[]);
       } catch {
         /* fall through */
       }
     }
     const local = await readLocal();
-    if (local) return local;
+    if (local) return rebrandLegacy(local);
     const seeded = seedPosts();
     await writeLocal(seeded);
     return seeded;

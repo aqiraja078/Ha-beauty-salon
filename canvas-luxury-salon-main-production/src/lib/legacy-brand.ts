@@ -1,0 +1,31 @@
+/**
+ * Content saved before the rebrand (e.g. in Netlify Blobs on the live site) can still
+ * say "Huma Beauty Salon". Rewrite those legacy names to the current brand whenever
+ * stored content is read, so every page, meta tag, and email shows the new name.
+ * Only string values are touched; emails, URLs, and handles are lowercase and unaffected.
+ */
+const BRAND_NAME = "Adaa Beauty Salon & Training Center";
+const LEGACY_FULL_NAME =
+  /\b(?:huma|ha)\s+(?:beauty\s+)?(?:salon|saloon)(?:\s*(?:&amp;|&|and)\s*studio)?\b/gi;
+const LEGACY_SHORT_NAME = /\b(?:Huma|HUMA)\b/g;
+
+export function rebrandString(text: string): string {
+  if (!text || !/huma/i.test(text) && !/\bha\s+(beauty\s+)?sal/i.test(text)) return text;
+  if (/^(?:https?:|mailto:|tel:|\/)/i.test(text.trim())) return text;
+  return text
+    .replace(LEGACY_FULL_NAME, BRAND_NAME)
+    .replace(LEGACY_SHORT_NAME, "Adaa");
+}
+
+export function rebrandLegacy<T>(value: T): T {
+  if (typeof value === "string") return rebrandString(value) as T;
+  if (Array.isArray(value)) return value.map((v) => rebrandLegacy(v)) as T;
+  if (value && typeof value === "object") {
+    const out: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
+      out[k] = rebrandLegacy(v);
+    }
+    return out as T;
+  }
+  return value;
+}

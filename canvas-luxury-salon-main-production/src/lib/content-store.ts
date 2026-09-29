@@ -13,6 +13,7 @@ import type {
   SiteContent,
 } from "@/lib/cms-types";
 import { SERVICE_CATEGORY_SLUGS } from "@/lib/cms-types";
+import { rebrandLegacy } from "@/lib/legacy-brand";
 
 const SITE_KEY = "site";
 const HOME_KEY = "home";
@@ -82,6 +83,10 @@ async function writeKey(key: string, file: string, data: unknown) {
 }
 
 function mergeSite(raw: Partial<SiteContent> | null): SiteContent {
+  return rebrandLegacy(mergeSiteRaw(raw));
+}
+
+function mergeSiteRaw(raw: Partial<SiteContent> | null): SiteContent {
   if (!raw || typeof raw !== "object") return structuredClone(defaultSiteContent);
   return {
     ...defaultSiteContent,
@@ -91,6 +96,10 @@ function mergeSite(raw: Partial<SiteContent> | null): SiteContent {
 }
 
 function mergeHome(raw: Partial<HomeContent> | null): HomeContent {
+  return rebrandLegacy(mergeHomeRaw(raw));
+}
+
+function mergeHomeRaw(raw: Partial<HomeContent> | null): HomeContent {
   if (!raw || typeof raw !== "object") return structuredClone(defaultHomeContent);
   const d = defaultHomeContent;
   return {
@@ -164,6 +173,10 @@ function mergeHome(raw: Partial<HomeContent> | null): HomeContent {
 }
 
 function mergeServices(raw: Partial<ServiceMenus> | null): ServiceMenus {
+  return rebrandLegacy(mergeServicesRaw(raw));
+}
+
+function mergeServicesRaw(raw: Partial<ServiceMenus> | null): ServiceMenus {
   const base = structuredClone(defaultServiceMenus);
   if (!raw || typeof raw !== "object") return base;
   for (const slug of SERVICE_CATEGORY_SLUGS) {
