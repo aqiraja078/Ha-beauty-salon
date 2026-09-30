@@ -8,7 +8,11 @@ import { whatsappBookUrl } from "@/lib/site";
 /** Floating WhatsApp button (hidden on admin + book pages). */
 export function WhatsAppButton({ site }: { site?: SiteContent }) {
   const pathname = usePathname();
-  if (pathname?.startsWith("/admin") || pathname?.startsWith("/book")) {
+  if (
+    pathname?.startsWith("/admin") ||
+    pathname?.startsWith("/book") ||
+    pathname?.startsWith("/slip/")
+  ) {
     return null;
   }
 

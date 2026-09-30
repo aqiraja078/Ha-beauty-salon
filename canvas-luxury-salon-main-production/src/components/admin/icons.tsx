@@ -350,3 +350,10 @@ export const IconGallery = (p: IconProps) => (
     <path d="m21 16-5-5-8 9" />
   </Base>
 );
+
+export const IconReceipt = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M6 3h12v18l-2.4-1.6L13.2 21 12 20.2 10.8 21l-2.4-1.6L6 21V3Z" />
+    <path d="M9 8h6M9 11.5h6M9 15h3.5" />
+  </Base>
+);

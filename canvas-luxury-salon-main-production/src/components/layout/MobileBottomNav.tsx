@@ -183,7 +183,7 @@ export function MobileBottomNav() {
     return () => document.removeEventListener("keydown", onKey);
   }, [servicesOpen]);
 
-  if (pathname?.startsWith("/admin")) return null;
+  if (pathname?.startsWith("/admin") || pathname?.startsWith("/slip/")) return null;
 
   const servicesActive = pathname?.startsWith("/services") || servicesOpen;
 

@@ -59,3 +59,4 @@ yarn-error.log*
 *.tsbuildinfo
 /data/gallery.json
 /data/uploads/
+/data/slips.json

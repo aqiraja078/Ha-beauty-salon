@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { AdminDayCalendar } from "@/components/admin/AdminDayCalendar";
 import { AdminClientsPanel } from "@/components/admin/AdminClientsPanel";
+import { AdminSlipsPanel } from "@/components/admin/AdminSlipsPanel";
 import { AdminBlogPanel } from "@/components/admin/AdminBlogPanel";
 import { AdminGalleryPanel } from "@/components/admin/AdminGalleryPanel";
 import { AdminCoursesPanel } from "@/components/admin/AdminCoursesPanel";
@@ -92,6 +93,10 @@ const VIEW_COPY: Record<ConsoleView, { title?: string; subtitle: string }> = {
   clients: {
     title: "Clients",
     subtitle: "Manual client book — save names, phone, notes",
+  },
+  slips: {
+    title: "Slips",
+    subtitle: "Create client slips with your logo — save, print, share on WhatsApp or email",
   },
   blog: {
     title: "Blog",
@@ -662,6 +667,8 @@ export function AdminBookingsClient({
           ) : null}
 
           {view === "clients" ? <AdminClientsPanel /> : null}
+
+          {view === "slips" ? <AdminSlipsPanel site={initialSite} /> : null}
 
           {view === "blog" ? <AdminBlogPanel /> : null}
 

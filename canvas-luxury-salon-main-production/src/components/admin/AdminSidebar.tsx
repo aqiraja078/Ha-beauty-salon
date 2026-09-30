@@ -11,6 +11,7 @@ import {
   IconDashboard,
   IconGallery,
   IconHome,
+  IconReceipt,
   IconScissors,
   IconSettings,
   IconTag,
@@ -23,6 +24,7 @@ export type ConsoleView =
   | "bookings"
   | "calendar"
   | "clients"
+  | "slips"
   | "blog"
   | "gallery"
   | "courses"
@@ -44,6 +46,7 @@ const NAV: NavItem[] = [
   { view: "bookings", label: "Bookings", Icon: IconCalendar },
   { view: "calendar", label: "Calendar", Icon: IconCalendar },
   { view: "clients", label: "Clients", Icon: IconUsers },
+  { view: "slips", label: "Slips", Icon: IconReceipt },
   { view: "blog", label: "Blog", Icon: IconBlog },
   { view: "gallery", label: "Gallery", Icon: IconGallery },
   { view: "courses", label: "Courses", Icon: IconCourse },
