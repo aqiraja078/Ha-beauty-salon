@@ -37,12 +37,12 @@ export function BlogShareBar({ title, url }: Props) {
         WhatsApp
       </a>
       <a
-        href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
+        href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}
         target="_blank"
         rel="noopener noreferrer"
         className={link}
       >
-        Facebook
+        LinkedIn
       </a>
       <button type="button" onClick={() => void copyLink()} className={link}>
         {copied ? "Link copied" : "Copy link"}

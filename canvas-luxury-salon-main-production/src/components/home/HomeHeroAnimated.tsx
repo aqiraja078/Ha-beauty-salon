@@ -86,9 +86,9 @@ export function HomeHeroAnimated({ siteName, hero, whatsappHref }: Props) {
         <motion.div variants={container} initial="hidden" animate="show">
           <motion.span
             variants={item}
-            className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-surface/70 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-accent backdrop-blur-sm"
+            className="inline-flex max-w-full items-center gap-1.5 whitespace-nowrap rounded-full border border-accent/20 bg-surface/70 px-3 py-2 text-[9px] font-semibold uppercase tracking-[0.1em] text-accent backdrop-blur-sm xs:gap-2 xs:px-3.5 xs:text-[10px] xs:tracking-[0.16em] sm:px-4 sm:tracking-[0.28em]"
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
             {siteName}
           </motion.span>
 

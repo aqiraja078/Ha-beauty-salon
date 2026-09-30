@@ -11,6 +11,11 @@ import {
 } from "@/lib/hair-length-pricing";
 import { bookingUrl } from "@/lib/booking-prefill";
 import { makeupServiceImage } from "@/lib/service-card-images";
+import {
+  discountBadge,
+  discountedPrice,
+  type ServiceDiscount,
+} from "@/lib/service-discount";
 
 type Props = {
   name: string;
@@ -20,6 +25,7 @@ type Props = {
   lengthPrices?: HairLengthPrices;
   variant?: "default" | "luxury" | "luxury-wide";
   imageSrc?: string;
+  discount?: ServiceDiscount;
 };
 
 const lengths: HairLength[] = ["short", "medium", "long"];
@@ -69,9 +75,13 @@ export function ServiceMenuCard({
   lengthPrices,
   variant = "default",
   imageSrc,
+  discount,
 }: Props) {
   const [length, setLength] = useState<HairLength>("medium");
-  const displayPrice = lengthPrices ? lengthPrices[length] : price;
+  const basePrice = lengthPrices ? lengthPrices[length] : price;
+  const salePrice = discountedPrice(basePrice, discount);
+  const displayPrice = salePrice ?? basePrice;
+  const badge = salePrice && discount ? discountBadge(discount) : null;
   const bookService = lengthPrices
     ? `${name} (${HAIR_LENGTH_LABELS[length]})`
     : name;
@@ -101,6 +111,11 @@ export function ServiceMenuCard({
             sizes={wide ? "(max-width: 640px) 100vw, 320px" : "(max-width: 640px) 100vw, 280px"}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-surface/80 via-transparent to-transparent" />
+          {badge ? (
+            <span className="absolute left-3 top-3 z-10 rounded-full bg-rose-600 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white shadow-lift">
+              {badge}
+            </span>
+          ) : null}
           {!wide ? <WaveDivider /> : null}
           <div
             className={`absolute z-10 ${wide ? "bottom-4 left-4" : "left-1/2 top-[calc(100%-1.25rem)] -translate-x-1/2"}`}
@@ -114,9 +129,16 @@ export function ServiceMenuCard({
             <h3 className="min-w-0 flex-1 font-display text-[1.05rem] leading-snug text-accent xs:text-lg sm:text-[1.25rem]">
               {name}
             </h3>
-            <span className="shrink-0 whitespace-nowrap rounded-full bg-gold-gradient px-3 py-1 text-[11px] font-semibold text-accent-fg">
-              {displayPrice}
-            </span>
+            <div className="flex shrink-0 flex-col items-end gap-0.5">
+              <span className="whitespace-nowrap rounded-full bg-gold-gradient px-3 py-1 text-[11px] font-semibold text-accent-fg">
+                {displayPrice}
+              </span>
+              {salePrice ? (
+                <span className="whitespace-nowrap text-[11px] text-muted line-through">
+                  {basePrice}
+                </span>
+              ) : null}
+            </div>
           </div>
           <div className="flex-1" aria-hidden />
 
@@ -194,13 +216,29 @@ export function ServiceMenuCard({
             <span className="rounded-full bg-accent-soft px-3.5 py-1.5 text-xs font-semibold text-accent">
               {displayPrice}
             </span>
+            {salePrice ? (
+              <>
+                <span className="text-xs text-muted line-through">{basePrice}</span>
+                <span className="rounded-full bg-rose-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white">
+                  {badge}
+                </span>
+              </>
+            ) : null}
           </div>
         </div>
       ) : (
         <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-line pt-4">
           <span className="rounded-full bg-accent-soft px-3.5 py-1.5 text-xs font-semibold text-accent">
-            {price}
+            {displayPrice}
           </span>
+          {salePrice ? (
+            <>
+              <span className="text-xs text-muted line-through">{basePrice}</span>
+              <span className="rounded-full bg-rose-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white">
+                {badge}
+              </span>
+            </>
+          ) : null}
         </div>
       )}
 

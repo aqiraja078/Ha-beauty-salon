@@ -14,7 +14,14 @@ const DEAD_IMAGE_FIXES: Array<[string, string]> = [
   ["photo-1516975080664-ed2fc6a86108", "photo-1516975080664-ed2fc6a32937"],
 ];
 
+const OLD_EMAIL = /humabeautysalon07@gmail\.com/gi;
+const NEW_EMAIL = "adaabeautysalonjhelum@gmail.com";
+
 export function rebrandString(text: string): string {
+  if (OLD_EMAIL.test(text)) {
+    OLD_EMAIL.lastIndex = 0;
+    text = text.replace(OLD_EMAIL, NEW_EMAIL);
+  }
   for (const [dead, alive] of DEAD_IMAGE_FIXES) {
     if (text.includes(dead)) return text.split(dead).join(alive);
   }

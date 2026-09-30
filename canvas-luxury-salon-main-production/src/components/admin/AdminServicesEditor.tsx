@@ -1,5 +1,6 @@
 "use client";
 
+import { discountedPrice, toServiceDiscount } from "@/lib/service-discount";
 import { useMemo, useState } from "react";
 import type {
   CmsMenuItem,
@@ -100,6 +101,8 @@ export function AdminServicesEditor({ initial }: { initial: ServiceMenus }) {
       price: item.price,
       duration: item.duration,
       image: item.image,
+      discountType: item.discountType,
+      discountValue: item.discountValue,
     });
   }
 
@@ -429,6 +432,72 @@ export function AdminServicesEditor({ initial }: { initial: ServiceMenus }) {
                         >
                           Remove
                         </button>
+                      </div>
+                      <div className="grid gap-3 sm:col-span-2 sm:grid-cols-2 lg:col-span-4 lg:grid-cols-4">
+                        <label className="block">
+                          <span className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
+                            Discount type
+                          </span>
+                          <select
+                            className="console-field"
+                            value={item.discountType ?? ""}
+                            onChange={(e) => {
+                              const t = e.target.value as "" | "percent" | "amount";
+                              patchItem(si, ii, {
+                                ...item,
+                                discountType: t || undefined,
+                                discountValue: t ? item.discountValue : undefined,
+                              });
+                            }}
+                          >
+                            <option value="">No discount</option>
+                            <option value="percent">Percent (%) off</option>
+                            <option value="amount">Fixed amount (Rs.) off</option>
+                          </select>
+                        </label>
+                        {item.discountType ? (
+                          <label className="block">
+                            <span className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
+                              {item.discountType === "percent"
+                                ? "Discount % (e.g. 20)"
+                                : "Discount amount in Rs. (e.g. 500)"}
+                            </span>
+                            <input
+                              className="console-field"
+                              type="number"
+                              min={0}
+                              step="any"
+                              inputMode="decimal"
+                              value={item.discountValue ?? ""}
+                              onChange={(e) =>
+                                patchItem(si, ii, {
+                                  ...item,
+                                  discountValue:
+                                    e.target.value === ""
+                                      ? undefined
+                                      : Number(e.target.value),
+                                })
+                              }
+                            />
+                          </label>
+                        ) : null}
+                        {item.discountType ? (
+                          <p className="self-end pb-2 text-xs text-muted sm:col-span-2">
+                            {(() => {
+                              const d = toServiceDiscount(
+                                item.discountType,
+                                item.discountValue
+                              );
+                              const base = lengthOn
+                                ? lengthPrices!.medium
+                                : item.price;
+                              const sale = discountedPrice(base, d);
+                              return sale
+                                ? `Customers will see ${base} → ${sale}`
+                                : "Valid discount enter karein (price mein ek hi number hona chahiye).";
+                            })()}
+                          </p>
+                        ) : null}
                       </div>
                       <label className="block sm:col-span-2 lg:col-span-4">
                         <span className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">

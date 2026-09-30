@@ -9,14 +9,14 @@ export const site = {
   description:
     "Adaa Beauty Salon & Training Center — luxury makeup, hair, skincare, bridal services, and professional beauty training with premium products and expert techniques.",
   logo: "/logo-adaa.png",
-  email: "humabeautysalon07@gmail.com",
+  email: "adaabeautysalonjhelum@gmail.com",
   phone: "+92 335 5462214",
   phoneDigits: "923355462214",
   address: "Old G T Rd, Machine Mohalla No.2 Machine Mohalla 3, Jhelum, 49600",
   social: {
     instagram: "https://www.instagram.com/huma_beauty.saloon/",
-    facebook: "https://facebook.com",
     tiktok: "https://tiktok.com",
+    linkedin: "https://www.linkedin.com/in/adaabeautysalon-jhelum-82913b440/",
   },
 } as const;
 

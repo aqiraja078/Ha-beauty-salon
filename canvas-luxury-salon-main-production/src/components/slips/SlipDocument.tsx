@@ -54,22 +54,22 @@ export function SlipDocument({
       className="mx-auto w-full max-w-[794px] rounded-2xl bg-white p-6 text-[#1a1a1a] shadow-[0_18px_50px_-20px_rgba(0,0,0,0.6)] print:max-w-none print:rounded-none print:p-0 print:shadow-none sm:p-10"
       style={{ borderTop: `6px solid ${GOLD}` }}
     >
-      <header className="flex flex-wrap items-start justify-between gap-5">
-        <div className="flex items-center gap-4">
+      <header className="flex items-stretch justify-between gap-4">
+        <div className="flex min-w-0 flex-1 flex-col justify-between gap-1 text-left text-[12px] leading-snug text-[#444]">
+          <p className="font-display text-base font-semibold text-[#1a1a1a]">
+            {site.name}
+          </p>
+          {site.address ? <p>{site.address}</p> : null}
+          <p>{site.phone}</p>
+          <p className="break-all">{site.email}</p>
+        </div>
+        <div className="flex shrink-0 items-center">
           {/* eslint-disable-next-line @next/next/no-img-element -- printable brand logo */}
           <img
             src={site.logo || "/logo-adaa.png"}
             alt={site.name}
             className="h-20 w-auto sm:h-24"
           />
-        </div>
-        <div className="text-right text-[12px] leading-relaxed text-[#444]">
-          <p className="font-display text-base font-semibold text-[#1a1a1a]">
-            {site.name}
-          </p>
-          {site.address ? <p>{site.address}</p> : null}
-          <p>{site.phone}</p>
-          <p>{site.email}</p>
         </div>
       </header>
 
@@ -231,8 +231,8 @@ export function SlipDocument({
         <p className="font-display text-sm" style={{ color: GOLD_DARK }}>
           Thank you for choosing {site.name}
         </p>
-        <p className="mt-0.5">
-          This is a computer-generated slip and needs no signature.
+        <p className="mx-auto mt-1 max-w-xl leading-relaxed">
+          Booking must be confirmed within 24 hours. In case of cancellation after 24 hours, the advance payment will be non-refundable.
         </p>
       </footer>
     </article>

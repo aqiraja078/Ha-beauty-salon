@@ -110,6 +110,7 @@ export function ServiceCategoryPage({
                     blurb={item.blurb}
                     price={item.price}
                     lengthPrices={item.lengthPrices}
+                    discount={item.discount}
                     variant={cardVariantFor(theme, section.id, item.name)}
                   />
                 </RevealItem>

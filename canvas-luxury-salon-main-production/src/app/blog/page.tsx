@@ -107,40 +107,6 @@ export default async function BlogPage() {
 
       {/* ── Stories ── */}
       <section id="notes" className="scroll-mt-16 bg-canvas sm:scroll-mt-20">
-        <div className="relative mx-auto max-w-6xl overflow-hidden px-4 py-10 sm:px-6 sm:py-16 md:px-10">
-          <svg
-            viewBox="0 0 260 200"
-            fill="none"
-            aria-hidden
-            className="pointer-events-none absolute -bottom-6 right-0 w-44 text-accent opacity-25 sm:right-6 sm:w-64 md:w-72"
-          >
-            <g stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M250 196 C210 150 170 110 120 60" />
-              <path d="M215 160 C190 150 176 128 178 104 C204 112 218 134 215 160Z" />
-              <path d="M186 126 C160 122 144 102 144 80 C168 84 184 102 186 126Z" />
-              <path d="M150 88 C128 88 112 72 110 50 C132 52 148 68 150 88Z" />
-              <path d="M232 178 C246 152 232 128 208 118" />
-              <path d="M240 186 C236 156 250 130 246 104 C226 118 220 152 240 186Z" />
-              <path d="M120 60 C118 40 128 22 144 12" />
-              <path d="M96 78 C82 72 74 58 78 42 C94 46 100 62 96 78Z" opacity="0.7" />
-            </g>
-          </svg>
-
-          <Reveal className="relative">
-            <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.3em] text-accent sm:text-[11px]">
-              <span className="h-px w-6 bg-accent/60 sm:w-10" aria-hidden />
-              {blog.collectionEyebrow}
-              <span className="h-px w-6 bg-accent/60 sm:w-10" aria-hidden />
-            </p>
-            <h2 className="mt-3 font-display text-3xl text-ink sm:mt-4 sm:text-4xl md:text-5xl">
-              {blog.collectionTitle}
-            </h2>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-ink-soft sm:mt-4">
-              {blog.collectionLead}
-            </p>
-          </Reveal>
-        </div>
-
         {posts.length === 0 ? (
           <div className="border-t border-line px-4 py-20 text-center">
             <p className="font-display text-2xl italic text-ink-soft">

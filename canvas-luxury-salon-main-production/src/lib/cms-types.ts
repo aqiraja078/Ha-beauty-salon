@@ -18,6 +18,9 @@ export type CmsMenuItem = {
   duration?: string;
   /** Optional card photo URL. Blank = automatic themed photo. */
   image?: string;
+  /** Optional offer: "percent" (e.g. 20 → 20% off) or "amount" (Rs. off). Blank = no discount. */
+  discountType?: "percent" | "amount";
+  discountValue?: number;
   lengthPrices?: {
     short: string;
     medium: string;
@@ -63,8 +66,8 @@ export type SiteContent = {
   address: string;
   social: {
     instagram: string;
-    facebook: string;
     tiktok: string;
+    linkedin: string;
   };
 };
 

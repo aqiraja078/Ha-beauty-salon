@@ -93,8 +93,8 @@ export function AdminSiteEditor({ initial }: { initial: SiteContent }) {
         {(
           [
             ["instagram", "Instagram URL"],
-            ["facebook", "Facebook URL"],
             ["tiktok", "TikTok URL"],
+            ["linkedin", "LinkedIn URL"],
           ] as const
         ).map(([key, label]) => (
           <label key={key} className="block">

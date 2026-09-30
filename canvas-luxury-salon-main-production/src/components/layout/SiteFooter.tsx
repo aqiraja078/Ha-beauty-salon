@@ -65,14 +65,14 @@ export function SiteFooter({ site: siteProp }: { site?: SiteContent }) {
               </svg>
             </a>
             <a
-              href={site.social.facebook}
+              href={site.social.linkedin}
               target="_blank"
               rel="noreferrer"
-              aria-label="Facebook"
+              aria-label="LinkedIn"
               className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line bg-surface text-ink-soft transition hover:border-accent/40 hover:text-accent"
             >
               <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden>
-                <path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H7v3h3v7h3v-7h3l1-3h-4v-2c0-.6.4-1 1-1z" />
+                <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4V21H3V9.75zm6.5 0h3.8v1.54h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-4.8c0-1.15-.02-2.62-1.6-2.62-1.6 0-1.85 1.25-1.85 2.54V21h-4V9.75z" />
               </svg>
             </a>
             </div>

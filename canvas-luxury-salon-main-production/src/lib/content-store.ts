@@ -14,6 +14,7 @@ import type {
 } from "@/lib/cms-types";
 import { SERVICE_CATEGORY_SLUGS } from "@/lib/cms-types";
 import { rebrandLegacy } from "@/lib/legacy-brand";
+import { discountedPrice, toServiceDiscount } from "@/lib/service-discount";
 
 const SITE_KEY = "site";
 const HOME_KEY = "home";
@@ -91,7 +92,13 @@ function mergeSiteRaw(raw: Partial<SiteContent> | null): SiteContent {
   return {
     ...defaultSiteContent,
     ...raw,
-    social: { ...defaultSiteContent.social, ...(raw.social ?? {}) },
+    social: {
+      instagram:
+        raw.social?.instagram || defaultSiteContent.social.instagram,
+      tiktok: raw.social?.tiktok || defaultSiteContent.social.tiktok,
+      // Facebook was replaced by LinkedIn; any old stored facebook link is dropped.
+      linkedin: raw.social?.linkedin || defaultSiteContent.social.linkedin,
+    },
   };
 }
 
@@ -296,7 +303,11 @@ export async function getBookingServicePriceMap(): Promise<
   for (const slug of SERVICE_CATEGORY_SLUGS) {
     for (const sec of menus[slug].sections) {
       for (const item of sec.items) {
-        map[item.name] = item.price;
+        map[item.name] =
+          discountedPrice(
+            item.price,
+            toServiceDiscount(item.discountType, item.discountValue)
+          ) ?? item.price;
       }
     }
   }

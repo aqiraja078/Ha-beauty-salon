@@ -24,7 +24,7 @@ function seedJobs(): JobPost[] {
       description:
         "Looking for experienced bridal and party makeup artists for home visits. Own kit preferred. Reliable timing and WhatsApp communication required.",
       applyWhatsApp: "923355462214",
-      applyEmail: "humabeautysalon07@gmail.com",
+      applyEmail: "adaabeautysalonjhelum@gmail.com",
       active: true,
       createdAt: now,
       updatedAt: now,

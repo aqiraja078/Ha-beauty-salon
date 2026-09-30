@@ -8,6 +8,7 @@ import {
   type HairLengthPrices,
 } from "@/lib/hair-length-pricing";
 import type { MakeupServiceSection } from "@/lib/makeup-services-data";
+import { toServiceDiscount, type ServiceDiscount } from "@/lib/service-discount";
 
 export type ServiceMenuItem = {
   name: string;
@@ -15,6 +16,7 @@ export type ServiceMenuItem = {
   blurb: string;
   meta?: string;
   image?: string;
+  discount?: ServiceDiscount;
   lengthPrices?: HairLengthPrices;
 };
 
@@ -47,6 +49,7 @@ export function cmsToMenu(sections: CmsMenuSection[]): ServiceMenuSection[] {
       blurb: i.blurb,
       meta: i.duration,
       image: i.image?.trim() || undefined,
+      discount: toServiceDiscount(i.discountType, i.discountValue) ?? undefined,
       lengthPrices: maybeLengthPrices(s.id, i.price, i.lengthPrices),
     })),
   }));
