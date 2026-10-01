@@ -158,8 +158,43 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
   return (
     <>
       {categories.length > 2 ? (
+        <div className="relative mx-auto mb-6 max-w-sm sm:hidden">
+          <label htmlFor="gallery-category" className="sr-only">
+            Gallery category
+          </label>
+          <select
+            id="gallery-category"
+            value={category}
+            onChange={(e) => {
+              setCategory(e.target.value);
+              setActive(null);
+            }}
+            className="min-h-[46px] w-full appearance-none rounded-full border border-accent/50 bg-surface px-5 pr-11 text-[12px] font-semibold uppercase tracking-[0.14em] text-accent outline-none transition focus:border-accent focus:ring-4 focus:ring-accent/10"
+          >
+            {categories.map((c) => (
+              <option key={c} value={c} className="bg-surface text-ink">
+                {c}
+              </option>
+            ))}
+          </select>
+          <svg
+            viewBox="0 0 24 24"
+            className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-accent"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+          >
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </div>
+      ) : null}
+
+      {categories.length > 2 ? (
         <div
-          className="mb-6 flex flex-wrap justify-center gap-2 sm:mb-9"
+          className="mb-6 hidden flex-wrap justify-center gap-2 sm:mb-9 sm:flex"
           role="tablist"
           aria-label="Gallery categories"
         >

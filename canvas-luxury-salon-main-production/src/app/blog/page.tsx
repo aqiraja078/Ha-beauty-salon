@@ -60,7 +60,7 @@ export default async function BlogPage() {
           </g>
         </svg>
 
-        <div className="relative z-10 mx-auto flex min-h-[460px] max-w-6xl flex-col justify-center px-4 pb-5 pt-[max(5.75rem,calc(env(safe-area-inset-top)+4.5rem))] sm:min-h-[480px] sm:px-6 md:px-10">
+        <div className="relative z-10 mx-auto flex min-h-[460px] max-w-6xl flex-col justify-center px-4 pb-8 pt-[max(6.6rem,calc(env(safe-area-inset-top)+5.5rem))] sm:min-h-[480px] sm:px-6 md:px-10">
           <Reveal blur className="max-w-2xl">
             <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.34em] text-accent sm:text-[11px]">
               <span className="h-px w-8 bg-accent/70 sm:w-12" aria-hidden />

@@ -87,11 +87,24 @@ function mergeSite(raw: Partial<SiteContent> | null): SiteContent {
   return rebrandLegacy(mergeSiteRaw(raw));
 }
 
+/** "0328-5734656" / "+92 328 5734656" → "923285734656" (Pakistan numbers). */
+function phoneToDigits(phone: string | undefined): string {
+  const d = (phone ?? "").replace(/\D/g, "");
+  if (d.length === 11 && d.startsWith("0")) return `92${d.slice(1)}`;
+  if (d.length === 12 && d.startsWith("92")) return d;
+  return "";
+}
+
 function mergeSiteRaw(raw: Partial<SiteContent> | null): SiteContent {
   if (!raw || typeof raw !== "object") return structuredClone(defaultSiteContent);
   return {
     ...defaultSiteContent,
     ...raw,
+    // WhatsApp digits must never be blank: fall back to the shown phone, then the default.
+    phoneDigits:
+      (raw.phoneDigits ?? "").replace(/\D/g, "") ||
+      phoneToDigits(raw.phone) ||
+      defaultSiteContent.phoneDigits,
     social: {
       instagram:
         raw.social?.instagram || defaultSiteContent.social.instagram,

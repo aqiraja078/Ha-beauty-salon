@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useMemo, useRef } from "react";
 import type { HomeContent } from "@/lib/cms-types";
+import { canOptimizeImage } from "@/lib/image-host";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
@@ -63,6 +64,7 @@ export function HomeHeroAnimated({ siteName, hero, whatsappHref }: Props) {
       >
         <Image
           src={hero.image}
+          unoptimized={!canOptimizeImage(hero.image)}
           alt={hero.imageAlt}
           fill
           priority
@@ -86,7 +88,7 @@ export function HomeHeroAnimated({ siteName, hero, whatsappHref }: Props) {
         <motion.div variants={container} initial="hidden" animate="show">
           <motion.span
             variants={item}
-            className="inline-flex max-w-full items-center gap-1.5 whitespace-nowrap rounded-full border border-accent/20 bg-surface/70 px-3 py-2 text-[9px] font-semibold uppercase tracking-[0.1em] text-accent backdrop-blur-sm xs:gap-2 xs:px-3.5 xs:text-[10px] xs:tracking-[0.16em] sm:px-4 sm:tracking-[0.28em]"
+            className="inline-flex max-w-full items-center gap-1.5 whitespace-nowrap rounded-full border border-accent/20 bg-surface/70 px-3 py-2 text-[9px] font-semibold uppercase tracking-[0.1em] text-accent backdrop-blur-sm max-[359px]:text-[8px] max-[359px]:tracking-[0.06em] xs:gap-2 xs:px-3.5 xs:text-[10px] xs:tracking-[0.16em] sm:px-4 sm:tracking-[0.28em]"
           >
             <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
             {siteName}

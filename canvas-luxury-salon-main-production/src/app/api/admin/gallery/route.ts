@@ -104,8 +104,16 @@ export async function DELETE(request: Request) {
   if (!b || typeof b.id !== "string") {
     return NextResponse.json({ error: "Missing id." }, { status: 400 });
   }
-  const ok = await deleteGalleryItem(b.id);
-  if (!ok) return NextResponse.json({ error: "Not found." }, { status: 404 });
+  try {
+    const ok = await deleteGalleryItem(b.id);
+    if (!ok) return NextResponse.json({ error: "Not found." }, { status: 404 });
+  } catch (e) {
+    return NextResponse.json(
+      { error: e instanceof Error ? e.message : "Could not delete." },
+      { status: 500 }
+    );
+  }
   refresh();
+  revalidatePath("/");
   return NextResponse.json({ ok: true });
 }

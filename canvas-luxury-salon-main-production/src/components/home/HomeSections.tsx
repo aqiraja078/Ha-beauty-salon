@@ -134,6 +134,7 @@ export function HomePageSections({
                       src={card.image}
                       alt={card.name}
                       fill
+                      unoptimized={!canOptimizeImage(card.image)}
                       className="object-cover transition duration-[900ms] group-hover:scale-[1.07]"
                       sizes="(max-width: 640px) 90vw, (max-width: 1024px) 30vw, 18vw"
                     />
@@ -231,6 +232,7 @@ export function HomePageSections({
                       src={s.image}
                       alt={s.title}
                       fill
+                      unoptimized={!canOptimizeImage(s.image)}
                       className="object-cover transition duration-700 ease-out group-hover:scale-[1.06]"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
@@ -274,6 +276,7 @@ export function HomePageSections({
                 src={home.about.image}
                 alt="Salon interior"
                 fill
+                unoptimized={!canOptimizeImage(home.about.image)}
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />

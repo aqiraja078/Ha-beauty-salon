@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { HomeContent } from "@/lib/cms-types";
+import { ImageUploadField } from "@/components/admin/ImageUploadField";
 
 const TABS = [
   "hero",
@@ -40,12 +41,18 @@ function Field({
   value,
   onChange,
   multiline,
+  image,
 }: {
   label: string;
   value: string;
   onChange: (v: string) => void;
   multiline?: boolean;
+  /** Photo field: shows a preview and an "Upload photo" button. */
+  image?: boolean;
 }) {
+  if (image) {
+    return <ImageUploadField label={label} value={value} onChange={onChange} />;
+  }
   return (
     <label className="block">
       <span className="mb-1.5 block text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
@@ -168,7 +175,7 @@ export function AdminHomeEditor({
         {tab === "hero" ? (
           <div className="grid gap-3 sm:grid-cols-2">
             <Field
-              label="Image URL"
+              label="Photo" image
               value={data.hero.image}
               onChange={(v) => setData({ ...data, hero: { ...data.hero, image: v } })}
             />
@@ -352,7 +359,7 @@ export function AdminHomeEditor({
                 />
                 <div className="sm:col-span-2">
                   <Field
-                    label="Image URL"
+                    label="Photo" image
                     value={card.image}
                     onChange={(v) => {
                       const cards = data.makeupSection.cards.map((c, j) =>
@@ -499,7 +506,7 @@ export function AdminHomeEditor({
                 </div>
                 <div className="sm:col-span-2">
                   <Field
-                    label="Image URL"
+                    label="Photo" image
                     value={cat.image}
                     onChange={(v) => {
                       const categories = data.servicesSection.categories.map(
@@ -547,7 +554,7 @@ export function AdminHomeEditor({
               />
             </div>
             <Field
-              label="Image URL"
+              label="Photo" image
               value={data.about.image}
               onChange={(v) =>
                 setData({ ...data, about: { ...data.about, image: v } })
@@ -1099,7 +1106,7 @@ export function AdminHomeEditor({
               }
             />
             <Field
-              label="Hero photo URL"
+              label="Hero photo" image
               value={data.blog.image}
               onChange={(v) =>
                 setData({ ...data, blog: { ...data.blog, image: v } })

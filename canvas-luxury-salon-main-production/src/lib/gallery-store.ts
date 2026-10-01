@@ -286,6 +286,11 @@ export async function deleteGalleryItem(id: string): Promise<boolean> {
   const item = list.find((i) => i.id === id);
   if (!item) return false;
   await saveList(list.filter((i) => i.id !== id));
+  // Make sure the removal really reached storage (never report a delete that did not stick).
+  const after = await loadStoredList();
+  if (after && after.some((i) => i.id === id)) {
+    throw new Error("Could not delete — storage did not accept the change. Try again.");
+  }
   if (item.fileKey) await deleteMediaFile(item.fileKey);
   return true;
 }

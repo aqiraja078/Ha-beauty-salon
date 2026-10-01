@@ -4,7 +4,9 @@
  * stored content is read, so every page, meta tag, and email shows the new name.
  * Only string values are touched; emails, URLs, and handles are lowercase and unaffected.
  */
-const BRAND_NAME = "Adaa Beauty Salon & Training Center";
+const BRAND_NAME = "Adaa Beauty Salon & Training Center Jhelum";
+/** Earlier brand name (before "Jhelum" was added) → full name. */
+const PREVIOUS_BRAND = /Adaa Beauty Salon & Training Center(?! Jhelum)/g;
 const LEGACY_FULL_NAME =
   /\b(?:huma|ha)\s+(?:beauty\s+)?(?:salon|saloon)(?:\s*(?:&amp;|&|and)\s*studio)?\b/gi;
 const LEGACY_SHORT_NAME = /\b(?:Huma|HUMA)\b/g;
@@ -17,13 +19,28 @@ const DEAD_IMAGE_FIXES: Array<[string, string]> = [
 const OLD_EMAIL = /humabeautysalon07@gmail\.com/gi;
 const NEW_EMAIL = "adaabeautysalonjhelum@gmail.com";
 
+/** Old salon number (+92 335 5462214) in any common spelling → new number (+92 328 5734656). */
+const OLD_PHONE = /(?:\+?92[\s-]?|0)335[\s-]?5462214/g;
+function newPhoneFor(match: string): string {
+  if (match.startsWith("+")) return "+92 328 5734656";
+  if (match.startsWith("92")) return "923285734656";
+  return "0328-5734656";
+}
+
 export function rebrandString(text: string): string {
+  if (/335[\s-]?5462214/.test(text)) {
+    text = text.replace(OLD_PHONE, newPhoneFor);
+  }
   if (OLD_EMAIL.test(text)) {
     OLD_EMAIL.lastIndex = 0;
     text = text.replace(OLD_EMAIL, NEW_EMAIL);
   }
   for (const [dead, alive] of DEAD_IMAGE_FIXES) {
     if (text.includes(dead)) return text.split(dead).join(alive);
+  }
+  if (text.includes("Training Center") && PREVIOUS_BRAND.test(text)) {
+    PREVIOUS_BRAND.lastIndex = 0;
+    text = text.replace(PREVIOUS_BRAND, BRAND_NAME);
   }
   if (!text || !/huma/i.test(text) && !/\bha\s+(beauty\s+)?sal/i.test(text)) return text;
   if (/^(?:https?:|mailto:|tel:|\/)/i.test(text.trim())) return text;

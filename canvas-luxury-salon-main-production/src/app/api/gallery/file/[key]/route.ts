@@ -24,7 +24,7 @@ export async function GET(
   const headers: Record<string, string> = {
     "Content-Type": media.mime,
     "Accept-Ranges": "bytes",
-    "Cache-Control": "public, max-age=31536000, immutable",
+    "Cache-Control": "public, max-age=300, must-revalidate",
     "X-Content-Type-Options": "nosniff",
   };
 

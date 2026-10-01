@@ -1,5 +1,6 @@
 "use client";
 
+import { ImageUploadButton } from "@/components/admin/ImageUploadField";
 import { discountedPrice, toServiceDiscount } from "@/lib/service-discount";
 import { useMemo, useState } from "react";
 import type {
@@ -267,7 +268,18 @@ export function AdminServicesEditor({ initial }: { initial: ServiceMenus }) {
           </label>
           <label className="block sm:col-span-2">
             <span className="mb-1.5 block text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
-              Hero photo URL (first line is shown on the page)
+              Hero photo (first line is shown on the page)
+            </span>
+            <span className="mb-2 flex items-center gap-2">
+              <ImageUploadButton
+                label="Upload hero photo"
+                onUploaded={(url) =>
+                  patchCat({ ...cat, heroImages: [url, ...cat.heroImages] })
+                }
+              />
+              <span className="text-xs text-muted">
+                Uploaded photo goes to the first line and becomes the hero.
+              </span>
             </span>
             <textarea
               className="console-field min-h-[72px] font-mono text-xs"
@@ -499,22 +511,44 @@ export function AdminServicesEditor({ initial }: { initial: ServiceMenus }) {
                           </p>
                         ) : null}
                       </div>
-                      <label className="block sm:col-span-2 lg:col-span-4">
+                      <div className="block sm:col-span-2 lg:col-span-4">
                         <span className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
-                          Card photo URL (optional — blank = automatic photo)
+                          Card photo (optional — blank = automatic photo)
                         </span>
-                        <input
-                          className="console-field font-mono text-xs"
-                          value={item.image ?? ""}
-                          placeholder="https://…"
-                          onChange={(e) =>
-                            patchItem(si, ii, {
-                              ...item,
-                              image: e.target.value.trim() || undefined,
-                            })
-                          }
-                        />
-                      </label>
+                        <div className="flex flex-wrap items-center gap-3">
+                          <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-line bg-canvas-2">
+                            {item.image ? (
+                              // eslint-disable-next-line @next/next/no-img-element -- admin preview
+                              <img src={item.image} alt="" className="h-full w-full object-cover" />
+                            ) : (
+                              <span className="text-[10px] text-muted">Auto</span>
+                            )}
+                          </div>
+                          <input
+                            className="console-field min-w-0 flex-1 font-mono text-xs"
+                            value={item.image ?? ""}
+                            placeholder="Upload a photo, or paste a link (https://…)"
+                            onChange={(e) =>
+                              patchItem(si, ii, {
+                                ...item,
+                                image: e.target.value.trim() || undefined,
+                              })
+                            }
+                          />
+                          <ImageUploadButton
+                            onUploaded={(url) => patchItem(si, ii, { ...item, image: url })}
+                          />
+                          {item.image ? (
+                            <button
+                              type="button"
+                              className="console-btn-soft text-rose-600"
+                              onClick={() => patchItem(si, ii, { ...item, image: undefined })}
+                            >
+                              Clear
+                            </button>
+                          ) : null}
+                        </div>
+                      </div>
                       <label className="block sm:col-span-2 lg:col-span-4">
                         <span className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
                           Description (internal note — not shown on service cards)

@@ -4,14 +4,14 @@ import { allHairServiceNames } from "@/lib/hair-services-data";
 import { allMakeupServiceNames } from "@/lib/makeup-services-data";
 
 export const site = {
-  name: "Adaa Beauty Salon & Training Center",
+  name: "Adaa Beauty Salon & Training Center Jhelum",
   tagline: "Beauty salon & training center — Jhelum · Dina · Gujrat",
   description:
-    "Adaa Beauty Salon & Training Center — luxury makeup, hair, skincare, bridal services, and professional beauty training with premium products and expert techniques.",
+    "Adaa Beauty Salon & Training Center Jhelum — luxury makeup, hair, skincare, bridal services, and professional beauty training with premium products and expert techniques.",
   logo: "/logo-adaa.png",
   email: "adaabeautysalonjhelum@gmail.com",
-  phone: "+92 335 5462214",
-  phoneDigits: "923355462214",
+  phone: "+92 328 5734656",
+  phoneDigits: "923285734656",
   address: "Old G T Rd, Machine Mohalla No.2 Machine Mohalla 3, Jhelum, 49600",
   social: {
     instagram: "https://www.instagram.com/huma_beauty.saloon/",

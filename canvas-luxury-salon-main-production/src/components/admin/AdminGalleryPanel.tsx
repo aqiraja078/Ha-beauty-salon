@@ -1,5 +1,6 @@
 "use client";
 
+import { ImageUploadField } from "@/components/admin/ImageUploadField";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { IconGallery, IconPlus } from "@/components/admin/icons";
 import {
@@ -15,6 +16,7 @@ const ACCEPT =
   "image/jpeg,image/png,image/webp,image/gif,image/avif,video/mp4,video/webm,video/quicktime,video/ogg";
 
 type Mode = "upload" | "url";
+type Filter = "all" | "image" | "video" | "hidden";
 
 type Progress = { name: string; pct: number };
 
@@ -59,6 +61,7 @@ export function AdminGalleryPanel() {
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
+  const [filter, setFilter] = useState<Filter>("all");
 
   const [mode, setMode] = useState<Mode>("upload");
   const [category, setCategory] = useState("");
@@ -113,6 +116,30 @@ export function AdminGalleryPanel() {
     () =>
       Array.from(new Set(items.map((i) => i.category).filter(Boolean))).sort(),
     [items]
+  );
+
+  const counts = useMemo(
+    () => ({
+      all: items.length,
+      image: items.filter((i) => i.type === "image").length,
+      video: items.filter((i) => i.type === "video").length,
+      hidden: items.filter((i) => !i.published).length,
+    }),
+    [items]
+  );
+
+  const visible = useMemo(
+    () =>
+      items
+        .map((item, idx) => ({ item, idx }))
+        .filter(({ item }) =>
+          filter === "all"
+            ? true
+            : filter === "hidden"
+              ? !item.published
+              : item.type === filter
+        ),
+    [items, filter]
   );
 
   function addFiles(list: FileList | File[]) {
@@ -258,7 +285,15 @@ export function AdminGalleryPanel() {
   }
 
   async function remove(item: GalleryItem) {
-    if (!window.confirm(`Delete this ${item.type}${item.title ? ` "${item.title}"` : ""}?`)) return;
+    const label = item.type === "video" ? "video" : "photo";
+    if (
+      !window.confirm(
+        `Permanently delete this ${label}${item.title ? ` "${item.title}"` : ""}?\n\nIt is removed from the gallery and the website${
+          item.source === "upload" ? ", and the uploaded file is erased" : ""
+        }. This cannot be undone.`
+      )
+    )
+      return;
     setBusy(true);
     try {
       const res = await fetch("/api/admin/gallery", {
@@ -266,9 +301,15 @@ export function AdminGalleryPanel() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: item.id }),
       });
-      if (!res.ok) throw new Error("Delete failed");
+      if (!res.ok && res.status !== 404) {
+        const data = (await res.json().catch(() => null)) as { error?: string } | null;
+        throw new Error(data?.error || "Delete failed");
+      }
       setItems((cur) => cur.filter((x) => x.id !== item.id));
       if (editingId === item.id) setEditingId(null);
+      setNotice(`${label === "video" ? "Video" : "Photo"} deleted permanently.`);
+      // Re-read from the server so the screen always shows what is really stored.
+      await load();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Delete failed");
     } finally {
@@ -507,17 +548,11 @@ export function AdminGalleryPanel() {
                   <option value="video">Video</option>
                 </select>
               </label>
-              <label className="block">
-                <span className={fieldLabel}>Video cover image link (optional)</span>
-                <input
-                  className="console-field"
-                  value={urlForm.poster}
-                  onChange={(e) =>
-                    setUrlForm({ ...urlForm, poster: e.target.value })
-                  }
-                  placeholder="https://…"
-                />
-              </label>
+              <ImageUploadField
+                label="Video cover image (optional)"
+                value={urlForm.poster}
+                onChange={(v) => setUrlForm({ ...urlForm, poster: v })}
+              />
               <label className="block">
                 <span className={fieldLabel}>Title (optional)</span>
                 <input
@@ -568,12 +603,41 @@ export function AdminGalleryPanel() {
           <div>
             <h2 className="font-display text-xl text-ink">Gallery library</h2>
             <p className="mt-1 text-xs text-muted">
-              {items.length} item{items.length === 1 ? "" : "s"} ·{" "}
+              {items.length} item{items.length === 1 ? "" : "s"} ({counts.image} photo
+              {counts.image === 1 ? "" : "s"}, {counts.video} video
+              {counts.video === 1 ? "" : "s"}) ·{" "}
               {items.filter((i) => i.published).length} published · order here =
               order on the site
             </p>
           </div>
         </div>
+
+        {loaded && items.length > 0 ? (
+          <div className="flex flex-wrap gap-2 border-b border-line px-5 py-3 sm:px-6">
+            {(
+              [
+                ["all", "All"],
+                ["image", "Photos"],
+                ["video", "Videos"],
+                ["hidden", "Hidden"],
+              ] as const
+            ).map(([key, label]) => (
+              <button
+                key={key}
+                type="button"
+                onClick={() => setFilter(key)}
+                aria-pressed={filter === key}
+                className={`min-h-[34px] rounded-full px-4 text-xs font-medium transition ${
+                  filter === key
+                    ? "bg-gradient-to-r from-accent to-accent-strong text-accent-fg shadow-lift"
+                    : "border border-line bg-surface text-ink-soft hover:border-accent/45 hover:text-accent"
+                }`}
+              >
+                {label} ({counts[key]})
+              </button>
+            ))}
+          </div>
+        ) : null}
 
         {!loaded ? (
           <p className="px-6 py-10 text-sm text-muted">Loading…</p>
@@ -581,9 +645,11 @@ export function AdminGalleryPanel() {
           <p className="px-6 py-10 text-sm text-muted">
             Nothing here yet — upload or add a link above.
           </p>
+        ) : visible.length === 0 ? (
+          <p className="px-6 py-10 text-sm text-muted">Nothing in this view.</p>
         ) : (
           <ul className="grid gap-4 p-5 sm:grid-cols-2 sm:p-6 xl:grid-cols-3">
-            {items.map((item, idx) => (
+            {visible.map(({ item, idx }) => (
               <li
                 key={item.id}
                 className={`overflow-hidden rounded-2xl border bg-canvas/40 ${
@@ -649,17 +715,11 @@ export function AdminGalleryPanel() {
                       </label>
                     ) : null}
                     {item.type === "video" ? (
-                      <label className="block">
-                        <span className={fieldLabel}>Cover image link</span>
-                        <input
-                          className="console-field font-mono text-xs"
-                          value={editForm.poster}
-                          onChange={(e) =>
-                            setEditForm({ ...editForm, poster: e.target.value })
-                          }
-                          placeholder="https://…"
-                        />
-                      </label>
+                      <ImageUploadField
+                        label="Cover image"
+                        value={editForm.poster}
+                        onChange={(v) => setEditForm({ ...editForm, poster: v })}
+                      />
                     ) : null}
                     <label className="flex items-center gap-2 text-sm text-ink-soft">
                       <input

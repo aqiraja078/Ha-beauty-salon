@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { canOptimizeImage } from "@/lib/image-host";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 interface HeroImageSliderProps {
@@ -41,6 +42,7 @@ export function HeroImageSlider({ images, alt = "" }: HeroImageSliderProps) {
             src={images[index]}
             alt={alt}
             fill
+            unoptimized={!canOptimizeImage(images[index])}
             className="object-cover"
             sizes="100vw"
             priority={index === 0}

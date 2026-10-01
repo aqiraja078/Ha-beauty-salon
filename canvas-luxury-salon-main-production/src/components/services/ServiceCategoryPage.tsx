@@ -111,6 +111,7 @@ export function ServiceCategoryPage({
                     price={item.price}
                     lengthPrices={item.lengthPrices}
                     discount={item.discount}
+                    index={ii + 1}
                     variant={cardVariantFor(theme, section.id, item.name)}
                   />
                 </RevealItem>

@@ -1,5 +1,6 @@
 "use client";
 
+import { ImageUploadField } from "@/components/admin/ImageUploadField";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -295,17 +296,12 @@ export function AdminBlogPanel() {
                     disabled={busy}
                   />
                 </label>
-                <label className="block">
-                  <span className={fieldLabel}>Cover image URL</span>
-                  <input
-                    value={form.coverImage}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, coverImage: e.target.value }))
-                    }
-                    className="console-field"
-                    disabled={busy}
-                  />
-                </label>
+                <ImageUploadField
+                  label="Cover image"
+                  value={form.coverImage}
+                  disabled={busy}
+                  onChange={(v) => setForm((f) => ({ ...f, coverImage: v }))}
+                />
                 <label className="block">
                   <span className={fieldLabel}>Excerpt</span>
                   <input

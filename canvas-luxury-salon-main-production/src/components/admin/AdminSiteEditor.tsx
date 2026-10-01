@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { SiteContent } from "@/lib/cms-types";
+import { ImageUploadField } from "@/components/admin/ImageUploadField";
 
 export function AdminSiteEditor({ initial }: { initial: SiteContent }) {
   const [data, setData] = useState(initial);
@@ -66,7 +67,6 @@ export function AdminSiteEditor({ initial }: { initial: SiteContent }) {
             ["phoneDigits", "WhatsApp digits (no +)"],
             ["email", "Email"],
             ["address", "Address / areas"],
-            ["logo", "Logo path (leave /logo-adaa.png for the built-in Adaa logo)"],
           ] as const
         ).map(([key, label]) => (
           <label key={key} className="block sm:col-span-1">
@@ -80,6 +80,14 @@ export function AdminSiteEditor({ initial }: { initial: SiteContent }) {
             />
           </label>
         ))}
+        <div className="sm:col-span-2">
+          <ImageUploadField
+            label="Logo"
+            value={data.logo}
+            onChange={(v) => set("logo", v || "/logo-adaa.png")}
+            hint="Upload your logo (PNG with transparent background looks best). Clear = built-in Adaa logo."
+          />
+        </div>
         <label className="block sm:col-span-2">
           <span className="mb-1.5 block text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
             Description

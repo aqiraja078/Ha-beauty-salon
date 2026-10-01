@@ -114,15 +114,15 @@ export function OfferCard({
 
         <div
           className={`mt-3.5 flex gap-2 sm:mt-4 sm:gap-2.5 ${
-            featured ? "flex-col sm:flex-row sm:items-center" : "flex-col"
+            featured ? "flex-row items-stretch lg:items-center" : "flex-col"
           }`}
         >
           <Link
             href={bookHref}
-            className={`btn-primary w-full whitespace-nowrap text-center ${
+            className={`btn-primary whitespace-nowrap text-center ${
               featured
-                ? "min-w-0 px-4 text-[11px] tracking-[0.16em] sm:w-auto sm:flex-none sm:px-8 sm:tracking-[0.2em]"
-                : ""
+                ? "min-w-0 flex-[1.7] !px-2 !text-[10px] !tracking-[0.1em] xs:!px-4 xs:!text-[11px] xs:!tracking-[0.16em] lg:w-auto lg:flex-none lg:!px-8 lg:!tracking-[0.2em]"
+                : "w-full"
             }`}
           >
             Book this package
@@ -130,7 +130,7 @@ export function OfferCard({
           {featured ? (
             <Link
               href={contactHref}
-              className="btn-ghost w-full min-w-0 whitespace-nowrap px-4 text-center text-[11px] tracking-[0.16em] sm:w-auto sm:flex-none sm:px-8 sm:tracking-[0.2em]"
+              className="btn-ghost min-w-0 flex-1 whitespace-nowrap !px-2 text-center !text-[10px] !tracking-[0.1em] xs:!px-4 xs:!text-[11px] xs:!tracking-[0.16em] lg:w-auto lg:flex-none lg:!px-8 lg:!tracking-[0.2em]"
             >
               {contactLabel}
             </Link>

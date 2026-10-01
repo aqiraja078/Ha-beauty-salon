@@ -23,7 +23,7 @@ function seedJobs(): JobPost[] {
       salaryText: "Commission + travel",
       description:
         "Looking for experienced bridal and party makeup artists for home visits. Own kit preferred. Reliable timing and WhatsApp communication required.",
-      applyWhatsApp: "923355462214",
+      applyWhatsApp: "923285734656",
       applyEmail: "adaabeautysalonjhelum@gmail.com",
       active: true,
       createdAt: now,
@@ -38,7 +38,7 @@ function seedJobs(): JobPost[] {
       salaryText: "Negotiable",
       description:
         "Help with packing kits, booking follow-ups, and on-site setup for weekend functions. Flexible hours.",
-      applyWhatsApp: "923355462214",
+      applyWhatsApp: "923285734656",
       active: true,
       createdAt: now,
       updatedAt: now,

@@ -34,7 +34,7 @@ function seedPosts(): BlogPost[] {
       author: "Adaa Beauty Team",
       body: `Home bridal beauty across Punjab is growing fast. Families want camera-ready looks without travelling to a crowded salon — and artists who understand Pakistani bridal wear, humid halls, and long function days.
 
-At Adaa Beauty Salon & Training Center we bring HD bridal makeup, hair, and facial prep to your door in Jhelum, Dina, and Gujrat.
+At Adaa Beauty Salon & Training Center Jhelum we bring HD bridal makeup, hair, and facial prep to your door in Jhelum, Dina, and Gujrat.
 
 ## Why bridal makeup matters for shaadi week
 
@@ -80,7 +80,7 @@ Bridal makeup scope in our cities is expanding because families want reliable ho
       category: "Guides",
       tags: ["Booking", "HomeService", "WhatsApp", "Jhelum"],
       author: "Adaa Beauty Team",
-      body: `Booking a home beauty visit should feel simple. Here is how to lock your slot with Adaa Beauty Salon & Training Center.
+      body: `Booking a home beauty visit should feel simple. Here is how to lock your slot with Adaa Beauty Salon & Training Center Jhelum.
 
 ## Step 1 — Open the Book page
 
