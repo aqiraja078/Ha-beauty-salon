@@ -86,7 +86,7 @@ export const defaultHomeContent: HomeContent = {
     subcopy:
       "Bridal makeup, hair, facials, and waxing — booked for Jhelum, Dina, and Gujrat, with prices you can see before you confirm.",
     primaryCta: { label: "Book your slot", href: "/book" },
-    secondaryCta: { label: "WhatsApp", href: "https://wa.me/923285734656" },
+    secondaryCta: { label: "WhatsApp", href: "https://wa.me/923075145210" },
     highlights: [
       { value: "10+", label: "Years with brides" },
       { value: "3", label: "Cities we visit" },

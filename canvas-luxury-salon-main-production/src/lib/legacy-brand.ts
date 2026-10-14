@@ -19,17 +19,25 @@ const DEAD_IMAGE_FIXES: Array<[string, string]> = [
 const OLD_EMAIL = /humabeautysalon07@gmail\.com/gi;
 const NEW_EMAIL = "adaabeautysalonjhelum@gmail.com";
 
-/** Old salon number (+92 335 5462214) in any common spelling → new number (+92 328 5734656). */
-const OLD_PHONE = /(?:\+?92[\s-]?|0)335[\s-]?5462214/g;
+/** Previous salon numbers → current number (0307-5145210 / 923075145210). */
+const OLD_PHONE_PATTERNS: Array<{ re: RegExp; probe: RegExp }> = [
+  { re: /(?:\+?92[\s-]?|0)335[\s-]?5462214/g, probe: /335[\s-]?5462214/ },
+  { re: /(?:\+?92[\s-]?|0)328[\s-]?5734656/g, probe: /328[\s-]?5734656/ },
+];
+
 function newPhoneFor(match: string): string {
-  if (match.startsWith("+")) return "+92 328 5734656";
-  if (match.startsWith("92")) return "923285734656";
-  return "0328-5734656";
+  if (match.startsWith("+")) return "+92 307 5145210";
+  if (match.startsWith("92")) return "923075145210";
+  return "0307-5145210";
 }
 
 export function rebrandString(text: string): string {
-  if (/335[\s-]?5462214/.test(text)) {
-    text = text.replace(OLD_PHONE, newPhoneFor);
+  for (const { re, probe } of OLD_PHONE_PATTERNS) {
+    if (probe.test(text)) {
+      probe.lastIndex = 0;
+      re.lastIndex = 0;
+      text = text.replace(re, newPhoneFor);
+    }
   }
   if (OLD_EMAIL.test(text)) {
     OLD_EMAIL.lastIndex = 0;

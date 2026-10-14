@@ -10,8 +10,8 @@ export const site = {
     "Adaa Beauty Salon & Training Center Jhelum — luxury makeup, hair, skincare, bridal services, and professional beauty training with premium products and expert techniques.",
   logo: "/logo-adaa.png",
   email: "adaabeautysalonjhelum@gmail.com",
-  phone: "+92 328 5734656",
-  phoneDigits: "923285734656",
+  phone: "0307-5145210",
+  phoneDigits: "923075145210",
   address: "Old G T Rd, Machine Mohalla No.2 Machine Mohalla 3, Jhelum, 49600",
   social: {
     instagram: "https://www.instagram.com/huma_beauty.saloon/",

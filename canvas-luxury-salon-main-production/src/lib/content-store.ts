@@ -87,7 +87,7 @@ function mergeSite(raw: Partial<SiteContent> | null): SiteContent {
   return rebrandLegacy(mergeSiteRaw(raw));
 }
 
-/** "0328-5734656" / "+92 328 5734656" → "923285734656" (Pakistan numbers). */
+/** "0307-5145210" / "+92 307 5145210" → "923075145210" (Pakistan numbers). */
 function phoneToDigits(phone: string | undefined): string {
   const d = (phone ?? "").replace(/\D/g, "");
   if (d.length === 11 && d.startsWith("0")) return `92${d.slice(1)}`;

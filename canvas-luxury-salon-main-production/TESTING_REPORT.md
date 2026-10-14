@@ -711,7 +711,7 @@ Proceed with confidence to your hosting platform.
 
 **Contact Info:**
 - Email: humaaqi96@gmail.com
-- Phone: 0328 5734656
+- Phone: 0307-5145210
 
 ---
 

@@ -178,7 +178,7 @@ Never share passwords or commit to git
 ## 📞 Contact & Support
 
 **Website Features:**
-- Phone: 0328 5734656
+- Phone: 0307-5145210
 - Email: humaaqi96@gmail.com
 - Social: Instagram, Facebook, TikTok
 

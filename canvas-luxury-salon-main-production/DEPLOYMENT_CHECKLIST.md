@@ -528,7 +528,7 @@ pm2 logs salon-app
 
 **Application Support:**
 - Email: humaaqi96@gmail.com
-- Phone: 0328 5734656
+- Phone: 0307-5145210
 
 ---
 
